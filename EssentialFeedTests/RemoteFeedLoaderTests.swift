@@ -69,6 +69,8 @@ class RemoteFeedLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url,url])
     }
     
+    // NoConnectivity
+    
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         // client.error = NSError(domain: "test", code: 0) Stub
@@ -85,6 +87,19 @@ class RemoteFeedLoaderTests: XCTestCase {
         XCTAssertEqual(capturedError, [.connectivity])
     }
     
+    // Invalid Data
+    func test_load_deliversErrorOnNon200HttpsResponse() {
+        let (sut, client) = makeSUT()
+        // client.error = NSError(domain: "test", code: 0) Stub
+        
+        var capturedError = [RemoteFeedLoader.Error]()
+        sut.load { capturedError.append($0) }
+
+        client.complete(withStatusCode: 400)
+        
+        XCTAssertEqual(capturedError, [.invalidData])
+    }
+    
     //MARK: Helpers
     
     private func makeSUT(url: URL = URL(string: "https.goolge.com")!) -> (sut: RemoteFeedLoader, client: HttpClientSpy){
@@ -97,13 +112,13 @@ class RemoteFeedLoaderTests: XCTestCase {
         //var requestedURLs = [URL]()
         //var error: Error?
         //var completions = [(Error) -> Void]()
-        private var messges = [(url: URL, completion: (Error) -> Void)]()
+        private var messges = [(url: URL, completion: (Error?, HTTPURLResponse?) -> Void)]()
         
         var requestedURLs: [URL] {
             return messges.map {$0.url}
         }
         
-        func get(from url: URL?, completion: @escaping (Error) -> Void) {
+        func get(from url: URL?, completion: @escaping (Error?, HTTPURLResponse?) -> Void) {
             /*
             if let error = error {
                 completion(error)
@@ -119,7 +134,16 @@ class RemoteFeedLoaderTests: XCTestCase {
         
         func complete(with error: Error, index: Int = 0) {
             //completions[index](error)
-            messges[index].completion(error)
+            messges[index].completion(error,nil)
+        }
+        
+        func complete(withStatusCode code: Int, index: Int = 0) {
+            let response = HTTPURLResponse(url: requestedURLs[index],
+                                                statusCode: code,
+                                                httpVersion: nil,
+                                                headerFields: nil
+            )
+            messges[index].completion(nil,response)
         }
     }
 }
