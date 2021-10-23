@@ -6,44 +6,7 @@
 //
 
 import XCTest
-
-
-class RemoteFeedLoader {
-    let client: HTTPClient
-    let url: URL
-    
-    init(url: URL, client: HTTPClient) {
-        self.client = client
-        self.url = url
-    }
-    
-    func load() {
-        /*
-         In production code we do not want to set aa proprety but we want to call a method to get data from Url.
-         
-         1. Move the test logic from Remote loader to HttpCLient
-         2. We don't want requestedUrl as this is just for testing not in production so Let's move this to a different class by making HttpClient a var.
-         3. Move the test logic to a new class HttpClientSpy subclass of HTTPClient
-         */
-         
-        //1.  HTTPClient.shared.requestedURL = URL(string: "https.goolge.com")
-        //2. HTTPClient.shared.get(from: URL(string: "https.goolge.com"))
-        
-        client.get(from: url)
-        
-        /*
-         Above we are mixing the responsiblity
-         1. Responsibility of Invoking the get method.
-         2. Responsibility of locating this shared object.
-         
-         /*
-          By using Singleton I know how to locate the instance I'm using and I dont need to konw.
-          So by using Dependency Injection we can remove this responsibilty and we ahve more control.
-          */
-         
-        */
-    }
-}
+import EssentialFeed
 
 /*
 class HTTPClient {
@@ -60,9 +23,7 @@ class HTTPClient {
     func get(from url: URL?) {}
 } */
 
-protocol HTTPClient {
-    func get(from url: URL?)
-}
+
 
 /*
  Test specific method.
