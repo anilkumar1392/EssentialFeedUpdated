@@ -50,7 +50,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     }
 
     
-    func test_load_requestDataFromUrL(){
+    func test_load_requestsDataFromUrL(){
         /*
          Test logic is now test type and we do nto have singleton any more
          */
