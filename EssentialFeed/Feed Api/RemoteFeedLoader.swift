@@ -45,7 +45,7 @@ public final class RemoteFeedLoader {
         self.url = url
     }
     
-    public func load(completion: @escaping (Error) -> Void = { _ in }) {
+    public func load(completion: @escaping (Error) -> Void ) {
         //1. HTTPClient.shared.requestedURL = URL(string: "https.goolge.com")
         //2. HTTPClient.shared.get(from: URL(string: "https.goolge.com"))
         client.get(from: url, completion: { error in
