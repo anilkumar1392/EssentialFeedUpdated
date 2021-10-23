@@ -69,14 +69,7 @@ protocol HTTPClient {
  Their is nothing wrong with subclassing but their are better approaches. we can use composition rather than Inheritance.
  */
 
-class HttpClientSpy: HTTPClient {
-    var requestedURL: URL?
-    
-    func get(from url: URL?) {
-        guard let url = url else {return}
-        requestedURL = url
-    }
-}
+
 
 class RemoteFeedLoaderTests: XCTestCase {
 
@@ -85,10 +78,9 @@ class RemoteFeedLoaderTests: XCTestCase {
         /*
          Test logic is now test type and we do nto have singleton any more
          */
-        let url = URL(string: "https.goolge.com")!
         let client = HttpClientSpy()  //HTTPClient.shared
         //HTTPClient.shared = client
-        let _ = RemoteFeedLoader(url: url, client: client)
+        let _ = makeSUT()
         
         // Act
         
@@ -102,13 +94,30 @@ class RemoteFeedLoaderTests: XCTestCase {
          Test logic is now test type and we do nto have singleton any more
          */
         let url = URL(string: "https.goolge.com")!
-        let client = HttpClientSpy()  //HTTPClient.shared
+        // let client = HttpClientSpy()  //HTTPClient.shared
         //HTTPClient.shared = client
-        let sut = RemoteFeedLoader(url: url, client: client)
+        let (sut,client) = makeSUT(url: url)
         
         sut.load()
         
         XCTAssertNotNil(client.requestedURL)
         XCTAssertEqual(client.requestedURL, url)
+    }
+    
+    //MARK: Helpers
+    
+    private func makeSUT(url: URL = URL(string: "https.goolge.com")!) -> (sut: RemoteFeedLoader, client: HttpClientSpy){
+        let client = HttpClientSpy()
+        let sut = RemoteFeedLoader(url: url, client: client)
+        return (sut, client)
+    }
+    
+    private class HttpClientSpy: HTTPClient {
+        var requestedURL: URL?
+        
+        func get(from url: URL?) {
+            guard let url = url else {return}
+            requestedURL = url
+        }
     }
 }
