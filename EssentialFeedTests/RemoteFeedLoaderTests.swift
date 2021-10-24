@@ -51,7 +51,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     
     func test_load_requestsDataFromUrL(){
         /*
-         Test logic is now test type and we do nto have singleton any more
+         Test logic is now test type and we do not have singleton any more
          */
         let url = URL(string: "https.goolge.com")!
         // let client = HttpClientSpy()  //HTTPClient.shared
@@ -69,12 +69,13 @@ class RemoteFeedLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url,url])
     }
     
-    // NoConnectivity
-    
+    // No Connectivity
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         // client.error = NSError(domain: "test", code: 0) Stub
         
+        //var capturedError: RemoteFeedLoader.Error
+
         var capturedError = [RemoteFeedLoader.Error]()
         sut.load { capturedError.append($0) }
         
@@ -99,6 +100,23 @@ class RemoteFeedLoaderTests: XCTestCase {
             XCTAssertEqual(capturedError, [.invalidData])
         }
     }
+    
+    // 200 with invalid json.
+    func test_load_deliversErrorOn200HttpsResponseWithInvalidJson() {
+        let (sut, client) = makeSUT()
+        
+        var capturedError = [RemoteFeedLoader.Error]()
+        sut.load { error in
+            capturedError.append(error)
+        }
+        
+        let invalidJSON = Data("Invalid json".utf8)
+        client.complete(withStatusCode: 200, data: invalidJSON)
+        XCTAssertEqual(capturedError, [.invalidData])
+    }
+    
+    
+    
     
     //MARK: Helpers
     
@@ -137,13 +155,13 @@ class RemoteFeedLoaderTests: XCTestCase {
             messges[index].completion(.failure(error))
         }
         
-        func complete(withStatusCode code: Int, index: Int = 0) {
+        func complete(withStatusCode code: Int, data: Data = Data(), index: Int = 0) {
             let response = HTTPURLResponse(url: requestedURLs[index],
                                                 statusCode: code,
                                                 httpVersion: nil,
                                                 headerFields: nil
             )!
-            messges[index].completion(.success(response))
+            messges[index].completion(.success(data,response))
         }
     }
 }
