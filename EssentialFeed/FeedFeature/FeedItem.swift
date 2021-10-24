@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FeedItem {
+public struct FeedItem: Equatable {
     var id: String
     var description: String?
     var location: String?
