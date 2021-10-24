@@ -110,6 +110,19 @@ class RemoteFeedLoaderTests: XCTestCase {
         }
     }
 
+    // Delivers No items with 200
+    func test_load_deliversNoItemsOn200HttpsResponseWithEmptyJSONList() {
+        let (sut, client) = makeSUT()
+        
+        var capturedResults = [RemoteFeedLoader.Result]()
+        sut.load { capturedResults.append($0) }
+        
+        let data = Data("{\"items\": []}".utf8)
+        client.complete(withStatusCode: 200, data: data)
+        
+        XCTAssertEqual(capturedResults, [.success([])])
+    }
+    
     //MARK: Helpers
     
     private func makeSUT(url: URL = URL(string: "https.goolge.com")!) -> (sut: RemoteFeedLoader, client: HttpClientSpy){
