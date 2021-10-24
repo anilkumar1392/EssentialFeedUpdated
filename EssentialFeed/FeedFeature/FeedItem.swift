@@ -8,8 +8,24 @@
 import Foundation
 
 public struct FeedItem: Equatable {
-    var id: String
-    var description: String?
-    var location: String?
-    var image: String
+    public var id: UUID
+    public var description: String?
+    public var location: String?
+    public var imageURL: URL
+    
+    public init(id: UUID, description: String?, location: String?, image: URL) {
+        self.id = id
+        self.description = description
+        self.location = location
+        self.imageURL = image
+    }
+}
+
+extension FeedItem: Decodable {
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case description
+        case location
+        case imageURL = "image"
+    }
 }
