@@ -140,8 +140,16 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliversItemsOn200HttpResponseWithJSONItems() {
         let (sut, client) = makeSUT()
 
-        let (item1, item1JSON) = makeItem(id: UUID(), image: URL(string: "http://a-url.com")!)
-        let (item2, item2JSON) = makeItem(id: UUID(), description: "a description", location: "a location", image: URL(string: "http://a-url.com")!)
+        let (item1, item1JSON) = makeItem(
+            id: UUID(),
+            image: URL(string: "http://a-url.com")!
+        )
+        let (item2, item2JSON) = makeItem(
+            id: UUID(),
+            description: "a description",
+            location: "a location",
+            image: URL(string: "http://a-url.com")!
+        )
         
         expect(sut, toCompleteWith: .success([item1, item2])) {
             let json = makeItemJson([item1JSON, item2JSON])
@@ -165,8 +173,8 @@ class RemoteFeedLoaderTests: XCTestCase {
             "description": description,
             "location": location,
             "image": image.absoluteString
-        ].reduce(into: [String: Any]()) { acc, e in
-            if let value = e.value { acc[e.key] = value }
+        ].reduce(into: [String: Any]()) { dict, e in
+            if let value = e.value { dict[e.key] = value }
         }
         return (item, json)
     }
@@ -206,13 +214,11 @@ class RemoteFeedLoaderTests: XCTestCase {
             if let error = error {
                 completion(error)
             }*/
-            
             //completions.append(completion)
             
             guard let url = url else {return}
             //requestedURLs.append(url)
             messges.append((url,completion))
-
         }
         
         func complete(with error: Error, index: Int = 0) {
@@ -221,10 +227,11 @@ class RemoteFeedLoaderTests: XCTestCase {
         }
         
         func complete(withStatusCode code: Int, data: Data, index: Int = 0) {
-            let response = HTTPURLResponse(url: requestedURLs[index],
-                                                statusCode: code,
-                                                httpVersion: nil,
-                                                headerFields: nil
+            let response = HTTPURLResponse(
+                url: requestedURLs[index],
+                statusCode: code,
+                httpVersion: nil,
+                headerFields: nil
             )!
             messges[index].completion(.success(data,response))
         }
