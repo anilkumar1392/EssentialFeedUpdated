@@ -50,9 +50,18 @@ public final class RemoteFeedLoader {
     public func load(completion: @escaping (Result) -> Void ) {
         //1. HTTPClient.shared.requestedURL = URL(string: "https.goolge.com")
         //2. HTTPClient.shared.get(from: URL(string: "https.goolge.com"))
-        client.get(from: url, completion: { result in
+        client.get(from: url, completion: { [weak self] result in
+            guard self != nil else { return }
             switch result {
             case let .success(data, response):
+                /*
+                do {
+                    let items = try FeedItemMapper.mapper(data, response)
+                    completion(.success(items))
+                } catch {
+                    completion(.failure(.invalidData))
+                }*/
+                
                 completion(FeedItemMapper.map(data: data, from: response))
             case .failure:
                 completion(.failure(.connectivity))
