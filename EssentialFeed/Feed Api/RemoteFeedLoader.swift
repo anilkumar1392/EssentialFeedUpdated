@@ -28,7 +28,7 @@ import Foundation
  
 */
 
-public final class RemoteFeedLoader {
+public final class RemoteFeedLoader: FeedLoader {
     private let url: URL
     private let client: HTTPClient
     
@@ -49,7 +49,7 @@ public final class RemoteFeedLoader {
         self.url = url
     }
     
-    public func load(completion: @escaping (Result) -> Void ) {
+    public func load(completion : @escaping (Result) -> Void ) {
         //1. HTTPClient.shared.requestedURL = URL(string: "https.goolge.com")
         //2. HTTPClient.shared.get(from: URL(string: "https.goolge.com"))
         client.get(from: url, completion: { [weak self] result in
