@@ -106,9 +106,9 @@ class URLSessionHTTPClientTests: XCTestCase {
         // let session = URLSessionSpy()
         // session.stub(url: url, error: error)
 
+        /*
         URLProtocolStub.stub(data: nil, response: nil, error: error)
         // let sut = URLSessionHTTPClient(session: session)
-        
         // let sut = URLSessionHTTPClient()
         
         let exp = expectation(description: "wait for fulfill")
@@ -128,9 +128,16 @@ class URLSessionHTTPClientTests: XCTestCase {
         }
 
         wait(for: [exp], timeout: 1.0)
+        */
+        
+        let receivedError: NSError? = resultErrorFor(data: nil, response: nil, error: error) as NSError?
+        XCTAssertEqual(receivedError?.domain, error.domain)
+        XCTAssertEqual(receivedError?.code, error.code)
+        
     }
     
     func test_getFromUrl_failsOnAllNilValues() {
+        /*
         URLProtocolStub.stub(data: nil, response: nil, error: nil)
 
         let exp = expectation(description: "wait for fulfill")
@@ -146,7 +153,11 @@ class URLSessionHTTPClientTests: XCTestCase {
             exp.fulfill()
         }
 
-        wait(for: [exp], timeout: 1.0)
+        wait(for: [exp], timeout: 1.0) */
+        
+        
+        let receivedError: NSError? = resultErrorFor(data: nil, response: nil, error: nil) as NSError?
+        XCTAssertNotNil(receivedError)
     }
     
     // MARK: - Helpers
@@ -158,6 +169,30 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     private func anyUrl() -> URL {
         return  URL(string: "https://any-url.com")!
+    }
+    
+    private func resultErrorFor(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #filePath, line: UInt = #line) -> Error? {
+        URLProtocolStub.stub(data: data, response: response, error: error)
+        
+        let sut = makeSUT(file: file, line: line)
+        let exp = expectation(description: "wait for fulfill")
+        
+        var receivedError: Error?
+        
+        sut.get(from: anyUrl()) { result in
+            switch result {
+            case let .failure(error):
+                receivedError = error
+            default:
+                XCTFail("Expected failure, got \(result) instead", file: file, line: line)
+                
+            }
+            
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
+        return receivedError
     }
     
     // MARK: - Helpers
