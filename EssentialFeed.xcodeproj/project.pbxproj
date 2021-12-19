@@ -17,6 +17,7 @@
 		F5BD579D2751FACC006720CE /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BD579C2751FACC006720CE /* HTTPClient.swift */; };
 		F5BD579F2751FAE0006720CE /* FeedItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BD579E2751FAE0006720CE /* FeedItemMapper.swift */; };
 		F5BFEF55276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BFEF54276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift */; };
+		F5BFEF58276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = F5BFEF57276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		F5BD579C2751FACC006720CE /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		F5BD579E2751FAE0006720CE /* FeedItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemMapper.swift; sourceTree = "<group>"; };
 		F5BFEF54276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
+		F5BFEF57276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2021-12-19 at 1.03.13 PM.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 		F5BD57A027520B68006720CE /* Feed Api */ = {
 			isa = PBXGroup;
 			children = (
+				F5BFEF56276F17CF00408F46 /* Invalid Cases */,
 				F5BFEF53276F15E000408F46 /* Helper */,
 				F57B0AFA2712DC590062F01B /* RemoteFeedLoaderTests.swift */,
 				F5A049C527535C4B00FF7893 /* URLSessionHTTPClientTests.swift */,
@@ -137,6 +140,14 @@
 				F5BFEF54276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		F5BFEF56276F17CF00408F46 /* Invalid Cases */ = {
+			isa = PBXGroup;
+			children = (
+				F5BFEF57276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png */,
+			);
+			path = "Invalid Cases";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,6 +189,7 @@
 				F57B0AE02712DB440062F01B /* Sources */,
 				F57B0AE12712DB440062F01B /* Frameworks */,
 				F57B0AE22712DB440062F01B /* Resources */,
+				F5D2F289276F1DA200C094EA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -238,10 +250,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5BFEF58276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F5D2F289276F1DA200C094EA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nxattr -cr ~/Library/Developer/Xcode/DerivedData || echo Clear\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F57B0AD72712DB440062F01B /* Sources */ = {
@@ -451,8 +484,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = L2WG7FZ7D7;
 				INFOPLIST_FILE = EssentialFeedTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -469,8 +504,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = L2WG7FZ7D7;
 				INFOPLIST_FILE = EssentialFeedTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
