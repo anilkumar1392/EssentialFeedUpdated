@@ -64,9 +64,18 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     // By doing this like observing avery request we lose the value of checking the urls so that is a different concern and we can move it to a diff test.
     
-    func test_getFromUrl_performGetRequestWithUrl() {
+    
+    override func setUp() {
+        super.setUp()
         URLProtocolStub.startInterceptingRequests()
-        
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        URLProtocolStub.stopInterceptingRequests()
+    }
+    
+    func test_getFromUrl_performGetRequestWithUrl() {
         let url = URL(string: "https://any-url.com")!
         let exp = expectation(description: "wait for request")
         
@@ -76,7 +85,7 @@ class URLSessionHTTPClientTests: XCTestCase {
             exp.fulfill()
         }
         
-        URLSessionHTTPClient().get(from: url) { _ in
+        makeSUT().get(from: url) { _ in
         }
         
         /*
@@ -84,14 +93,10 @@ class URLSessionHTTPClientTests: XCTestCase {
          A request to be executed with the right url and method.
          */
         wait(for: [exp], timeout: 2.0)
-        
-        URLProtocolStub.stopInterceptingRequests()
     }
     
     func test_getFromUrl_failsOnRequestError() {
-        
-        URLProtocolStub.startInterceptingRequests()
-        
+                
         // Arrange
         let url = URL(string: "https://any-url.com")!
         let error = NSError(domain: "any error", code: 1)
@@ -101,11 +106,11 @@ class URLSessionHTTPClientTests: XCTestCase {
         URLProtocolStub.stub(data: nil, response: nil, error: error)
         // let sut = URLSessionHTTPClient(session: session)
         
-        let sut = URLSessionHTTPClient()
+        // let sut = URLSessionHTTPClient()
         
         let exp = expectation(description: "wait for fulfill")
         
-        sut.get(from: url) { result in
+        makeSUT().get(from: url) { result in
             switch result {
             case let .failure(receivedError as NSError):
                 XCTAssertEqual(receivedError.domain, error.domain)
@@ -120,7 +125,10 @@ class URLSessionHTTPClientTests: XCTestCase {
         }
 
         wait(for: [exp], timeout: 1.0)
-        URLProtocolStub.stopInterceptingRequests()
+    }
+    
+    private func makeSUT() -> URLSessionHTTPClient {
+        return URLSessionHTTPClient()
     }
     
     // MARK: - Helpers
