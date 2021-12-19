@@ -61,6 +61,33 @@ class URLSessionHTTPClientTests: XCTestCase {
         XCTAssertEqual(task.resumeCallCount, 1)
     } */
     
+    
+    // By doing this like observing avery request we lose the value of checking the urls so that is a different concern and we can move it to a diff test.
+    
+    func test_getFromUrl_performGetRequestWithUrl() {
+        URLProtocolStub.startInterceptingRequests()
+        
+        let url = URL(string: "https://any-url.com")!
+        let exp = expectation(description: "wait for request")
+        
+        URLProtocolStub.observeRequests { request in
+            XCTAssertEqual(request.url, url)
+            XCTAssertEqual(request.httpMethod, "GET")
+            exp.fulfill()
+        }
+        
+        URLSessionHTTPClient().get(from: url) { _ in
+        }
+        
+        /*
+         if we invoke the get method with the url we expect
+         A request to be executed with the right url and method.
+         */
+        wait(for: [exp], timeout: 2.0)
+        
+        URLProtocolStub.stopInterceptingRequests()
+    }
+    
     func test_getFromUrl_failsOnRequestError() {
         
         URLProtocolStub.startInterceptingRequests()
@@ -131,6 +158,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         // var receivedUrls = [URL]()
         // private static var stubs = [URL: Stub]()
         private static var stubs: Stub?
+        private static var requestObserver: ((URLRequest) -> Void)?
         
         private struct Stub {
             let data: Data?
@@ -150,11 +178,18 @@ class URLSessionHTTPClientTests: XCTestCase {
         static func stopInterceptingRequests() {
             URLProtocol.unregisterClass(URLProtocolStub.self)
             stubs = nil
+            requestObserver = nil
+        }
+        
+        static func observeRequests(observer: @escaping (URLRequest) -> Void) {
+            requestObserver = observer
         }
         
         override class func canInit(with request: URLRequest) -> Bool {
             // guard let url = request.url else { return false }
             // return URLProtocolStub.stubs[url] != nil
+            
+            requestObserver?(request)
             return true
         }
         
