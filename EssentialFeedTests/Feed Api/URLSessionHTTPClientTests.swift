@@ -18,29 +18,6 @@ protocol HTTPSessionTask {
     func resume()
 }*/
 
-class URLSessionHTTPClient: HTTPClient {
-
-    let session: URLSession //HTTPSession //URLSession
-    
-    init(session: URLSession = .shared) { // HTTPSession
-        self.session = session
-    }
-    
-    struct UnexpectedValuesRepresentaiton: Error {}
-    
-    func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
-        session.dataTask(with: url) { data , response, error in
-            if let error = error {
-                completion(.failure(error))
-            } else if let data = data, let response = response as? HTTPURLResponse {
-                completion(.success(data, response))
-            } else {
-                completion(.failure(UnexpectedValuesRepresentaiton()))
-            }
-        }.resume()
-    }
-}
-
 class URLSessionHTTPClientTests: XCTestCase {
     
     /*
