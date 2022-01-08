@@ -170,11 +170,20 @@ class URLSessionHTTPClientTests: XCTestCase {
                                                  httpVersion: nil,
                                                  headerFields: nil)
         let anyData = "Any data".data(using: .utf8)
+        let anyError = NSError(domain: "Any error", code: 0)
 
         
         XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPUrlResponse, error: nil) as NSError?)
         XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse, error: nil) as NSError?)
         XCTAssertNotNil(resultErrorFor(data: anyData, response: nil, error: nil) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: anyData, response: nil, error: anyError) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: anyData, response: nonHTTPUrlResponse, error: anyError) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse, error: anyError) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse, error: anyError) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPUrlResponse, error: anyError) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse, error: anyError) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: anyData, response: nonHTTPUrlResponse, error: nil) as NSError?)
+
     }
     
     // MARK: - Helpers
