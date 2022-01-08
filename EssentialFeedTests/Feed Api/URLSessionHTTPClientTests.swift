@@ -161,28 +161,16 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     func test_getFromUrl_failsForAllInvalidRepresentationCases() {
-        let nonHTTPUrlResponse = URLResponse(url: anyUrl(),
-                                             mimeType: nil,
-                                             expectedContentLength: 0,
-                                             textEncodingName: nil)
-        let anyHTTPUrlResponse = HTTPURLResponse(url: anyUrl(),
-                                                 statusCode: 200,
-                                                 httpVersion: nil,
-                                                 headerFields: nil)
-        let anyData = "Any data".data(using: .utf8)
-        let anyError = NSError(domain: "Any error", code: 0)
-
-        
-        XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPUrlResponse, error: nil) as NSError?)
-        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse, error: nil) as NSError?)
-        XCTAssertNotNil(resultErrorFor(data: anyData, response: nil, error: nil) as NSError?)
-        XCTAssertNotNil(resultErrorFor(data: anyData, response: nil, error: anyError) as NSError?)
-        XCTAssertNotNil(resultErrorFor(data: anyData, response: nonHTTPUrlResponse, error: anyError) as NSError?)
-        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse, error: anyError) as NSError?)
-        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse, error: anyError) as NSError?)
-        XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPUrlResponse, error: anyError) as NSError?)
-        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse, error: anyError) as NSError?)
-        XCTAssertNotNil(resultErrorFor(data: anyData, response: nonHTTPUrlResponse, error: nil) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPUrlResponse(), error: nil) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse(), error: nil) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: anyData(), response: nil, error: nil) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: anyData(), response: nil, error: anyNSError()) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: anyData(), response: nonHTTPUrlResponse(), error: anyNSError()) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse(), error: anyNSError()) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse(), error: anyNSError()) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPUrlResponse(), error: anyNSError()) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPUrlResponse(), error: anyNSError()) as NSError?)
+        XCTAssertNotNil(resultErrorFor(data: anyData(), response: nonHTTPUrlResponse(), error: nil) as NSError?)
 
     }
     
@@ -195,6 +183,28 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     private func anyUrl() -> URL {
         return  URL(string: "https://any-url.com")!
+    }
+    
+    private func anyData() -> Data {
+        return "Any data".data(using: .utf8) ?? Data()
+    }
+    
+    private func anyNSError() -> NSError {
+        return NSError(domain: "Any error", code: 0)
+    }
+    
+    private func anyHTTPUrlResponse() -> HTTPURLResponse {
+        return HTTPURLResponse(url: anyUrl(),
+                               statusCode: 200,
+                               httpVersion: nil,
+                               headerFields: nil) ?? HTTPURLResponse()
+    }
+    
+    private func nonHTTPUrlResponse() -> URLResponse {
+        return URLResponse(url: anyUrl(),
+                           mimeType: nil,
+                           expectedContentLength: 0,
+                           textEncodingName: nil)
     }
     
     private func resultErrorFor(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #filePath, line: UInt = #line) -> Error? {
