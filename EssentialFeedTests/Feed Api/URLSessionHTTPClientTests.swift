@@ -18,7 +18,8 @@ protocol HTTPSessionTask {
     func resume()
 }*/
 
-class URLSessionHTTPClient {
+class URLSessionHTTPClient: HTTPClient {
+
     let session: URLSession //HTTPSession //URLSession
     
     init(session: URLSession = .shared) { // HTTPSession
@@ -198,7 +199,7 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> URLSessionHTTPClient {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> HTTPClient {
         let sut = URLSessionHTTPClient()
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut

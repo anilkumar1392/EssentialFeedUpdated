@@ -276,14 +276,14 @@ class RemoteFeedLoaderTests: XCTestCase {
             return messges.map {$0.url}
         }
         
-        func get(from url: URL?, completion: @escaping (HTTPClientResult) -> Void) {
+        func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
             /*
             if let error = error {
                 completion(error)
             }*/
             //completions.append(completion)
             
-            guard let url = url else {return}
+            // guard let url = url else {return}
             //requestedURLs.append(url)
             messges.append((url,completion))
         }
