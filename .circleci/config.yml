@@ -5,9 +5,9 @@ version: 2.1
 jobs:
   build-test:
   	macos:
-  		xcode: "12.5.1"
+    xcode: "12.5.1"
   	environment:
-  	    FL_OUTPUT_DIR: output
+    FL_OUTPUT_DIR: output
   	steps:
       - checkout
       
