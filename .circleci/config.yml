@@ -1,7 +1,8 @@
-
 version: 2.1
 jobs:
   test:
+    macos:
+      xcode: 12.5.1
     steps:
       - checkout
       - run: fastlane scan
@@ -10,4 +11,3 @@ workflows:
   test_release:
     jobs:
       - test
-     
