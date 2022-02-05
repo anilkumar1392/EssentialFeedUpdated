@@ -9,6 +9,24 @@ import XCTest
 import EssentialFeed
 
 class EssentialFeedAPIEndToEndTests: XCTestCase {
+    
+    /*
+    func demo() {
+        let cache = URLCache(memoryCapacity: 010 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, directory: nil)
+        let configuration = URLSessionConfiguration.default
+        configuration.urlCache = cache
+        configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+        let session = URLSession(configuration: configuration)
+        
+        // Replace the shared instance with our own instance mutating gloabl state
+        URLCache.shared = cache
+        
+        let url = URL(string: "https://any-url.com")!
+        let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataDontLoad, timeoutInterval: 30)
+        
+        // Server should also allows caching.
+    } */
+    
     func test_endToEndTestServerGetFeedResult_matchesFixedTestAccountData() {
 
         switch getFeedResult() {
@@ -33,7 +51,7 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
     // MARK:- Helepr methods
     private func getFeedResult(file: StaticString = #filePath, line: UInt = #line) -> LoadFeedResult? {
         let url = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
-        let client = URLSessionHTTPClient()
+        let client = URLSessionHTTPClient(session: URLSession(configuration: .ephemeral)) // URLSessionHTTPClient()
         let loader = RemoteFeedLoader(url: url, client: client)
         trackForMemoryLeaks(client, file: file, line: line)
         trackForMemoryLeaks(loader, file: file, line: line)
