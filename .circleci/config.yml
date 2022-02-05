@@ -1,4 +1,3 @@
-
 version: 2.1
 jobs:
   test:
@@ -12,4 +11,3 @@ workflows:
   test_release:
     jobs:
       - test
-     
