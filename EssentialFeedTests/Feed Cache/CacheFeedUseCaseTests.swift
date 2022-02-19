@@ -82,6 +82,11 @@ class FeedStore {
     func completeInsertion(with error: Error, at index: Int = 0) {
         insertionCompletions[index](error)
     }
+    
+    func completeInsertionSuccessfully(at index: Int = 0 ) {
+        insertionCompletions[index](nil)
+    }
+    
 }
 
   // 1. Does not delete cache upon creation.
@@ -200,6 +205,27 @@ class CacheFeedUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 2.0)
 
         XCTAssertEqual(receivedError as NSError?, insertionError)
+    }
+    
+    func test_save_succeeddOnSussfullCacheInsertion () {
+        let (sut, store) = makeSUT()
+
+        let items = [uniqueItem(), uniqueItem()]
+        var receivedError: Error?
+        
+        let exp = expectation(description: "wait for save completion")
+        sut.save(items) { error in
+            receivedError = error
+            exp.fulfill()
+        }
+
+        let insertionError = anyNSError()
+        store.completeDeletionSuccessfully()
+        store.completeInsertionSuccessfully()
+
+        wait(for: [exp], timeout: 2.0)
+
+        XCTAssertNil(receivedError)
     }
     
     // MARK: - Helper methods
