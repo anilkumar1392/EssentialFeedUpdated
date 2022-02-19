@@ -21,6 +21,7 @@
 		F5BCC887278980220068089C /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BCC886278980220068089C /* URLSessionHTTPClient.swift */; };
 		F5BD579D2751FACC006720CE /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BD579C2751FACC006720CE /* HTTPClient.swift */; };
 		F5BD579F2751FAE0006720CE /* FeedItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BD579E2751FAE0006720CE /* FeedItemMapper.swift */; };
+		F5BE401427C1049E002E32AF /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BE401327C1049E002E32AF /* CacheFeedUseCaseTests.swift */; };
 		F5BFEF55276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BFEF54276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift */; };
 		F5BFEF58276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = F5BFEF57276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png */; };
 /* End PBXBuildFile section */
@@ -60,6 +61,7 @@
 		F5BCC886278980220068089C /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		F5BD579C2751FACC006720CE /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		F5BD579E2751FAE0006720CE /* FeedItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemMapper.swift; sourceTree = "<group>"; };
+		F5BE401327C1049E002E32AF /* CacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFeedUseCaseTests.swift; sourceTree = "<group>"; };
 		F5BFEF54276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		F5BFEF57276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2021-12-19 at 1.03.13 PM.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,6 +139,7 @@
 		F57B0AE82712DB440062F01B /* EssentialFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				F5BE401227C10462002E32AF /* Feed Cache */,
 				F5BD57A027520B68006720CE /* Feed Api */,
 				F57B0AEB2712DB440062F01B /* Info.plist */,
 			);
@@ -170,6 +173,14 @@
 				F5A049C527535C4B00FF7893 /* URLSessionHTTPClientTests.swift */,
 			);
 			path = "Feed Api";
+			sourceTree = "<group>";
+		};
+		F5BE401227C10462002E32AF /* Feed Cache */ = {
+			isa = PBXGroup;
+			children = (
+				F5BE401327C1049E002E32AF /* CacheFeedUseCaseTests.swift */,
+			);
+			path = "Feed Cache";
 			sourceTree = "<group>";
 		};
 		F5BFEF53276F15E000408F46 /* Helper */ = {
@@ -364,6 +375,7 @@
 			files = (
 				F57B0AFB2712DC590062F01B /* RemoteFeedLoaderTests.swift in Sources */,
 				F5A049C627535C4B00FF7893 /* URLSessionHTTPClientTests.swift in Sources */,
+				F5BE401427C1049E002E32AF /* CacheFeedUseCaseTests.swift in Sources */,
 				F5BFEF55276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -531,7 +543,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Anil.EssentialFeed;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Anil.EssentialFeed;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -557,7 +569,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Anil.EssentialFeed;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Anil.EssentialFeed;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -608,9 +620,10 @@
 		F5935C32279C0B5000CC34CA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = L2WG7FZ7D7;
 				INFOPLIST_FILE = EssentialFeedAPIEndToEndTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -626,9 +639,10 @@
 		F5935C33279C0B5000CC34CA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = L2WG7FZ7D7;
 				INFOPLIST_FILE = EssentialFeedAPIEndToEndTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
