@@ -9,6 +9,17 @@ import Foundation
 import XCTest
 import EssentialFeed
 
+/*
+ one thing we need to take care is LocalFeedLoader is calling more than one method.
+ 1. so we need to make sure that methods are called and called in right order.
+ 
+ NOW we have order dependency how to communcate with the store.
+ 
+ we are using distinct property to check the invocation of the methods.
+ solution: if we can combine all the received messages in one array we can solve this problem.
+ */
+
+
 class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: () -> Date
@@ -31,14 +42,23 @@ class LocalFeedLoader {
 
 class FeedStore {
     typealias DeletionCompletion = (Error?) -> Void
-    var deleteCachedFeedCallCount = 0
-    // var insertCallCount = 0
     var deletionCompletions = [DeletionCompletion]()
-    var insertions = [(items: [FeedItem], timestamp: Date)]()
+    
+    // var deleteCachedFeedCallCount = 0
+    // var insertCallCount = 0
+    // var insertions = [(items: [FeedItem], timestamp: Date)]()
+    
+    enum ReceivedMessages: Equatable {
+        case deleteCachedFeed
+        case insert([FeedItem], Date)
+    }
+    
+    private(set) var receivedMesages = [ReceivedMessages]()
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        deleteCachedFeedCallCount += 1
+        // deleteCachedFeedCallCount += 1
         deletionCompletions.append(completion)
+        receivedMesages.append(.deleteCachedFeed)
     }
     
     func completeDeletion(with error: Error, at index: Int = 0) {
@@ -51,12 +71,15 @@ class FeedStore {
     
     func insertItems(_ items: [FeedItem], timestamp: Date) {
         // insertCallCount += 1
-        insertions.append((items, timestamp))
+        // insertions.append((items, timestamp))
+        receivedMesages.append(.insert(items, timestamp))
+
     }
 }
 
   // 1. Does not delete cache upon creation.
   // 2. Save Request cache deletion.
+
 
 class CacheFeedUseCaseTests: XCTestCase {
     
@@ -67,9 +90,9 @@ class CacheFeedUseCaseTests: XCTestCase {
     
     // does not delete cache on creation
     // writing this to check that we are not calling wrong method at wrong time.
-    func test_init_doesNotDeleteCacheOnCreation() {
+    func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = makeSUT()
-        XCTAssertEqual(store.deleteCachedFeedCallCount, 0)
+        XCTAssertEqual(store.receivedMesages, [])
     }
     
      // Save command request cache deletion.
@@ -80,7 +103,9 @@ class CacheFeedUseCaseTests: XCTestCase {
         let items = [uniqueItem(), uniqueItem()]
         sut.save(items)
         
-        XCTAssertEqual(store.deleteCachedFeedCallCount, 1)
+         // XCTAssertEqual(store.deleteCachedFeedCallCount, 1)
+        XCTAssertEqual(store.receivedMesages, [.deleteCachedFeed])
+
     }
     
     // Deleting something may fail so.
@@ -93,7 +118,9 @@ class CacheFeedUseCaseTests: XCTestCase {
         let deletionError = anyNSError()
         store.completeDeletion(with: deletionError)
         
-        XCTAssertEqual(store.insertions.count, 0)
+        // XCTAssertEqual(store.insertions.count, 0)
+        XCTAssertEqual(store.receivedMesages, [.deleteCachedFeed])
+
     }
     
     /* // This test is covered in test written next to it
@@ -118,6 +145,8 @@ class CacheFeedUseCaseTests: XCTestCase {
         
         store.completeDeletionSuccessfully()
         
+        XCTAssertEqual(store.receivedMesages, [.deleteCachedFeed, .insert(items, timestamp)])
+
         XCTAssertEqual(store.insertions.count, 1)
         XCTAssertEqual(store.insertions.first?.items, items)
         XCTAssertEqual(store.insertions.first?.timestamp, timestamp)
