@@ -24,9 +24,14 @@ class LocalFeedLoader {
 
 class FeedStore {
     var deleteCachedFeedCallCount = 0
+    var insertCallCount = 0
     
     func deleteCachedFeed() {
         deleteCachedFeedCallCount += 1
+    }
+    
+    func completeDeletion(with error: Error, at index: Int = 0) {
+        
     }
 }
 
@@ -35,7 +40,13 @@ class FeedStore {
 
 class CacheFeedUseCaseTests: XCTestCase {
     
+    /*
+     We gererally se code base with tests that a method must call but
+     we are writing test that a method does not call when it is not necessary.
+     */
+    
     // does not delete cache on creation
+    // writing this to check that we are not calling wrong method at wrong time.
     func test_init_doesNotDeleteCacheOnCreation() {
         let (_, store) = makeSUT()
         XCTAssertEqual(store.deleteCachedFeedCallCount, 0)
@@ -50,6 +61,19 @@ class CacheFeedUseCaseTests: XCTestCase {
         sut.save(items)
         
         XCTAssertEqual(store.deleteCachedFeedCallCount, 1)
+    }
+    
+    // Deleting something may fail so.
+    func test_save_doesNotRequestCacheInsertionOnDeletionError() {
+        let (sut, store) = makeSUT()
+
+        let items = [uniqueItem(), uniqueItem()]
+        sut.save(items)
+        
+        var deletionError = anyNSError()
+        store.completeDeletion(with: deletionError)
+        
+        XCTAssertEqual(store.insertCallCount, 0)
     }
     
     // MARK: - Helper methods
@@ -68,5 +92,9 @@ class CacheFeedUseCaseTests: XCTestCase {
     
     private func anyUrl() -> URL {
         return  URL(string: "https://any-url.com")!
+    }
+    
+    private func anyNSError() -> NSError {
+        return NSError(domain: "Any error", code: 0)
     }
 }
