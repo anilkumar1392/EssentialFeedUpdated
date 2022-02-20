@@ -30,16 +30,3 @@ public protocol FeedStore {
  So it is just a data transfer reperesentation of model to remove strong coupling.
  */
  
-public struct LocalFeedItem: Equatable {
-    public var id: UUID
-    public var description: String?
-    public var location: String?
-    public var imageURL: URL
-    
-    public init(id: UUID, description: String?, location: String?, image: URL) {
-        self.id = id
-        self.description = description
-        self.location = location
-        self.imageURL = image
-    }
-}
