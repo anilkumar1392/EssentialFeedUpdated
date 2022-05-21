@@ -37,6 +37,7 @@
 		F5D9FEAA2838CEB70067F7B8 /* after removeing coupling.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D9FEA82838CEB70067F7B8 /* after removeing coupling.png */; };
 		F5D9FEAC2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D9FEAB2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift */; };
 		F5D9FEAF2838E4F60067F7B8 /* FeedStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D9FEAE2838E4F60067F7B8 /* FeedStoreSpy.swift */; };
+		F5D9FEB12838EE560067F7B8 /* loadFeedFromCacheUseCases.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D9FEB02838EE560067F7B8 /* loadFeedFromCacheUseCases.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		F5D9FEA82838CEB70067F7B8 /* after removeing coupling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "after removeing coupling.png"; sourceTree = "<group>"; };
 		F5D9FEAB2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedFromCacheUseCaseTests.swift; sourceTree = "<group>"; };
 		F5D9FEAE2838E4F60067F7B8 /* FeedStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpy.swift; sourceTree = "<group>"; };
+		F5D9FEB02838EE560067F7B8 /* loadFeedFromCacheUseCases.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loadFeedFromCacheUseCases.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 		F5D9FEA52838CE9E0067F7B8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F5D9FEB02838EE560067F7B8 /* loadFeedFromCacheUseCases.png */,
 				F5D9FEA62838CEA20067F7B8 /* Removing coupling with feeditem */,
 			);
 			path = Images;
@@ -381,6 +384,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5D9FEB12838EE560067F7B8 /* loadFeedFromCacheUseCases.png in Resources */,
 				F5D9FEAA2838CEB70067F7B8 /* after removeing coupling.png in Resources */,
 				F5935C36279C114700CC34CA /* feed-case-study-test-api-feed.json in Resources */,
 				F5D9FEA92838CEB70067F7B8 /* coupling with feedItem.png in Resources */,

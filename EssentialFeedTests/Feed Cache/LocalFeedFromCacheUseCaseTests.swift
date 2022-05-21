@@ -17,6 +17,8 @@ import EssentialFeed
  
  when we request a cache retrival couple fo things can happen
  1. it can fail
+ 2. We can get expired cache
+ 3. we can get empty cahce
  */
 class LocalFeedFromCacheUseCaseTest: XCTestCase {
     
@@ -40,8 +42,13 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let exp = expectation(description: "wait for expectation for fulfill")
         
         var receivedError: Error?
-        sut.load { error in
-            receivedError = error
+        sut.load { result in
+            switch result {
+            case let .failure(error):
+                receivedError = error
+            default:
+                XCTFail("Expected failure, got \(result) instead")
+            }
             exp.fulfill()
         }
         
@@ -50,6 +57,24 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         
         XCTAssertEqual(receivedError as NSError?, retrivalError)
     }
+    
+//    func test_load_deliversNoImagesOnEmptyCache() {
+//        let (sut, store) = makeSUT()
+//
+//        let exp = expectation(description: "wait for expectation for fulfill")
+//
+//        var receivedError: Error?
+//        sut.load { result in
+//
+//            receivedError = error
+//            exp.fulfill()
+//        }
+//
+//        store.completeRetrival(with:  retrivalError)
+//        wait(for: [exp], timeout: 1.0)
+//
+//        XCTAssertEqual(receivedError as NSError?, retrivalError)
+//    }
     
     // MARK: - Heleprs
     
