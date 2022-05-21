@@ -58,23 +58,27 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         XCTAssertEqual(receivedError as NSError?, retrivalError)
     }
     
-//    func test_load_deliversNoImagesOnEmptyCache() {
-//        let (sut, store) = makeSUT()
-//
-//        let exp = expectation(description: "wait for expectation for fulfill")
-//
-//        var receivedError: Error?
-//        sut.load { result in
-//
-//            receivedError = error
-//            exp.fulfill()
-//        }
-//
-//        store.completeRetrival(with:  retrivalError)
-//        wait(for: [exp], timeout: 1.0)
-//
-//        XCTAssertEqual(receivedError as NSError?, retrivalError)
-//    }
+    func test_load_deliversNoImagesOnEmptyCache() {
+        let (sut, store) = makeSUT()
+
+        let exp = expectation(description: "wait for expectation for fulfill")
+
+        var receivedImages: [FeedImage]?
+        sut.load { result in
+            switch result {
+            case let .success(images):
+                receivedImages = images
+            default:
+                XCTFail("expected success, got \(result) instead")
+            }
+            exp.fulfill()
+        }
+
+        store.completeRetrivalWithEmptyCache()
+        wait(for: [exp], timeout: 1.0)
+
+        XCTAssertEqual(receivedImages, [])
+    }
     
     // MARK: - Heleprs
     
