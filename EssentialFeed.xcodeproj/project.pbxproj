@@ -33,6 +33,8 @@
 		F5BE401427C1049E002E32AF /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BE401327C1049E002E32AF /* CacheFeedUseCaseTests.swift */; };
 		F5BFEF55276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BFEF54276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift */; };
 		F5BFEF58276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = F5BFEF57276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png */; };
+		F5D9FEA92838CEB70067F7B8 /* coupling with feedItem.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D9FEA72838CEB70067F7B8 /* coupling with feedItem.png */; };
+		F5D9FEAA2838CEB70067F7B8 /* after removeing coupling.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D9FEA82838CEB70067F7B8 /* after removeing coupling.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +82,8 @@
 		F5BE401327C1049E002E32AF /* CacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFeedUseCaseTests.swift; sourceTree = "<group>"; };
 		F5BFEF54276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		F5BFEF57276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2021-12-19 at 1.03.13 PM.png"; sourceTree = "<group>"; };
+		F5D9FEA72838CEB70067F7B8 /* coupling with feedItem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coupling with feedItem.png"; sourceTree = "<group>"; };
+		F5D9FEA82838CEB70067F7B8 /* after removeing coupling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "after removeing coupling.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +150,7 @@
 		F57B0ADD2712DB440062F01B /* EssentialFeed */ = {
 			isa = PBXGroup;
 			children = (
+				F5D9FEA52838CE9E0067F7B8 /* Images */,
 				F57B0ADE2712DB440062F01B /* EssentialFeed.h */,
 				F5935C35279C114700CC34CA /* feed-case-study-test-api-feed.json */,
 				F58E6C9727C22DA300BAD35D /* Feed Cache */,
@@ -228,6 +233,23 @@
 				F5BFEF57276F17DB00408F46 /* Screenshot 2021-12-19 at 1.03.13 PM.png */,
 			);
 			path = "Invalid Cases";
+			sourceTree = "<group>";
+		};
+		F5D9FEA52838CE9E0067F7B8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				F5D9FEA62838CEA20067F7B8 /* Removing coupling with feeditem */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		F5D9FEA62838CEA20067F7B8 /* Removing coupling with feeditem */ = {
+			isa = PBXGroup;
+			children = (
+				F5D9FEA82838CEB70067F7B8 /* after removeing coupling.png */,
+				F5D9FEA72838CEB70067F7B8 /* coupling with feedItem.png */,
+			);
+			path = "Removing coupling with feeditem";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,7 +367,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5D9FEAA2838CEB70067F7B8 /* after removeing coupling.png in Resources */,
 				F5935C36279C114700CC34CA /* feed-case-study-test-api-feed.json in Resources */,
+				F5D9FEA92838CEB70067F7B8 /* coupling with feedItem.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
