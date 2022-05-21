@@ -9,10 +9,10 @@ import Foundation
 import EssentialFeed
 
 class FeedStoreSpy: FeedStore {
-    
+ 
     var deletionCompletions = [DeletionCompletion]()
     var insertionCompletions = [InsertionCompletion]()
-    
+    var retrivalCompletions = [InsertionCompletion]()
     // var deleteCachedFeedCallCount = 0
     // var insertCallCount = 0
     // var insertions = [(items: [FeedItem], timestamp: Date)]()
@@ -53,9 +53,13 @@ class FeedStoreSpy: FeedStore {
     func completeInsertionSuccessfully(at index: Int = 0 ) {
         insertionCompletions[index](nil)
     }
-    
-    func retrieve() {
+
+    func retrieve(completion: @escaping RetrivalCompletion) {
+        retrivalCompletions.append(completion)
         receivedMesages.append(.retrieve)
     }
     
+    func completeRetrival(with error: Error, at index: Int = 0) {
+        retrivalCompletions[index](error)
+    }
 }
