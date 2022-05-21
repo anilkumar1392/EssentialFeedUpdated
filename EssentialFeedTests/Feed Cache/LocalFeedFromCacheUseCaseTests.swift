@@ -20,7 +20,8 @@ import EssentialFeed
  2. We can get expired cache
  3. we can get empty cahce
  
- Devliers images when cache is less than seven days old
+ 1. Devliers images when cache is less than seven days old
+ 2. Delviers no images on seven days old cache
  */
 class LocalFeedFromCacheUseCaseTest: XCTestCase {
     
@@ -102,6 +103,17 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
 
         expect(sut, toCompleteWith: .success(feed.models)) {
             store.completeRetrival(with: feed.local, timestamp: lessThanSevenDaysTimeStamp)
+        }
+    }
+    
+    func test_load_deliversNoImagesOnSevenDaysOldCache() {
+        let feed = uniqueImageFeed()
+        let fixedCurrentDate = Date()
+        let sevenDaysTimeStamp = fixedCurrentDate.adding(days: -7)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+
+        expect(sut, toCompleteWith: .success([])) {
+            store.completeRetrival(with: feed.local, timestamp: sevenDaysTimeStamp)
         }
     }
     
