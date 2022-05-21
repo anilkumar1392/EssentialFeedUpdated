@@ -26,7 +26,7 @@ import EssentialFeed
 class CacheFeedUseCaseTests: XCTestCase {
     
     /*
-     We gererally se code base with tests that a method must call but
+     We gererally use code base with tests that a method must call but
      we are writing test that a method does not call when it is not necessary.
      */
     
@@ -244,6 +244,7 @@ class CacheFeedUseCaseTests: XCTestCase {
         let localItems = items.map( {LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url)})
         return (items, localItems)
     }
+    
     private func uniqueImage() -> FeedImage {
         return FeedImage(id: UUID(), description: nil, location: nil, url: anyUrl())
     }
@@ -254,52 +255,5 @@ class CacheFeedUseCaseTests: XCTestCase {
     
     private func anyNSError() -> NSError {
         return NSError(domain: "Any error", code: 0)
-    }
-    
-    private class FeedStoreSpy: FeedStore {
-
-        var deletionCompletions = [DeletionCompletion]()
-        var insertionCompletions = [InsertionCompletion]()
-
-        // var deleteCachedFeedCallCount = 0
-        // var insertCallCount = 0
-        // var insertions = [(items: [FeedItem], timestamp: Date)]()
-        
-        enum ReceivedMessages: Equatable {
-            case deleteCachedFeed
-            case insert([LocalFeedImage], Date)
-        }
-        
-        private(set) var receivedMesages = [ReceivedMessages]()
-        
-        func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-            // deleteCachedFeedCallCount += 1
-            deletionCompletions.append(completion)
-            receivedMesages.append(.deleteCachedFeed)
-        }
-        
-        func completeDeletion(with error: Error, at index: Int = 0) {
-            deletionCompletions[index](error)
-        }
-        
-        func completeDeletionSuccessfully(at index: Int = 0 ) {
-            deletionCompletions[index](nil)
-        }
-        
-        func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
-            // insertCallCount += 1
-            // insertions.append((items, timestamp))
-            insertionCompletions.append(completion)
-            receivedMesages.append(.insert(feed, timestamp))
-        }
-        
-        func completeInsertion(with error: Error, at index: Int = 0) {
-            insertionCompletions[index](error)
-        }
-        
-        func completeInsertionSuccessfully(at index: Int = 0 ) {
-            insertionCompletions[index](nil)
-        }
-        
     }
 }
