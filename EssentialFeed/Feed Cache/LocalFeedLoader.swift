@@ -28,8 +28,8 @@ public class LocalFeedLoader {
         store.deleteCachedFeed { [weak self] error in
             guard let self = self else { return }
             
-            if let cacheDeletionerror = error {
-                completion(cacheDeletionerror)
+            if let cacheDeletionError = error {
+                completion(cacheDeletionError)
             } else {
                 self.cache(feed, with: completion)
             }
@@ -54,6 +54,7 @@ public class LocalFeedLoader {
     private var maxCacheAgeInDays: Int {
         return 7
     }
+    
     private func validate(_ timestamp: Date) -> Bool {
         guard let maxCacheAge = calender.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else {
             return false
