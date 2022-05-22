@@ -24,6 +24,7 @@ import EssentialFeed
  2. Delviers no images on seven days old cache
  
  1. Delete cache on retrival error
+ 2. Should not delete the cache on empty cache
  
  ###Load Feed From Cache Use Case
 
@@ -158,6 +159,15 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         store.completeRetrival(with: anyNSError())
         
         XCTAssertEqual(store.receivedMesages, [.retrieve, .deleteCachedFeed])
+    }
+
+    func test_load_notDeleteCacheOnEmptyCache() {
+        let (sut, store) = makeSUT()
+        
+        sut.load { _ in }
+        store.completeRetrivalWithEmptyCache()
+        
+        XCTAssertEqual(store.receivedMesages, [.retrieve])
     }
     
     // MARK: - Heleprs
