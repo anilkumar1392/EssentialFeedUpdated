@@ -46,6 +46,15 @@ import EssentialFeed
  #### Empty cache course (sad path):
  1. System delivers no feed images.
  
+ Command–Query Separation Principle:  So seperate quering from command with side effects
+ 
+ Seperating loading from validating:
+ 
+ because this is volating Command-Query principle.
+ we are fetcing and validating at same place.
+ 
+
+ 
  */
 class LocalFeedFromCacheUseCaseTest: XCTestCase {
     
