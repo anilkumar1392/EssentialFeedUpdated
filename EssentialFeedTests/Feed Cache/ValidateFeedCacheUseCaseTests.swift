@@ -68,7 +68,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         store.completeRetrival(with: feed.local, timestamp: moreThanSevenDaysOldTimeStamp)
         
         XCTAssertEqual(store.receivedMesages, [.retrieve, .deleteCachedFeed])
-    }
+    } 
     
     func test_validateCache_doesNotDeleteInvalidCacheAfterSUTInstanceHasBeenDeallocated() {
         let store = FeedStoreSpy()
