@@ -22,6 +22,29 @@ import EssentialFeed
  
  1. Devliers images when cache is less than seven days old
  2. Delviers no images on seven days old cache
+ 
+ 1. Delete cache on retrival error
+ 
+ ###Load Feed From Cache Use Case
+
+ #### Primary course:
+ 1. Execute "Load Image Feed" command with above data.
+ 2. System fetchesretrieves feed data from cache.
+ 3. System validates cache is less than seven days old.
+ 4. System creates image feed from cached data.
+ 5. System delivers image feed.
+
+ #### Retrieval Error course (sad path):
+ 1. System deletes cache.
+ 2. System delivers error.
+
+ #### Expired cache course (sad path):
+ 1. System deletes cache.
+ 2. System delivers no feed images.
+
+ #### Empty cache course (sad path):
+ 1. System delivers no feed images.
+ 
  */
 class LocalFeedFromCacheUseCaseTest: XCTestCase {
     
@@ -126,6 +149,15 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         expect(sut, toCompleteWith: .success([])) {
             store.completeRetrival(with: feed.local, timestamp: moreThanSevenDaysTimeStamp)
         }
+    }
+    
+    func test_load_deleteCacheOnRetrivalError() {
+        let (sut, store) = makeSUT()
+        
+        sut.load { _ in }
+        store.completeRetrival(with: anyNSError())
+        
+        XCTAssertEqual(store.receivedMesages, [.retrieve, .deleteCachedFeed])
     }
     
     // MARK: - Heleprs
