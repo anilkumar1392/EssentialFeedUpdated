@@ -161,13 +161,18 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         }
     }
     
-    func test_load_deleteCacheOnRetrivalError() {
+    /*
+     By following  Command–Query Separation Principle:  So seperate quering from command with side effects
+     we are seperating validating from load or fetching and moving this validation test to validation file.
+
+     */
+    func test_load_hasNoSideEffectOnRetrivalError() { // test_load_deleteCacheOnRetrivalError
         let (sut, store) = makeSUT()
         
         sut.load { _ in }
         store.completeRetrival(with: anyNSError())
         
-        XCTAssertEqual(store.receivedMesages, [.retrieve, .deleteCachedFeed])
+        XCTAssertEqual(store.receivedMesages, [.retrieve])
     }
 
     func test_load_doesNotDeleteCacheOnEmptyCache() {
