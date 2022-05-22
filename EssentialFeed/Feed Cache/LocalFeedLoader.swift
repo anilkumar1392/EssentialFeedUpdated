@@ -68,8 +68,6 @@ public class LocalFeedLoader {
                 self.store.deleteCachedFeed { _ in }
                 
             case .empty, .found: break
-
-            default: break
             }
         }
     }
