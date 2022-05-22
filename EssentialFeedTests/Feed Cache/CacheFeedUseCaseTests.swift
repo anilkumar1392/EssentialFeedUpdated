@@ -215,6 +215,14 @@ class CacheFeedUseCaseTests: XCTestCase {
     
     // MARK: - Helper methods
     
+    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
+        let store = FeedStoreSpy()
+        let sut = LocalFeedLoader(store: store, currentDate: currentDate)
+        trackForMemoryLeaks(store, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        return (sut, store)
+    }
+    
     private func expect(_ sut: LocalFeedLoader, toCompleteWithError expecetdError: NSError?, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         
         let exp = expectation(description: "wait for save completion")
