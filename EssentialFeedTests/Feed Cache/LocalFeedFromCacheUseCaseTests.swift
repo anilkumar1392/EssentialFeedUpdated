@@ -175,7 +175,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         XCTAssertEqual(store.receivedMesages, [.retrieve])
     }
 
-    func test_load_doesNotDeleteCacheOnEmptyCache() {
+    func test_load_hasNoSideEffectOnEmptyCache() { // test_load_doesNotDeleteCacheOnEmptyCache
         let (sut, store) = makeSUT()
         
         sut.load { _ in }
