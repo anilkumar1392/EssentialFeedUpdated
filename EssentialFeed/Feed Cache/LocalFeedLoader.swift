@@ -11,23 +11,27 @@ import Foundation
  Extract the bussiness rule into its own module and resue it later if we have to.
  */
 
-public final class FeedCachePolicy {
-    private let currentDate: () -> Date
+/*
+ Feed cache policy is impure because every time you invoke this function this may return a different value, its non deterministic.
+ One way to make it pure is by using data instead of data in init.
+ */
+private final class FeedCachePolicy {
+    // private let currentDate: () -> Date
     private let calender = Calendar(identifier: .gregorian)
     
-    public init(currentDate: @escaping () -> Date) {
-        self.currentDate = currentDate
-    }
+//    public init(currentDate: @escaping () -> Date) {
+//        self.currentDate = currentDate
+//    }
     
     var maxCacheAgeInDays: Int {
         return 7
     }
     
-    public func validate(_ timestamp: Date) -> Bool {
+    public func validate(_ timestamp: Date, against  date: Date) -> Bool {
         guard let maxCacheAge = calender.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else {
             return false
         }
-        return currentDate() < maxCacheAge
+        return date < maxCacheAge
     }
 }
 
@@ -35,7 +39,7 @@ public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: () -> Date
     // private let calender = Calendar(identifier: .gregorian)
-    private let cachePolicy: FeedCachePolicy
+    private let cachePolicy = FeedCachePolicy()
     
     /*
      Protecting our code from breaking changes
@@ -44,7 +48,6 @@ public final class LocalFeedLoader {
     public init(store: FeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
-        self.cachePolicy = FeedCachePolicy(currentDate: currentDate)
     }
 }
 
@@ -84,7 +87,7 @@ extension LocalFeedLoader: FeedLoader {
                 // self.store.deleteCachedFeed { _ in }
                 completion(.failure(error))
                 
-            case let .found(feed: localFeedImage, timestamp) where self.cachePolicy.validate(timestamp):
+            case let .found(feed: localFeedImage, timestamp) where self.cachePolicy.validate(timestamp, against: self.currentDate()):
                 completion(.success(localFeedImage.toModels()))
                 
             case .found, .empty:
@@ -104,7 +107,7 @@ extension LocalFeedLoader {
             case .failure:
                 self.store.deleteCachedFeed { _ in }
                 
-            case let .found(_, timestamp: timestamp) where !self.cachePolicy.validate(timestamp):
+            case let .found(_, timestamp: timestamp) where !self.cachePolicy.validate(timestamp, against: self.currentDate()):
                 self.store.deleteCachedFeed { _ in }
                 
             case .empty, .found: break
