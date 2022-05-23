@@ -9,6 +9,17 @@ import Foundation
 import XCTest
 import EssentialFeed
 
+/*
+ Separating queries and side-effects by following the Command-Query Separation principle
+ Producing a reliable codebase history (always in a working state)
+ Identifying Application-specific vs. Application-agnostic logic
+ 
+ Command–Query Separation (CQS)
+ Thus, in this lecture, we separate loading and validation into two use cases, implemented in distinct methods: load() and validateCache().
+
+ It's a trade-off. Ideally, enumerations should be final (closed). We should strive to avoid adding more cases to enums as it breaks the contract with clients of our code (a violation of the open-closed principle!).
+ */
+
 class ValidateFeedCacheUseCaseTests: XCTestCase {
     func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = makeSUT()
