@@ -40,6 +40,7 @@
 		F5D596FF283B666E00F45F83 /* FeedCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D596FE283B666E00F45F83 /* FeedCachePolicy.swift */; };
 		F5D59701283B774A00F45F83 /* Achieve modularity.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D59700283B774A00F45F83 /* Achieve modularity.png */; };
 		F5D59703283B7C5300F45F83 /* Application-specific.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D59702283B7C5300F45F83 /* Application-specific.png */; };
+		F5D59705283B7D5000F45F83 /* Infrastructure-logic.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D59704283B7D5000F45F83 /* Infrastructure-logic.png */; };
 		F5D9FEA92838CEB70067F7B8 /* coupling with feedItem.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D9FEA72838CEB70067F7B8 /* coupling with feedItem.png */; };
 		F5D9FEAA2838CEB70067F7B8 /* after removeing coupling.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D9FEA82838CEB70067F7B8 /* after removeing coupling.png */; };
 		F5D9FEAC2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D9FEAB2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift */; };
@@ -99,6 +100,7 @@
 		F5D596FE283B666E00F45F83 /* FeedCachePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCachePolicy.swift; sourceTree = "<group>"; };
 		F5D59700283B774A00F45F83 /* Achieve modularity.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Achieve modularity.png"; sourceTree = "<group>"; };
 		F5D59702283B7C5300F45F83 /* Application-specific.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Application-specific.png"; sourceTree = "<group>"; };
+		F5D59704283B7D5000F45F83 /* Infrastructure-logic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Infrastructure-logic.png"; sourceTree = "<group>"; };
 		F5D9FEA72838CEB70067F7B8 /* coupling with feedItem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coupling with feedItem.png"; sourceTree = "<group>"; };
 		F5D9FEA82838CEB70067F7B8 /* after removeing coupling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "after removeing coupling.png"; sourceTree = "<group>"; };
 		F5D9FEAB2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedFromCacheUseCaseTests.swift; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				F5D9FEA72838CEB70067F7B8 /* coupling with feedItem.png */,
 				F5D59700283B774A00F45F83 /* Achieve modularity.png */,
 				F5D59702283B7C5300F45F83 /* Application-specific.png */,
+				F5D59704283B7D5000F45F83 /* Infrastructure-logic.png */,
 			);
 			path = "Removing coupling with feeditem";
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				F5D59703283B7C5300F45F83 /* Application-specific.png in Resources */,
 				F5935C36279C114700CC34CA /* feed-case-study-test-api-feed.json in Resources */,
 				F5D9FEA92838CEB70067F7B8 /* coupling with feedItem.png in Resources */,
+				F5D59705283B7D5000F45F83 /* Infrastructure-logic.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
