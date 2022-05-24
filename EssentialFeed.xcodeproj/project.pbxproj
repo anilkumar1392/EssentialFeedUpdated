@@ -44,6 +44,8 @@
 		F5D59707283B7DE300F45F83 /* Entities vs. Value Objects.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D59706283B7DE300F45F83 /* Entities vs. Value Objects.png */; };
 		F5D6DE9F283D302800BC62F3 /* DependencyInversion.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D6DE9E283D302800BC62F3 /* DependencyInversion.png */; };
 		F5D6DEA1283D303D00BC62F3 /* DependencyInversion1.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D6DEA0283D303D00BC62F3 /* DependencyInversion1.png */; };
+		F5D6DEA3283D325200BC62F3 /* CodableFeedStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D6DEA2283D325200BC62F3 /* CodableFeedStoreTests.swift */; };
+		F5D6DEA5283D32BD00BC62F3 /* FeedStoreCheckList.md in Resources */ = {isa = PBXBuildFile; fileRef = F5D6DEA4283D32BD00BC62F3 /* FeedStoreCheckList.md */; };
 		F5D9FEA92838CEB70067F7B8 /* coupling with feedItem.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D9FEA72838CEB70067F7B8 /* coupling with feedItem.png */; };
 		F5D9FEAA2838CEB70067F7B8 /* after removeing coupling.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D9FEA82838CEB70067F7B8 /* after removeing coupling.png */; };
 		F5D9FEAC2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D9FEAB2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift */; };
@@ -107,6 +109,8 @@
 		F5D59706283B7DE300F45F83 /* Entities vs. Value Objects.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Entities vs. Value Objects.png"; sourceTree = "<group>"; };
 		F5D6DE9E283D302800BC62F3 /* DependencyInversion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DependencyInversion.png; sourceTree = "<group>"; };
 		F5D6DEA0283D303D00BC62F3 /* DependencyInversion1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DependencyInversion1.png; sourceTree = "<group>"; };
+		F5D6DEA2283D325200BC62F3 /* CodableFeedStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableFeedStoreTests.swift; sourceTree = "<group>"; };
+		F5D6DEA4283D32BD00BC62F3 /* FeedStoreCheckList.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FeedStoreCheckList.md; sourceTree = "<group>"; };
 		F5D9FEA72838CEB70067F7B8 /* coupling with feedItem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coupling with feedItem.png"; sourceTree = "<group>"; };
 		F5D9FEA82838CEB70067F7B8 /* after removeing coupling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "after removeing coupling.png"; sourceTree = "<group>"; };
 		F5D9FEAB2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedFromCacheUseCaseTests.swift; sourceTree = "<group>"; };
@@ -182,6 +186,7 @@
 				F57B0ADE2712DB440062F01B /* EssentialFeed.h */,
 				F5935C35279C114700CC34CA /* feed-case-study-test-api-feed.json */,
 				F5D2E2F4283A17C90021BAD2 /* README.md */,
+				F5D6DEA4283D32BD00BC62F3 /* FeedStoreCheckList.md */,
 				F58E6C9727C22DA300BAD35D /* Feed Cache */,
 				F57B0AF52712DB660062F01B /* FeedFeature */,
 				F556FF272723EC4400D62F39 /* Feed Api */,
@@ -248,6 +253,7 @@
 				F5D2E2F6283A483B0021BAD2 /* ValidateFeedCacheUseCaseTests.swift */,
 				F5BE401327C1049E002E32AF /* CacheFeedUseCaseTests.swift */,
 				F5D9FEAB2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift */,
+				F5D6DEA2283D325200BC62F3 /* CodableFeedStoreTests.swift */,
 			);
 			path = "Feed Cache";
 			sourceTree = "<group>";
@@ -428,6 +434,7 @@
 				F5935C36279C114700CC34CA /* feed-case-study-test-api-feed.json in Resources */,
 				F5D9FEA92838CEB70067F7B8 /* coupling with feedItem.png in Resources */,
 				F5D59705283B7D5000F45F83 /* Infrastructure-logic.png in Resources */,
+				F5D6DEA5283D32BD00BC62F3 /* FeedStoreCheckList.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +511,7 @@
 				F5D2E2FB283A54B20021BAD2 /* SharedTestHelper.swift in Sources */,
 				F5BFEF55276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 				F50FAB4B27DE5A4300A125FA /* LoginViewModel.swift in Sources */,
+				F5D6DEA3283D325200BC62F3 /* CodableFeedStoreTests.swift in Sources */,
 				F5D9FEAF2838E4F60067F7B8 /* FeedStoreSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
