@@ -2,9 +2,11 @@
 
 ### - Retrieve
     - Empty cache works (before something is inserted)
+    - Retrieve empty cache twice returns empty (no side-effects)
     - Non-empty cache returns data
     - Non-empty cache twice returns same data (retrieve should have no side-effects)
-    - Error (if possible to simulate, e.g., invalid data)
+    - Error returns error (if applicable to simulate, e.g., invalid data)
+    - Error twice returns same error  (if applicable to simulate, e.g., invalid data)
     
 ### Insert
     - To empty cache works
