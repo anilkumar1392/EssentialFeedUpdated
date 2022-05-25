@@ -88,14 +88,14 @@ class CodableFeedStoreTests: XCTestCase {
         super.setUp()
         // Get called every time after execution of each test.
         
-        try? FileManager.default.removeItem(at: storeUrl())
+        try? FileManager.default.removeItem(at: testsSpecificStoreUrl())
     }
     
     override func tearDown() {
         super.tearDown()
         // Get called every time after execution of each test.
         
-        try? FileManager.default.removeItem(at: storeUrl())
+        try? FileManager.default.removeItem(at: testsSpecificStoreUrl())
     }
     
     func test_retrieve_deliversEmptyOnEmptyCache() {
@@ -164,7 +164,7 @@ class CodableFeedStoreTests: XCTestCase {
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableFeedStore {
-        let storeUrl = storeUrl()
+        let storeUrl = testsSpecificStoreUrl()
         let sut = CodableFeedStore(storeUrl: storeUrl)
         
         // Next is track memory leak
@@ -172,8 +172,13 @@ class CodableFeedStoreTests: XCTestCase {
         return sut
     }
     
-    private func storeUrl() -> URL {
-        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("image-feed.store")
+    private func testsSpecificStoreUrl() -> URL {
+        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store") // CodableFeedStoreTests
         return url
     }
+    /*
+     if sharing a url with other parts of the system it may have fragile tests, because they can be effected by un-related tests.
+     Solution: so we can create a test specific url that is only used by these tests.
+     So if their is a proble it is contained with in these test.
+     */
 }
