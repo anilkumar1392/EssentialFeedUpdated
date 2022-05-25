@@ -12,8 +12,30 @@ import EssentialFeed
 class CodableFeedStore {
     
     private struct Cache: Codable {
-        let feed: [LocalFeedImage]
+        let feed: [CodableFeedModel] // LocalFeedImage
         let timestamp: Date
+        
+        var localFeed: [LocalFeedImage] {
+            return feed.map { $0.local }
+        }
+    }
+    
+    private struct CodableFeedModel: Codable {
+        private var id: UUID
+        private var description: String?
+        private var location: String?
+        private var url: URL
+        
+        init(_ image: LocalFeedImage) {
+            id = image.id
+            description = image.description
+            location = image.description
+            url = image.url
+        }
+        
+        var local: LocalFeedImage {
+            return LocalFeedImage(id: id, description: description, location: location, url: url)
+        }
     }
     
     private let storeUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("image-feed.store")
@@ -25,12 +47,12 @@ class CodableFeedStore {
         
         let decoder = JSONDecoder()
         let cache = try! decoder.decode(Cache.self, from: data)
-        completion(.found(feed: cache.feed, timestamp: cache.timestamp))
+        completion(.found(feed: cache.localFeed, timestamp: cache.timestamp))
     }
     
     func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping FeedStore.InsertionCompletion) {
         let encoder = JSONEncoder()
-        let encoded = try! encoder.encode(Cache(feed: feed, timestamp: timestamp))
+        let encoded = try! encoder.encode(Cache(feed: feed.map (CodableFeedModel.init), timestamp: timestamp))
         try! encoded.write(to: storeUrl)
         completion(nil)
     }
@@ -48,6 +70,13 @@ class CodableFeedStore {
  So we need to clean the disk avery time we run the disk.
  */
 
+/*
+ High level component should not depend on low level component.
+ 
+ So changes we made like LocalFeedLoader confirm to codable is framework specific so in future we may need to add coredata specific or realm specific framework details.
+ 
+ To rectify this we can have a local implementation of LocalFeedModel
+ */
 class CodableFeedStoreTests: XCTestCase {
     
     override func setUp() {
