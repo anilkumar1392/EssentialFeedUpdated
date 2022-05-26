@@ -147,11 +147,14 @@ class CodableFeedStoreTests: XCTestCase {
 
     }
     
-    func test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues () {
+    func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
+        // test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues
         // Given
         let sut = makeSUT()
         let feed = uniqueImageFeed().local
         let timestamp = Date()
+        
+        /*
         let exp = expectation(description: "wait for exp for fullfill")
         
         // Insert
@@ -174,7 +177,9 @@ class CodableFeedStoreTests: XCTestCase {
             } */
         }
         wait(for: [exp], timeout: 1.0)
+         */
         
+        insert((feed, timestamp), to: sut)
         //Expect
         expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
     }
