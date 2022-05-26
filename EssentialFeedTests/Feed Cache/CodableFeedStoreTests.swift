@@ -18,7 +18,7 @@ import EssentialFeed
      - Non-empty cache returns data
      - Non-empty cache twice returns same data (retrieve should have no side-effects)
      - Error returns error (if applicable to simulate, e.g., invalid data)
-     - Error twice returns same error  (if applicable to simulate, e.g., invalid data)
+     - Error twice returns same error (if applicable to simulate, e.g., invalid data) (no side effects)
      
  ### Insert
      - To empty cache works
@@ -258,6 +258,15 @@ class CodableFeedStoreTests: XCTestCase {
         try! "Invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
         
         expect(sut, toRetrieve: .failure(anyNSError()))
+    }
+    
+    func test_retrieve_hasNoSideEffectsOnFailure() {
+        let storeURL = testsSpecificStoreUrl()
+        let sut = makeSUT(storeURL: storeURL)
+        
+        try! "Invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+
+        expect(sut, toRetrieveTwice: .failure(anyNSError()))
     }
     
     // MARK: - Helpers
