@@ -252,17 +252,18 @@ class CodableFeedStoreTests: XCTestCase {
     }
     
     func test_retrieve_returnsFailureOnInvalidData() {
-        let sut = makeSUT()
+        let storeURL = testsSpecificStoreUrl()
+        let sut = makeSUT(storeURL: storeURL)
         
-        try! "Invalid data".write(to: testsSpecificStoreUrl(), atomically: false, encoding: .utf8)
+        try! "Invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
         
         expect(sut, toRetrieve: .failure(anyNSError()))
     }
     
     // MARK: - Helpers
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableFeedStore {
-        let storeUrl = testsSpecificStoreUrl()
+    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> CodableFeedStore {
+        let storeUrl = storeURL ?? testsSpecificStoreUrl()
         let sut = CodableFeedStore(storeUrl: storeUrl)
         
         // Next is track memory leak
@@ -271,13 +272,16 @@ class CodableFeedStoreTests: XCTestCase {
     }
     
     private func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: CodableFeedStore) {
+        // Given
         let exp = expectation(description: "Wait for cache insertion")
 
+        // When
         sut.insert(cache.feed, timestamp: cache.timestamp) { insertionError in
             XCTAssertNil(insertionError, "Expected feed to be inserted successfully")
             exp.fulfill()
         }
         
+        // Expect
         wait(for: [exp], timeout: 1.0)
     }
     
