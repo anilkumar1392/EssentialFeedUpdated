@@ -9,6 +9,30 @@ import Foundation
 import XCTest
 import EssentialFeed
 
+/*
+ ### FeedStore implementation Inbox
+
+ ### - Retrieve
+     - Empty cache works (before something is inserted)
+     - Retrieve empty cache twice returns empty (no side-effects)
+     - Non-empty cache returns data
+     - Non-empty cache twice returns same data (retrieve should have no side-effects)
+     - Error returns error (if applicable to simulate, e.g., invalid data)
+     - Error twice returns same error  (if applicable to simulate, e.g., invalid data)
+     
+ ### Insert
+     - To empty cache works
+     - To non-empty cache overrides previous value
+     - Error (if possible to simulate, e.g., no write permission)
+     
+ ### - Delete
+     - Empty cache does nothing (cache stays empty and does not fail)
+     - Inserted data leaves cache empty
+     - Error (if possible to simulate, e.g., no write permission)
+
+ ### - Side-effects must run serially to avoid race-conditions (deleting the wrong cache... overriding the latest data...)
+
+ */
 class CodableFeedStore {
     
     private struct Cache: Codable {
@@ -49,9 +73,14 @@ class CodableFeedStore {
             return completion(.empty)
         }
         
-        let decoder = JSONDecoder()
-        let cache = try! decoder.decode(Cache.self, from: data)
-        completion(.found(feed: cache.localFeed, timestamp: cache.timestamp))
+        do {
+            let decoder = JSONDecoder()
+            let cache = try decoder.decode(Cache.self, from: data)
+            completion(.found(feed: cache.localFeed, timestamp: cache.timestamp))
+        } catch {
+            completion(.failure(error))
+        }
+
     }
     
     func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping FeedStore.InsertionCompletion) {
@@ -222,6 +251,14 @@ class CodableFeedStoreTests: XCTestCase {
         expect(sut, toRetrieveTwice: .found(feed: feed, timestamp: timestamp))
     }
     
+    func test_retrieve_returnsFailureOnInvalidData() {
+        let sut = makeSUT()
+        
+        try! "Invalid data".write(to: testsSpecificStoreUrl(), atomically: false, encoding: .utf8)
+        
+        expect(sut, toRetrieve: .failure(anyNSError()))
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableFeedStore {
@@ -253,7 +290,8 @@ class CodableFeedStoreTests: XCTestCase {
                 XCTAssertEqual(retrieveResult.feed, expectedResult.feed, file: file, line: line)
                 XCTAssertEqual(retrieveResult.timestamp, expectedResult.timestamp, file: file, line: line)
                 
-            case (.empty, .empty):
+            case (.empty, .empty),
+                (.failure, .failure):
                 break
 
             default:
