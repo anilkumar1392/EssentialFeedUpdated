@@ -33,7 +33,9 @@ import EssentialFeed
  ### - Side-effects must run serially to avoid race-conditions (deleting the wrong cache... overriding the latest data...)
 
  */
-class CodableFeedStore {
+
+
+class CodableFeedStore: FeedStore {
     
     private struct Cache: Codable {
         let feed: [CodableFeedModel] // LocalFeedImage
@@ -331,13 +333,22 @@ class CodableFeedStoreTests: XCTestCase {
         expect(sut, toRetrieve: .empty)
     }
     
+    func test_delete_deliversErrorOnDeletionError() {
+        let noDeletePermissionUrl = cachesDirectory()
+        let sut = makeSUT(storeURL: noDeletePermissionUrl)
+        
+        let deletionError = deleteCache(sut)
+        
+        XCTAssertNotNil(deletionError, "Expected cache deletionto fail")
+    }
+    
 }
 
 // MARK: - Helpers
 
 extension CodableFeedStoreTests {
     
-    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> CodableFeedStore {
+    private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
         let storeUrl = storeURL ?? testsSpecificStoreUrl()
         let sut = CodableFeedStore(storeUrl: storeUrl)
         
@@ -347,7 +358,7 @@ extension CodableFeedStoreTests {
     }
     
     @discardableResult
-    private func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: CodableFeedStore) -> Error? {
+    private func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: FeedStore) -> Error? {
         // Given
         let exp = expectation(description: "Wait for cache insertion")
         var insertionError: Error?
@@ -365,7 +376,7 @@ extension CodableFeedStoreTests {
     }
     
     
-    private func deleteCache(_ sut: CodableFeedStore) -> Error? {
+    private func deleteCache(_ sut: FeedStore) -> Error? {
         let exp = expectation(description: "Wait for cache to delete")
         var expectedError: Error?
         
@@ -378,7 +389,7 @@ extension CodableFeedStoreTests {
         return expectedError
     }
     
-    private func expect(_ sut: CodableFeedStore, toRetrieve expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: FeedStore, toRetrieve expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "Wait for cache retrival")
         
         sut.retrieve { retrieveResult in
@@ -402,7 +413,7 @@ extension CodableFeedStoreTests {
         
     }
     
-    private func expect(_ sut: CodableFeedStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
+    private func expect(_ sut: FeedStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
         expect(sut, toRetrieve: expectedResult, file: file, line: line)
         expect(sut, toRetrieve: expectedResult, file: file, line: line)
     }
@@ -422,6 +433,10 @@ extension CodableFeedStoreTests {
     private func testsSpecificStoreUrl() -> URL {
         let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store") // CodableFeedStoreTests
         return url
+    }
+    
+    private func cachesDirectory() -> URL {
+        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
     }
     /*
      if sharing a url with other parts of the system it may have fragile tests, because they can be effected by un-related tests.
