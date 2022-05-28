@@ -52,10 +52,9 @@ import EssentialFeed
  
  because this is volating Command-Query principle.
  we are fetcing and validating at same place.
- 
 
- 
  */
+
 class LocalFeedFromCacheUseCaseTest: XCTestCase {
     
     func test_init_doesNotMessageStoreUponCreation() {

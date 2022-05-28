@@ -225,10 +225,10 @@
 		F58E6C9727C22DA300BAD35D /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
-				F58E6C9827C22DE000BAD35D /* LocalFeedLoader.swift */,
 				F58E6C9A27C22DFF00BAD35D /* FeedStore.swift */,
 				F58E6C9E27C25B8800BAD35D /* LocalFeedImage.swift */,
 				F5D596FE283B666E00F45F83 /* FeedCachePolicy.swift */,
+				F58E6C9827C22DE000BAD35D /* LocalFeedLoader.swift */,
 				F5B87D11284073AE00D86464 /* CodableFeedStore.swift */,
 			);
 			path = "Feed Cache";

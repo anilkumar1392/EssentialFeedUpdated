@@ -24,8 +24,54 @@ import Foundation
  You dictate your architecture not the framework will dictate your architecture.
  You plugin the framework to solve infraStructure details.
  
- /// Searating Application specific logic from concrete framework details. (like coredata, realm)
+ /// Separating Application specific logic from concrete framework details. (like coredata, realm)
  So feedStore protocol protects our controller from depending on concrete store implemenation like (Coradata, realm, file system)
+ */
+
+/*
+ we are writing test case to load data from cache
+ 
+ 1. So first case is over creati̧on it should not call store
+ 2. when we load we want a cache retrival from the store
+ 
+ when we request a cache retrival couple fo things can happen
+ 1. it can fail
+ 2. We can get expired cache
+ 3. we can get empty cahce
+ 
+ 1. Devliers images when cache is less than seven days old
+ 2. Delviers no images on seven days old cache
+ 
+ 1. Delete cache on retrival error
+ 2. Should not delete the cache on empty cache
+ 
+ ###Load Feed From Cache Use Case
+
+ #### Primary course:
+ 1. Execute "Load Image Feed" command with above data.
+ 2. System fetchesretrieves feed data from cache.
+ 3. System validates cache is less than seven days old.
+ 4. System creates image feed from cached data.
+ 5. System delivers image feed.
+
+ #### Retrieval Error course (sad path):
+ 1. System deletes cache.
+ 2. System delivers error.
+
+ #### Expired cache course (sad path):
+ 1. System deletes cache.
+ 2. System delivers no feed images.
+
+ #### Empty cache course (sad path):
+ 1. System delivers no feed images.
+ 
+ Command–Query Separation Principle:  So seperate quering from command with side effects
+ 
+ Seperating loading from validating:
+ 
+ because this is volating Command-Query principle.
+ we are fetcing and validating at same place.
+
  */
 
 public final class LocalFeedLoader {
