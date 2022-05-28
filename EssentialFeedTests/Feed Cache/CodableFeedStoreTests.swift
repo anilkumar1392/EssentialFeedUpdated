@@ -57,6 +57,12 @@ import EssentialFeed
  To rectify this we can have a local implementation of LocalFeedModel
  */
 
+
+/*
+ Designing and Testing Thread-safe Components with DispatchQueue, Serial vs. Concurrent Queues, Thread-safe Value Types, and Avoiding Race Conditions
+ their are no direct dependency on Concrete infrastructure implementations
+ */
+
 class CodableFeedStoreTests: XCTestCase {
     
     override func setUp() {
@@ -268,6 +274,7 @@ class CodableFeedStoreTests: XCTestCase {
         XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
     }
     
+    // Thread test make sure thread run serially.
     func test_storeSideEffects_runSerially() {
         let sut = makeSUT()
         var completeOperationsInOrder = [XCTestExpectation]()
