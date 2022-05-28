@@ -343,62 +343,6 @@ extension CodableFeedStoreTests {
         return sut
     }
     
-    @discardableResult
-    private func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: FeedStore) -> Error? {
-        // Given
-        let exp = expectation(description: "Wait for cache insertion")
-        var insertionError: Error?
-        
-        // When
-        sut.insert(cache.feed, timestamp: cache.timestamp) { receivedInsertionError in
-            insertionError = receivedInsertionError
-            // XCTAssertNil(insertionError, "Expected feed to be inserted successfully")
-            exp.fulfill()
-        }
-        
-        // Expect
-        wait(for: [exp], timeout: 1.0)
-        return insertionError
-    }
-    
-    
-    private func deleteCache(_ sut: FeedStore) -> Error? {
-        let exp = expectation(description: "Wait for cache to delete")
-        var expectedError: Error?
-        
-        sut.deleteCachedFeed { receviedError in
-            expectedError = receviedError
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 10.0)
-        return expectedError
-    }
-    
-    private func expect(_ sut: FeedStore, toRetrieve expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
-        let exp = expectation(description: "Wait for cache retrival")
-        
-        sut.retrieve { retrieveResult in
-            switch (retrieveResult, expectedResult)  {
-            case let (.found(retrieveResult), .found(expectedResult)):
-                XCTAssertEqual(retrieveResult.feed, expectedResult.feed, file: file, line: line)
-                XCTAssertEqual(retrieveResult.timestamp, expectedResult.timestamp, file: file, line: line)
-                
-            case (.empty, .empty),
-                (.failure, .failure):
-                break
-
-            default:
-                XCTFail("Expecetd to retrieve \(expectedResult), got \(retrieveResult) Instead.")
-            }
-            
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 4.0)
-        
-    }
-    
     private func expect(_ sut: FeedStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
         expect(sut, toRetrieve: expectedResult, file: file, line: line)
         expect(sut, toRetrieve: expectedResult, file: file, line: line)
