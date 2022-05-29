@@ -110,24 +110,18 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
 
 // MARK: - Helper methods
 
+/*
+ "dev/null" is a technique to direct the CoreData  ouptput to the null device.
+ 'null' device discards all the data that written to it, but reports that the writ eoperation succeeded.
+ */
+
 extension CoreDataFeedStoreTests {
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> FeedStore {
-        let sut = CoreDataFeedStore()
+        let storeBundle = Bundle(for: CoreDataFeedStore.self)
+        let storeURL = URL(fileURLWithPath: "dev/null")
+        let sut = try! CoreDataFeedStore(storeURL: storeURL, bundle: storeBundle)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
 }
 
-class CoreDataFeedStore: FeedStore {
-    func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        
-    }
-    
-    func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
-        
-    }
-    
-    func retrieve(completion: @escaping RetrivalCompletion) {
-        completion(.empty)
-    }
-}
