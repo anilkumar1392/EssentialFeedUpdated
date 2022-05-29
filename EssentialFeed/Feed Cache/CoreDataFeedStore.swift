@@ -26,19 +26,47 @@ public final class CoreDataFeedStore: FeedStore {
     private let context: NSManagedObjectContext
 
     init(storeURL: URL, bundle: Bundle = .main) throws {
-        container = try NSPersistentContainer.load(modelName: "FeedStore", url: storeURL, in: bundle)
+        container = try NSPersistentContainer.load(modelName: "FeedStore", in: bundle)
         context = container.newBackgroundContext()
     }
     
-    func deleteCachedFeed(completion: @escaping DeletionCompletion) {
+    public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         
     }
     
-    func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
+    public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
         
     }
     
-    func retrieve(completion: @escaping RetrivalCompletion) {
+    public func retrieve(completion: @escaping RetrivalCompletion) {
         completion(.empty)
+    }
+}
+
+private extension NSPersistentContainer {
+    enum LoadingError: Swift.Error {
+        case modelNotFound
+        case failedToLoadPersistentStores(Swift.Error)
+    }
+
+    static func load(modelName name: String, in bundle: Bundle) throws -> NSPersistentContainer {
+        guard let model = NSManagedObjectModel.with(name: name, in: bundle) else {
+            throw LoadingError.modelNotFound
+        }
+        
+        let container = NSPersistentContainer(name: name, managedObjectModel: model)
+        var loadError: Swift.Error?
+        container.loadPersistentStores { loadError = $1 }
+        try loadError.map { throw LoadingError.failedToLoadPersistentStores($0) }
+        
+        return container
+    }
+}
+
+private extension NSManagedObjectModel {
+    static func with(name: String, in bundle: Bundle) -> NSManagedObjectModel? {
+        return bundle
+            .url(forResource: name, withExtension: "momd")
+            .flatMap { NSManagedObjectModel(contentsOf: $0) }
     }
 }
