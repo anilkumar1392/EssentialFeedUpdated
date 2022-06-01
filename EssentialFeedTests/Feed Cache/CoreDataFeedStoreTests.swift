@@ -11,6 +11,20 @@ import EssentialFeed
 
 class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
     
+    override func setUp() {
+        super.setUp()
+        // Get called every time after execution of each test.
+        
+        setupEmptyStoreState()
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        // Get called every time after execution of each test.
+        
+        undoStoreSideEffects()
+    }
+    
     func test_retrieve_deliversEmptyOnEmptyCache() {
         let sut = makeSUT()
         
@@ -72,9 +86,9 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
     }
     
     func test_delete_emptiesPreviouslyInsertedCache() {
-//        let sut = makeSUT()
-//
-//        assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
+        let sut = makeSUT()
+
+        assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
     }
     
    func test_storeSideEffects_runSerially() {
@@ -123,5 +137,18 @@ extension CoreDataFeedStoreTests {
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
+    
+    private func setupEmptyStoreState() {
+        removeStoreArtifacts()
+    }
+    
+    private func undoStoreSideEffects() {
+        removeStoreArtifacts()
+    }
+    
+    private func removeStoreArtifacts() {
+        
+    }
+
 }
 
