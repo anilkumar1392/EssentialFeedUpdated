@@ -68,8 +68,6 @@ typealias FailableFeedStore = FailableRetrieveFeedStoreSpecs & FailableInsertFee
 
 class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
 
-    
-    
     override func setUp() {
         super.setUp()
         // Get called every time after execution of each test.

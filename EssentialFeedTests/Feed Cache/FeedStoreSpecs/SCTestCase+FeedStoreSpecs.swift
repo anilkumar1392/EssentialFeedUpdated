@@ -140,7 +140,6 @@ extension FeedStoreSpecs where Self: XCTestCase {
         }
         
         wait(for: [exp], timeout: 4.0)
-        
     }
     
 }

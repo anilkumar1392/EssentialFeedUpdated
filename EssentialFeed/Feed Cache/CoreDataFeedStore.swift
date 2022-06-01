@@ -30,16 +30,46 @@ public final class CoreDataFeedStore: FeedStore {
         context = container.newBackgroundContext()
     }
     
-    public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        
-    }
-    
-    public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
-        
-    }
-    
     public func retrieve(completion: @escaping RetrivalCompletion) {
-        completion(.empty)
+        let context = self.context
+        context.perform {
+            do {
+                let request = NSFetchRequest<ManagedCache>(entityName: ManagedCache.entity().name!)
+                request.returnsObjectsAsFaults = false
+
+                if let cache = try context.fetch(request).last {
+                    completion(.found(feed: cache.localFeed, timestamp: cache.timestamp))
+
+                } else {
+                    completion(.empty)
+                }
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
+        let context = self.context
+        context.perform {
+            do {
+                let managedCache = ManagedCache(context: context)
+                managedCache.feed = ManagedFeedImage.images(from: feed, in: context)
+                managedCache.timestamp = timestamp
+
+                try context.save()
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
+    }
+    
+    public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
+        let context = self.context
+        context.perform {
+            
+        }
     }
 }
 
@@ -71,5 +101,39 @@ private extension NSManagedObjectModel {
         return bundle
             .url(forResource: name, withExtension: "momd")
             .flatMap { NSManagedObjectModel(contentsOf: $0) }
+    }
+}
+
+@objc(ManagedCache)
+private class ManagedCache: NSManagedObject {
+    @NSManaged var timestamp: Date
+    @NSManaged var feed: NSOrderedSet
+    
+    var localFeed: [LocalFeedImage] {
+        return feed.compactMap { ($0 as? ManagedFeedImage)?.local }
+    }
+}
+
+@objc(ManagedFeedImage)
+private class ManagedFeedImage: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var imageDescription: String?
+    @NSManaged var location: String?
+    @NSManaged var url: URL
+    @NSManaged var cache: ManagedCache
+    
+    static func images(from localFeed: [LocalFeedImage], in context: NSManagedObjectContext) -> NSOrderedSet {
+        return NSOrderedSet(array: localFeed.map { local in
+            let managed = ManagedFeedImage(context: context)
+            managed.id = local.id
+            managed.imageDescription = local.description
+            managed.location = local.location
+            managed.url = local.url
+            return managed
+        })
+    }
+    
+    var local: LocalFeedImage {
+        return LocalFeedImage(id: id, description: imageDescription, location: location, url: url)
     }
 }
