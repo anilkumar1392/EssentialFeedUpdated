@@ -134,8 +134,11 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         // test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues
         // Given
         let sut = makeSUT()
-
+        
         /*
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        
         let exp = expectation(description: "wait for exp for fullfill")
         
         // Insert
@@ -143,7 +146,6 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
             XCTAssertNil(insertionError, "Expected feed to be inserted successfully")
             exp.fulfill()
 
-            /*
             sut.retrieve { retrieveResult in
                 switch retrieveResult  {
                 case let .found(feed: retrieveFeed, timestamp: retrieveTimestamp):
@@ -155,7 +157,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
                 }
                 
                 exp.fulfill()
-            } */
+            }
         }
         wait(for: [exp], timeout: 1.0)
          */
@@ -168,6 +170,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
+        
         assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: sut)
         
 //        let feed = uniqueImageFeed().local
@@ -371,31 +374,8 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
     
     func test_storeSideEffects_runSerially() {
         let sut = makeSUT()
-        var completeOperationsInOrder = [XCTestExpectation]()
-
-        let feed = uniqueImageFeed().local
-        let date = Date()
         
-        let exp1 = expectation(description: "wait for insertion to complete")
-        sut.insert(feed, timestamp: date) { _ in
-            completeOperationsInOrder.append(exp1)
-            exp1.fulfill()
-        }
-        
-        let exp2 = expectation(description: "wait for deletion to complete")
-        sut.deleteCachedFeed { _ in
-            completeOperationsInOrder.append(exp2)
-            exp2.fulfill()
-        }
-        
-        let exp3 = expectation(description: "wait for insertion to complete")
-        sut.insert(feed, timestamp: date) { _ in
-            completeOperationsInOrder.append(exp3)
-            exp3.fulfill()
-        }
-        
-        waitForExpectations(timeout: 5.0)
-        XCTAssertEqual(completeOperationsInOrder, [exp1, exp2, exp3], "Expected order to finish inorder")
+        assertThatSideEffectsRunSerially(on: sut)
     }
 }
 
@@ -410,11 +390,6 @@ extension CodableFeedStoreTests {
         // Next is track memory leak
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
-    }
-    
-    private func expect(_ sut: FeedStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
-        expect(sut, toRetrieve: expectedResult, file: file, line: line)
-        expect(sut, toRetrieve: expectedResult, file: file, line: line)
     }
     
     private func setupEmptyStoreState() {
