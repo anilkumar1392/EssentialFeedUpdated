@@ -29,15 +29,21 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         let sutToPerformLoad = makeSUT()
         let feed = uniqueImageFeed().models
         
-        let saveExp = expectation(description: "wait for save operation to complete")
-        sutToPerforSave.save(feed) { saveError in
-            XCTAssertNil(saveError, "Expected to save feed successfully")
-            saveExp.fulfill()
-        }
-        
-        wait(for: [saveExp], timeout: 1.0)
-        
+        saveFeed(feed, sutToPerforSave)
         expect(sutToPerformLoad, toLoad: feed)
+    }
+    
+    func test_save_overridesItemSaveOnASeparateInstance() {
+        let sutToPerformFirstSave = makeSUT()
+        let sutToPerformLastSave = makeSUT()
+        let sutToPerformLoad = makeSUT()
+        let firstFeed = uniqueImageFeed().models
+        let latestFeed = uniqueImageFeed().models
+        
+        saveFeed(firstFeed, sutToPerformFirstSave)
+        saveFeed(latestFeed, sutToPerformLastSave)
+        expect(sutToPerformLoad, toLoad: latestFeed)
+        
     }
     
     // MARK: - Helpers
@@ -50,6 +56,16 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         trackForMemoryLeaks(store)
         trackForMemoryLeaks(sut)
         return sut
+    }
+    
+    private func saveFeed(_ feed: [FeedImage], _ sut: LocalFeedLoader, file: StaticString = #file, line: UInt = #line) {
+        let exp = expectation(description: "Wait for first save to complete")
+        sut.save(feed) { saveError in
+            XCTAssertNil(saveError, "Expected first to save successfully")
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func expect(_ sut: LocalFeedLoader, toLoad expectedFeed: [FeedImage], file: StaticString = #file, line: UInt = #line) {
