@@ -12,8 +12,8 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
 
     func test_load_deliversNoDateOnEmptyCache() {
         let sut = makeSUT()
-        
         let exp = expectation(description: "Wait for load completion")
+        
         sut.load { result in
             switch result {
             case let .success(feeds):
@@ -37,7 +37,6 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         let sut = LocalFeedLoader(store: store, currentDate: Date.init)
         trackForMemoryLeaks(store)
         trackForMemoryLeaks(sut)
-
         return sut
     }
     
