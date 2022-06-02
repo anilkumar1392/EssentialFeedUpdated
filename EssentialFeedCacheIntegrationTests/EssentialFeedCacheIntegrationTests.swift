@@ -6,34 +6,46 @@
 //
 
 import XCTest
-
-/*
- Goal is to create all the cache module objetcs and see the behaviour in collobaration.
- */
+import EssentialFeed
 
 class EssentialFeedCacheIntegrationTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+    func test_load_deliversNoDateOnEmptyCache() {
+        let sut = makeSUT()
+        
+        let exp = expectation(description: "Wait for load completion")
+        sut.load { result in
+            switch result {
+            case let .success(feeds):
+                XCTAssertEqual(feeds, [], "Expected empty feeds")
+                
+            case let .failure(error):
+                XCTFail("Expected successfull feed result, got \(error) instead")
+            }
+            exp.fulfill()
         }
+        
+        wait(for: [exp], timeout: 1)
     }
+    
+    // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> LocalFeedLoader {
+        let bundle = Bundle(for: CoreDataFeedStore.self)
+        let url = testSpecificStoreURL()
+        let store = try! CoreDataFeedStore(storeURL: url, bundle: bundle)
+        let sut = LocalFeedLoader(store: store, currentDate: Date.init)
+        trackForMemoryLeaks(store)
+        trackForMemoryLeaks(sut)
 
+        return sut
+    }
+    
+    private func testSpecificStoreURL() -> URL {
+        return cacheDirectory().appendingPathComponent("\(type(of: self)).store")
+    }
+    
+    private func cacheDirectory() -> URL {
+        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    }
 }
