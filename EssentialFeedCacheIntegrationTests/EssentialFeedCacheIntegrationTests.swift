@@ -5,8 +5,27 @@
 //  Created by 13401027 on 02/06/22.
 //
 
-import XCTest
+import XCTest 
 import EssentialFeed
+
+/*
+ So if you test edge cases in unit test In integration you can only test happy path.
+ We need to test only happy path as we have already written test for sad path in Unit tests.
+ With number of items in collobation the number of test cases will grow exponentially.
+ In Integration test we can not mock
+ We can not force an error at integration level but We can mock an error on unit level.
+ 
+ On Integration level we are using real components.
+ 
+ As integraiton test are very slow and if we move all possiblel cases to integration test, tests become unmaintainable number of test and very slow test times.
+ 
+ We need both unit and Integration test.
+ But huge majority should be unit test.
+ 
+ Test all the edge cases in unit test.
+ Then integrate all the componenet and see all how they behave together.
+ 
+ */
 
 class EssentialFeedCacheIntegrationTests: XCTestCase {
 
