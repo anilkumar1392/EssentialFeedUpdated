@@ -10,17 +10,25 @@ import EssentialFeed
 
 class EssentialFeedCacheIntegrationTests: XCTestCase {
 
+    override func setUp() {
+        setupEmptyStoreState()
+    }
+    
+    override func tearDown() {
+        undoStoreSideEffects()
+    }
+    
     func test_load_deliversNoDateOnEmptyCache() {
         let sut = makeSUT()
-        let exp = expectation(description: "Wait for load completion")
         
+        let exp = expectation(description: "Wait for load completion")
         sut.load { result in
             switch result {
             case let .success(feeds):
                 XCTAssertEqual(feeds, [], "Expected empty feeds")
                 
             case let .failure(error):
-                XCTFail("Expected successfull feed result, got \(error) instead")
+                 XCTFail("Expected successfull feed result, got \(error) instead")
             }
             exp.fulfill()
         }
@@ -46,5 +54,17 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
     
     private func cacheDirectory() -> URL {
         return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+    }
+    
+    private func setupEmptyStoreState() {
+        deleteStoreArtifacts()
+    }
+    
+    private func undoStoreSideEffects() {
+        deleteStoreArtifacts()
+    }
+    
+    private func deleteStoreArtifacts() {
+        try? FileManager.default.removeItem(at: testSpecificStoreURL())
     }
 }
