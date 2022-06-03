@@ -268,13 +268,13 @@ class RemoteFeedLoaderTests: XCTestCase {
         //var requestedURLs = [URL]()
         //var error: Error?
         //var completions = [(Error) -> Void]()
-        private var messges = [(url: URL, completion: (HTTPClientResult) -> Void)]()
+        private var messges = [(url: URL, completion: (HTTPClient.Result) -> Void)]()
         
         var requestedURLs: [URL] {
             return messges.map {$0.url}
         }
         
-        func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
+        func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) {
             /*
             if let error = error {
                 completion(error)
@@ -298,7 +298,7 @@ class RemoteFeedLoaderTests: XCTestCase {
                 httpVersion: nil,
                 headerFields: nil
             )!
-            messges[index].completion(.success(data,response))
+            messges[index].completion(.success((data,response)))
         }
     }
 }
