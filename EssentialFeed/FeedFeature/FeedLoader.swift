@@ -22,10 +22,12 @@ public protocol FeedLoader {
 }
 */
 
-public enum LoadFeedResult {
-    case success([FeedImage])
-    case failure(Error)
-}
+//public enum LoadFeedResult {
+//    case success([FeedImage])
+//    case failure(Error)
+//}
+
+public typealias LoadFeedResult = Result<[FeedImage], Error>
 
 // extension LoadFeedResult: Equatable where Error: Equatable {}
 
