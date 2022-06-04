@@ -32,20 +32,26 @@ public final class CoreDataFeedStore: FeedStore {
 
     public func retrieve(completion: @escaping RetrivalCompletion) {
         perform { context in
-            do {
-                if let cache = try ManagedCache.find(in: context) {
-                    completion(.success(.some(CacheFeed(feed: cache.localFeed, timestamp: cache.timestamp))))
-                } else {
-                    completion(.success(.none))
-                }
-            } catch {
-                completion(.failure(error))
-            }
+            completion(Result {
+                try ManagedCache.find(in: context).map({
+                    return CacheFeed(feed: $0.localFeed, timestamp: $0.timestamp)
+                })
+            })
         }
     }
     
     public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
         perform { context in
+            
+            completion(Result {
+                let managedCache = try ManagedCache.newUniqueInstance(in: context)
+                managedCache.timestamp = timestamp
+                managedCache.feed = ManagedFeedImage.images(from: feed, in: context)
+                try context.save()
+            })
+            
+            /*
+            
             do {
                 let managedCache = try ManagedCache.newUniqueInstance(in: context)
                 managedCache.timestamp = timestamp
@@ -55,18 +61,24 @@ public final class CoreDataFeedStore: FeedStore {
                 completion(.success(()))
             } catch {
                 completion(.failure(error))
-            }
+            } */
         }
     }
 
     public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         perform { context in
+            
+            completion(Result {
+                try ManagedCache.find(in: context).map(context.delete).map(context.save)
+             })
+            
+            /*
             do {
                 try ManagedCache.find(in: context).map(context.delete).map(context.save)
                 completion(.success(()))
             } catch {
                 completion(.failure(error))
-            }
+            }*/
         }
     }
 
