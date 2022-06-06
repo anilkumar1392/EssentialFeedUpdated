@@ -23,7 +23,7 @@ import Foundation
  
  /*
   By using Singleton I know how to locate the instance I'm using and I dont need to konw.
-  So by using Dependency Injection we can remove this responsibilty and we ahve more control.
+  So by using Dependency Injection we can remove this responsibilty and we have more control.
   */
  
 */
