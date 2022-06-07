@@ -10,6 +10,14 @@ import XCTest
 import UIKit
 import EssentialFeed
 
+/*
+ When their is temporla coupling involved it is benfiricaery to merge similar tests.
+ 
+ Like sequence to view Life cycle methods.
+ 
+ But still separate them in logical unit.
+ Like for refresh control tests are in on function.
+ */
 class FeedViewController: UITableViewController {
     private var loader: FeedLoader?
     
@@ -22,11 +30,11 @@ class FeedViewController: UITableViewController {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        refreshControl?.beginRefreshing()
         load()
     }
     
     @objc func load() {
+        refreshControl?.beginRefreshing()
         loader?.load { [weak self] _ in
             guard let self = self else { return }
             self.refreshControl?.endRefreshing()
@@ -44,61 +52,37 @@ class FeeedViewControllerTests: XCTestCase {
     }
     
     // Load feed automatically when the view is presented
-    func test_viewDidLoad_loadsFeed() {
-        let (sut, loader) = makeSUT()
-
-        sut.loadViewIfNeeded()
-        
-        XCTAssertEqual(loader.loadCallCount, 1)
-    }
-    
     // Allow customers to manually reload feed (Pull to refresh)
-    func test_unerInitiatedFeedReload_loadsFeed() {
-        let (sut, loader) = makeSUT()
-        sut.loadViewIfNeeded()
 
+    func test_loadFeedAction_requestsFeedFromLoader() { // test_viewDidLoad_loadsFeed
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(loader.loadCallCount, 1)
+        
         sut.simulateUserInitiatedFeedReload()
         XCTAssertEqual(loader.loadCallCount, 2)
 
         sut.simulateUserInitiatedFeedReload()
         XCTAssertEqual(loader.loadCallCount, 3)
     }
-    
+
     // Show loading indicator while loading feed
     func test_viewDidLoad_showLoadingInidcator() {
-        let (sut, _) = makeSUT()
-        
-        sut.loadViewIfNeeded()
-        
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
-    }
-    
-    func test_viewDidLoad_hidesTheRefreshControlOnLoaderCompletion() {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
-        loader.completeFeedLoading()
+        XCTAssertEqual(sut.isShowingLoadingIndicator, true)
         
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
-    }
-    
-    func test_unerInitiatedFeedReload_showsLoadingIndicator() {
-        let (sut, _) = makeSUT()
-        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(at: 0)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, false)
         
         sut.simulateUserInitiatedFeedReload()
+        // XCTAssertEqual(sut.isShowingLoadingIndicator, true)
+        XCTAssertTrue(sut.isShowingLoadingIndicator)
         
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
-    }
-    
-    func test_unerInitiatedFeedReload_hidesLoadingIndicatorOnLoaderCompletion() {
-        let (sut, loader) = makeSUT()
-        sut.loadViewIfNeeded()
-        
-        sut.simulateUserInitiatedFeedReload()
-        loader.completeFeedLoading()
-        
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        loader.completeFeedLoading(at: 1)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, false)
     }
     
     // MARK: - Helper methods
@@ -122,8 +106,8 @@ class FeeedViewControllerTests: XCTestCase {
             messages.append(completion)
         }
         
-        func completeFeedLoading() {
-            messages[0](.success([]))
+        func completeFeedLoading(at index: Int) {
+            messages[index](.success([]))
         }
     }
 }
@@ -142,5 +126,9 @@ extension UIRefreshControl {
 extension FeedViewController {
     func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
+    }
+    
+    var isShowingLoadingIndicator: Bool {
+        return refreshControl?.isRefreshing ?? false
     }
 }
