@@ -20,8 +20,6 @@
 		F556FF292723EC6900D62F39 /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F556FF282723EC6900D62F39 /* RemoteFeedLoader.swift */; };
 		F570DB6B284D8B8C000ADC03 /* EssentialFeediOS.docc in Sources */ = {isa = PBXBuildFile; fileRef = F570DB6A284D8B8C000ADC03 /* EssentialFeediOS.docc */; };
 		F570DB71284D8B8C000ADC03 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F570DB67284D8B8C000ADC03 /* EssentialFeediOS.framework */; };
-		F570DB76284D8B8C000ADC03 /* EssentialFeediOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F570DB75284D8B8C000ADC03 /* EssentialFeediOSTests.swift */; };
-		F570DB77284D8B8C000ADC03 /* EssentialFeediOS.h in Headers */ = {isa = PBXBuildFile; fileRef = F570DB69284D8B8C000ADC03 /* EssentialFeediOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F57B0AE52712DB440062F01B /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F57B0ADB2712DB440062F01B /* EssentialFeed.framework */; };
 		F57B0AEC2712DB440062F01B /* EssentialFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = F57B0ADE2712DB440062F01B /* EssentialFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F57B0AF72712DB730062F01B /* FeedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57B0AF62712DB730062F01B /* FeedImage.swift */; };
@@ -119,10 +117,8 @@
 		F50FAB4827DE59B900A125FA /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F556FF282723EC6900D62F39 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		F570DB67284D8B8C000ADC03 /* EssentialFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F570DB69284D8B8C000ADC03 /* EssentialFeediOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EssentialFeediOS.h; sourceTree = "<group>"; };
 		F570DB6A284D8B8C000ADC03 /* EssentialFeediOS.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = EssentialFeediOS.docc; sourceTree = "<group>"; };
 		F570DB70284D8B8C000ADC03 /* EssentialFeediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F570DB75284D8B8C000ADC03 /* EssentialFeediOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialFeediOSTests.swift; sourceTree = "<group>"; };
 		F57B0ADB2712DB440062F01B /* EssentialFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F57B0ADE2712DB440062F01B /* EssentialFeed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EssentialFeed.h; sourceTree = "<group>"; };
 		F57B0ADF2712DB440062F01B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -258,7 +254,6 @@
 		F570DB68284D8B8C000ADC03 /* EssentialFeediOS */ = {
 			isa = PBXGroup;
 			children = (
-				F570DB69284D8B8C000ADC03 /* EssentialFeediOS.h */,
 				F570DB6A284D8B8C000ADC03 /* EssentialFeediOS.docc */,
 			);
 			path = EssentialFeediOS;
@@ -267,7 +262,6 @@
 		F570DB74284D8B8C000ADC03 /* EssentialFeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				F570DB75284D8B8C000ADC03 /* EssentialFeediOSTests.swift */,
 			);
 			path = EssentialFeediOSTests;
 			sourceTree = "<group>";
@@ -469,7 +463,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F570DB77284D8B8C000ADC03 /* EssentialFeediOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -741,7 +734,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F570DB76284D8B8C000ADC03 /* EssentialFeediOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
