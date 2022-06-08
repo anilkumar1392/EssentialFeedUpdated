@@ -8,6 +8,7 @@
 import XCTest
 import UIKit
 import EssentialFeed
+import EssentialFeediOS
 
 /*
  When their is temporla coupling involved it is benfiricaery to merge similar tests.
@@ -17,29 +18,7 @@ import EssentialFeed
  But still separate them in logical unit.
  Like for refresh control tests are in on function.
  */
-class FeedViewController: UITableViewController {
-    private var loader: FeedLoader?
-    
-    convenience init(loader: FeedLoader) {
-        self.init()
-        self.loader = loader
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        load()
-    }
-    
-    @objc func load() {
-        refreshControl?.beginRefreshing()
-        loader?.load { [weak self] _ in
-            guard let self = self else { return }
-            self.refreshControl?.endRefreshing()
-        }
-    }
-}
+
 
 class FeeedViewControllerTests: XCTestCase {
     
