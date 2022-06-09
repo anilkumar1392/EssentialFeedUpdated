@@ -78,6 +78,8 @@
 		F5E2C13A28502DDA00AAA28F /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F57B0ADB2712DB440062F01B /* EssentialFeed.framework */; };
 		F5E2C13B28502DDA00AAA28F /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F57B0ADB2712DB440062F01B /* EssentialFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F5E2C1402850318100AAA28F /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E2C13F2850318100AAA28F /* FeedViewController.swift */; };
+		F5E2C1432850329C00AAA28F /* Screenshot 2022-06-08 at 6.56.57 AM.png in Resources */ = {isa = PBXBuildFile; fileRef = F5E2C1422850329C00AAA28F /* Screenshot 2022-06-08 at 6.56.57 AM.png */; };
+		F5E2C14528503CE400AAA28F /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E2C14428503CE400AAA28F /* FeedImageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -201,6 +203,8 @@
 		F5E2C12B28502C7700AAA28F /* EssentialFeediOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeediOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5E2C13028502C7700AAA28F /* EssentialFeediOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialFeediOSTests.swift; sourceTree = "<group>"; };
 		F5E2C13F2850318100AAA28F /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		F5E2C1422850329C00AAA28F /* Screenshot 2022-06-08 at 6.56.57 AM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2022-06-08 at 6.56.57 AM.png"; sourceTree = "<group>"; };
+		F5E2C14428503CE400AAA28F /* FeedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,6 +314,7 @@
 		F57B0ADD2712DB440062F01B /* EssentialFeed */ = {
 			isa = PBXGroup;
 			children = (
+				F5E2C1412850327000AAA28F /* FeediOSUIModule ref material */,
 				F5D9FEA52838CE9E0067F7B8 /* Images */,
 				F57B0ADE2712DB440062F01B /* EssentialFeed.h */,
 				F5935C35279C114700CC34CA /* feed-case-study-test-api-feed.json */,
@@ -483,6 +488,7 @@
 			children = (
 				F5E2C12628502C7700AAA28F /* EssentialFeediOS.h */,
 				F5E2C13F2850318100AAA28F /* FeedViewController.swift */,
+				F5E2C14428503CE400AAA28F /* FeedImageCell.swift */,
 			);
 			path = EssentialFeediOS;
 			sourceTree = "<group>";
@@ -493,6 +499,14 @@
 				F5E2C13028502C7700AAA28F /* EssentialFeediOSTests.swift */,
 			);
 			path = EssentialFeediOSTests;
+			sourceTree = "<group>";
+		};
+		F5E2C1412850327000AAA28F /* FeediOSUIModule ref material */ = {
+			isa = PBXGroup;
+			children = (
+				F5E2C1422850329C00AAA28F /* Screenshot 2022-06-08 at 6.56.57 AM.png */,
+			);
+			path = "FeediOSUIModule ref material";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -696,6 +710,7 @@
 				F5D59707283B7DE300F45F83 /* Entities vs. Value Objects.png in Resources */,
 				F5D6DEA1283D303D00BC62F3 /* DependencyInversion1.png in Resources */,
 				F5D3CD0A283DD230001CFA77 /* cache-module-without-sep.png in Resources */,
+				F5E2C1432850329C00AAA28F /* Screenshot 2022-06-08 at 6.56.57 AM.png in Resources */,
 				F5D2E2F5283A17C90021BAD2 /* README.md in Resources */,
 				F5D59703283B7C5300F45F83 /* Application-specific.png in Resources */,
 				F5935C36279C114700CC34CA /* feed-case-study-test-api-feed.json in Resources */,
@@ -841,6 +856,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5E2C1402850318100AAA28F /* FeedViewController.swift in Sources */,
+				F5E2C14528503CE400AAA28F /* FeedImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
