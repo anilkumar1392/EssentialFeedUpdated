@@ -9,29 +9,55 @@ import Foundation
 import EssentialFeed
 import UIKit
 
+/*
+ 
+ Clean code and separate responsibility are must but not enough.
+ We mist manage dependancy smartly.
+ we need to move the depandency creation and injection to a separate component.
+ 
+ 
+  
+ */
+
 final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-    private var imageLoader: FeedImageDataLoader?
+    // private var imageLoader: FeedImageDataLoader?
     
     private var refreshController: FeedRefreshViewContoller?
-    private var tableModel = [FeedImage]() {
+//    private var tableModel = [FeedImage]() {
+//        didSet {
+//            self.tableView.reloadData()
+//        }
+//    }
+    // private var cellControllers = [IndexPath: FeedImageCellController]()
+    
+    var tableModel = [FeedImageCellController]() {
         didSet {
             self.tableView.reloadData()
         }
     }
-    private var cellControllers = [IndexPath: FeedImageCellController]()
-
+    
+    /*
     public convenience init(loader: FeedLoader, imageLoader: FeedImageDataLoader?) {
         self.init()
+        // FeedRefreshViewContoller needs loader we can direclty inject FeedRefreshViewContoller instead of creating it.
         self.refreshController = FeedRefreshViewContoller(feedLoader: loader)
-        self.imageLoader = imageLoader
+        // self.imageLoader = imageLoader
+        refreshController?.onRefresh = { [weak self] feed in
+            self?.tableModel = feed.map({ feed in
+                FeedImageCellController(model: feed, imageLoader: imageLoader!)
+            })
+        }
+    } */
+    
+    public convenience init(refreshController: FeedRefreshViewContoller) {
+        self.init()
+        self.refreshController = refreshController
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl = refreshController?.view
-        refreshController?.onRefresh = { [weak self] feed in
-            self?.tableModel = feed
-        }
+
         tableView.prefetchDataSource = self
         refreshController?.refresh()
     }
@@ -48,7 +74,9 @@ extension FeedViewController {
     }
     
     override public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        removeCellController(forRowAt: indexPath)
+        canCancelCellControllerLoad(forRowAt: indexPath)
+        
+        // removeCellController(forRowAt: indexPath)
  
         /*
          /// responsibility is moved to cell controller
@@ -75,18 +103,26 @@ extension FeedViewController {
     }
     
     public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach(removeCellController)
+        indexPaths.forEach(canCancelCellControllerLoad)
     }
     
     private func cellController(forRowAt indexPath: IndexPath) -> FeedImageCellController {
+        // FeedImageCellController need imageLaoder viewController needs loader, we care creatig it instead we can inject FeedRefreshViewContoller instead of creating it.
+
+        /*
         let cellModel = tableModel[indexPath.row]
         let cellController = FeedImageCellController(model: cellModel, imageLoader: imageLoader!)
         cellControllers[indexPath] = cellController
-        return cellController
+        return cellController */
+        
+        return tableModel[indexPath.row]
     }
     
-    private func removeCellController(forRowAt indexPath: IndexPath) {
-        cellControllers[indexPath] = nil
+    private func canCancelCellControllerLoad(forRowAt indexPath: IndexPath) {
+        
+        cellController(forRowAt: indexPath).cancelLoad()
+        
+        // cellControllers[indexPath] = nil
         
         /*
         tasks[indexPath]?.cancel()
