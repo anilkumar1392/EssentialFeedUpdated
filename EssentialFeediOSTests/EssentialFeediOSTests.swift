@@ -239,7 +239,30 @@ class FeeedViewControllerTests: XCTestCase {
         loader.completeImageLoading(with: invalidImageData, at: 0)
         
         XCTAssertEqual(view?.isShowingRetryAction, true, "Expected retry action once image oading completes with invalid image data")
+    }
+    
+    func test_feedImageViewRetryAction_retriesImageFeed() {
+        let image0 = makeItem(url: URL(string: "http://url-0.com")!)
+        let image1 = makeItem(url: URL(string: "http://url-1.com")!)
+        let (sut, loader) = makeSUT()
         
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [image0, image1])
+        
+        let view0 = sut.simulateFeedImageViewVisible(at: 0)
+        let view1 = sut.simulateFeedImageViewVisible(at: 1)
+        XCTAssertEqual(loader.loadedImageURLs, [image0.url, image1.url], "Expected two image url request for the tow visibke cells")
+        
+        loader.completeImageLoadingWithError(at: 0)
+        loader.completeImageLoadingWithError(at: 1)
+        XCTAssertEqual(loader.loadedImageURLs, [image0.url, image1.url], "Expected only two imageurl request bfor the retry action")
+        
+        view0?.simulateRetryAction()
+        XCTAssertEqual(loader.loadedImageURLs, [image0.url, image1.url, image0.url], "Expected three image url request for the tow visibke cells")
+
+        
+        view1?.simulateRetryAction()
+        XCTAssertEqual(loader.loadedImageURLs, [image0.url, image1.url, image0.url, image1.url], "Expected four image url request for the tow visibke cells")
     }
     
     // MARK: - Helper methods
@@ -341,17 +364,6 @@ class FeeedViewControllerTests: XCTestCase {
     }
 }
 
-extension UIRefreshControl {
-    func simulatePullToRefresh() {
-        self.allTargets.forEach({ target in
-            self.actions(forTarget: target, forControlEvent:
-                    .valueChanged)?.forEach({
-                        (target as NSObject).perform(Selector($0))
-                    })
-        })
-    }
-}
-
 extension FeedViewController {
     func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
@@ -414,6 +426,10 @@ extension FeedImageCell {
     var isShowingRetryAction: Bool {
         return !feedImageRetryButton.isHidden
     }
+    
+    func simulateRetryAction() {
+        feedImageRetryButton.simulateTap()
+    }
 }
 
 private extension UIImage {
@@ -426,5 +442,27 @@ private extension UIImage {
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return img!
+    }
+}
+
+
+extension UIRefreshControl {
+    func simulatePullToRefresh() {
+        self.allTargets.forEach({ target in
+            self.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach({
+                (target as NSObject).perform(Selector($0))
+            })
+        })
+    }
+}
+
+
+extension UIButton {
+    func simulateTap() {
+        self.allTargets.forEach({ target in
+            self.actions(forTarget: target, forControlEvent: .touchUpInside)?.forEach({
+                (target as NSObject).perform(Selector($0))
+            })
+        })
     }
 }
