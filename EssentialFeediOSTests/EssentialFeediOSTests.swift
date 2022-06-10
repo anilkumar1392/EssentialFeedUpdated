@@ -204,8 +204,8 @@ class FeeedViewControllerTests: XCTestCase {
         
     }
     
-    class LoaderSpy: FeedLoader, FeedImageDataLoader {
-        
+    class LoaderSpy: FeedLoader,  FeedImageDataLoader {
+
         // MARK: - FeedLoader
         var loadFeedCallCount: Int  {
             return feedRequests.count
@@ -231,13 +231,18 @@ class FeeedViewControllerTests: XCTestCase {
         private(set) var loadedImageURLs = [URL]()
         private(set) var cancelledImageURLs = [URL]()
 
-        
-        func loadImageData(from url: URL) {
-            loadedImageURLs.append(url)
+        private struct TaskSpy: FeedImageDataTaskLoader {
+            let cancelCallback: () -> Void
+            func cancel() {
+                cancelCallback()
+            }
         }
         
-        func cancelImageDataLoad(from url: URL) {
-            cancelledImageURLs.append(url)
+        func loadImageData(from url: URL) -> FeedImageDataTaskLoader {
+            loadedImageURLs.append(url)
+            return TaskSpy { [weak self] in
+                self?.cancelledImageURLs.append(url)
+            }
         }
     }
 }
