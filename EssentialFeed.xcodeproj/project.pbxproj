@@ -84,6 +84,7 @@
 		F5E72E7E285367A100CE3595 /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E72E7D285367A100CE3595 /* FeedImageCell.swift */; };
 		F5E72E80285367F200CE3595 /* FeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E72E7F285367F200CE3595 /* FeedImageDataLoader.swift */; };
 		F5E72E8228536F0700CE3595 /* FeedRefreshViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E72E8128536F0700CE3595 /* FeedRefreshViewContoller.swift */; };
+		F5E72E842853772600CE3595 /* FeedImageCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E72E832853772600CE3595 /* FeedImageCellController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,6 +214,7 @@
 		F5E72E7D285367A100CE3595 /* FeedImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedImageCell.swift; path = ../../../../../../.Trash/FeedImageCell.swift; sourceTree = "<group>"; };
 		F5E72E7F285367F200CE3595 /* FeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataLoader.swift; sourceTree = "<group>"; };
 		F5E72E8128536F0700CE3595 /* FeedRefreshViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedRefreshViewContoller.swift; sourceTree = "<group>"; };
+		F5E72E832853772600CE3595 /* FeedImageCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCellController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -539,6 +541,7 @@
 			isa = PBXGroup;
 			children = (
 				F5E2C13F2850318100AAA28F /* FeedViewController.swift */,
+				F5E72E832853772600CE3595 /* FeedImageCellController.swift */,
 				F5E72E8128536F0700CE3595 /* FeedRefreshViewContoller.swift */,
 			);
 			path = Controllers;
@@ -905,6 +908,7 @@
 				F5B1BD3E2852DE9800BF930F /* UIView+Shimmering.swift in Sources */,
 				F5E72E7E285367A100CE3595 /* FeedImageCell.swift in Sources */,
 				F5E2C1402850318100AAA28F /* FeedViewController.swift in Sources */,
+				F5E72E842853772600CE3595 /* FeedImageCellController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
