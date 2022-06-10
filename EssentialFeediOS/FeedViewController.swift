@@ -87,8 +87,9 @@ extension FeedViewController {
     }
     
     override public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        tasks[indexPath]?.cancel()
-        tasks[indexPath] = nil
+        cancelTask(forRowAt: indexPath)
+        // tasks[indexPath]?.cancel()
+        // tasks[indexPath] = nil
         /*
         let cellModel = tableModel[indexPath.row]
         imageLoader?.cancelImageDataLoad(from: cellModel.url) */
@@ -100,5 +101,14 @@ extension FeedViewController {
             _ = imageLoader?.loadImageData(from: cellModel.url, completion: { _ in
             })
         }
+    }
+    
+    public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        indexPaths.forEach(cancelTask)
+    }
+    
+    private func cancelTask(forRowAt indexPath: IndexPath) {
+        tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
     }
 }
