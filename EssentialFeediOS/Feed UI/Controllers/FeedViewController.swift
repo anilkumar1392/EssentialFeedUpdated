@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import EssentialFeed
+// import EssentialFeed
 import UIKit
 
 /*
@@ -22,7 +22,7 @@ import UIKit
 final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     // private var imageLoader: FeedImageDataLoader?
     
-    private var refreshController: FeedRefreshViewContoller?
+    private var refreshController: FeedRefreshViewController?
 //    private var tableModel = [FeedImage]() {
 //        didSet {
 //            self.tableView.reloadData()
@@ -49,7 +49,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         }
     } */
     
-    public convenience init(refreshController: FeedRefreshViewContoller) {
+    public convenience init(refreshController: FeedRefreshViewController) {
         self.init()
         self.refreshController = refreshController
     }

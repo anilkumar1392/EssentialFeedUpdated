@@ -17,7 +17,7 @@ import UIKit
  Two common ways of creating ViewModel statefull and stateless.
  */
 
-public class FeedRefreshViewContoller: NSObject {
+public class FeedRefreshViewController: NSObject {
     private(set) lazy var view = binded(UIRefreshControl())
     
     //    private let feedLoader: FeedLoader

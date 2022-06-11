@@ -305,7 +305,9 @@ class FeeedViewControllerTests: XCTestCase {
 
         // let sut = FeedViewController(loader: feedLoader, imageLoader: feedLoader)
         
-        let sut = FeedUIComsposer.viewComopsedWith(loader: feedLoader, imageLoader: feedLoader)
+        // let sut = FeedUIComsposer.viewComopsedWith(loader: feedLoader, imageLoader: feedLoader)
+        
+        let sut = FeedUIComposer.feedComposedWith(feedLoader: feedLoader, imageLoader: feedLoader)
 
         trackForMemoryLeaks(feedLoader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
@@ -314,7 +316,6 @@ class FeeedViewControllerTests: XCTestCase {
     
     private func makeItem(description: String? = nil, location: String? = nil, url: URL = URL(string: "https://any-url.com")!) -> FeedImage {
         return FeedImage(id: UUID(), description: description, location: location, url: url)
-        
     }
     
     private func assertThat(_ sut: FeedViewController, isRendering feed: [FeedImage], file: StaticString = #file, line: UInt = #line) {
@@ -323,7 +324,7 @@ class FeeedViewControllerTests: XCTestCase {
         }
         
         feed.enumerated().forEach { index, feed in
-            assertThat(sut, hasViewConfiguredFor: feed, at: index)
+            assertThat(sut, hasViewConfiguredFor: feed, at: index, file: file, line: line)
         }
     }
     
@@ -343,7 +344,7 @@ class FeeedViewControllerTests: XCTestCase {
         
     }
     
-    class LoaderSpy: FeedLoader,  FeedImageDataLoader {
+    class LoaderSpy: FeedLoader, FeedImageDataLoader {
 
         // MARK: - FeedLoader
         var loadFeedCallCount: Int  {
