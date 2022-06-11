@@ -5,34 +5,67 @@
 //  Created by 13401027 on 10/06/22.
 //
 
-import Foundation
-import EssentialFeed
+// import EssentialFeed
 import UIKit
 
+/*
+ Goal is to decouple FeedRefreshViewContoller from EssentialFeed core components
+ */
+
+
+/*
+ Two common ways of creating ViewModel statefull and stateless.
+ */
+
 public class FeedRefreshViewContoller: NSObject {
-    private(set) lazy var view: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        return refreshControl
-    }()
+    private(set) lazy var view = binded(UIRefreshControl())
     
-    private let feedLoader: FeedLoader
+    //    private let feedLoader: FeedLoader
+    //
+    //    init(feedLoader: FeedLoader) {
+    //        self.feedLoader = feedLoader
+    //    }
     
-    init(feedLoader: FeedLoader) {
-        self.feedLoader = feedLoader
+    private let viewModel: FeedViewModel
+    
+    init(viewModel: FeedViewModel) {
+        self.viewModel = viewModel 
     }
     
-    var onRefresh: (([FeedImage]) -> Void)?
+    // var onRefresh: (([FeedImage]) -> Void)?
+    
+    //    @objc func refresh() {
+    //        view.beginRefreshing()
+    //        feedLoader.load { [weak self] result in
+    //            guard let self = self else { return }
+    //
+    //            if let feed = try? result.get() {
+    //                self.onRefresh?(feed)
+    //            }
+    //            self.view.endRefreshing()
+    //        }
+    //    }
     
     @objc func refresh() {
-        view.beginRefreshing()
-        feedLoader.load { [weak self] result in
+
+        viewModel.loadFeed()
+    }
+    
+    private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
+        viewModel.onChange = { [weak self] viewModel in
             guard let self = self else { return }
             
-            if let feed = try? result.get() {
-                self.onRefresh?(feed)
+            if viewModel.isLoading {
+                self.view.beginRefreshing()
+            } else {
+                self.view.endRefreshing()
             }
-            self.view.endRefreshing()
+            
+//            if let feed = viewModel.feed {
+//                self.onRefresh?(feed)
+//            }
         }
+        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return view
     }
 }
