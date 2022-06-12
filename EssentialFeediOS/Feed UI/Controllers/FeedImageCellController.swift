@@ -22,25 +22,28 @@ public class FeedImageCellController {
     } */
     
     private let viewModel: FeedImageViewModel<UIImage>
+    private var cell: FeedImageCell?
     
     init(viewModel: FeedImageViewModel<UIImage>) {
         self.viewModel = viewModel
     }
     
-    func view() -> UITableViewCell {
-        let cell = binded(FeedImageCell())
+    func view(in tableView: UITableView) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FeedImageCell") as! FeedImageCell
+        self.cell = cell
+        self.cell = binded(self.cell)
         viewModel.loadImageData()
         return cell
     }
     
-    private func binded(_ cell: FeedImageCell) -> FeedImageCell {
-        cell.locationContainer.isHidden = !viewModel.hasLocation
-        cell.locationLabel.text = viewModel.location
-        cell.descriptionLabel.text = viewModel.description
-        cell.feedImageView.image = nil
-        cell.feedImageRetryButton.isHidden = true
-        cell.feedImageContainer.startShimmering()
-        cell.onRetry = viewModel.loadImageData
+    private func binded(_ cell: FeedImageCell?) -> FeedImageCell? {
+        cell?.locationContainer.isHidden = !viewModel.hasLocation
+        cell?.locationLabel.text = viewModel.location
+        cell?.descriptionLabel.text = viewModel.description
+        cell?.feedImageView.image = nil
+        cell?.feedImageRetryButton.isHidden = true
+        cell?.feedImageContainer.startShimmering()
+        cell?.onRetry = viewModel.loadImageData
         
         viewModel.onImageLoad = { [weak cell] image in
             cell?.feedImageView.image = image
