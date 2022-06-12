@@ -16,9 +16,15 @@ final class FeedViewModel {
     typealias Observer<T> = (T) -> Void
     
     private let feedLoader: FeedLoader
+    private let title: String
     
-    init(feedLoader: FeedLoader) {
+    init(feedLoader: FeedLoader, title: String) {
         self.feedLoader = feedLoader
+        self.title = title
+    }
+    
+    func getTitle() -> String {
+        return title
     }
     
     /*

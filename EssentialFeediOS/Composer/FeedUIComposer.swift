@@ -50,7 +50,7 @@ public final class FeedUIComposer {
     private init() {}
     
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
-        let feedViewModel = FeedViewModel(feedLoader: feedLoader)
+        let feedViewModel = FeedViewModel(feedLoader: feedLoader, title: "My Feed")
         // let refreshController = FeedRefreshViewController(viewModel: feedViewModel)
         
         // let feedController = FeedViewController(refreshController: refreshController)

@@ -60,7 +60,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
     public override func viewDidLoad() {
         super.viewDidLoad()
         // refreshControl = refreshController?.view
-        title = "My Feed"
+        title = refreshController?.viewModel?.getTitle()
         refreshController?.bindView()
         refreshController?.refresh()
     }
