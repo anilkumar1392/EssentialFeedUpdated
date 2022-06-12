@@ -14,8 +14,6 @@ import UIKit
  Clean code and separate responsibility are must but not enough.
  We mist manage dependancy smartly.
  we need to move the depandency creation and injection to a separate component.
- 
- 
   
  */
 
