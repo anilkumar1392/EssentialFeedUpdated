@@ -54,12 +54,11 @@ public final class FeedUIComposer {
         // let refreshController = FeedRefreshViewController(viewModel: feedViewModel)
         
         // let feedController = FeedViewController(refreshController: refreshController)
-        let bundle = Bundle(for: FeedViewController.self)
-        let storyBoard = UIStoryboard(name: "Feed", bundle: bundle)
+        // let bundle = Bundle(for: FeedViewController.self)
+        // let storyBoard = UIStoryboard(name: "Feed", bundle: bundle)
         // let feedController = storyBoard.instantiateInitialViewController() as! FeedViewController
         
-        let feedController = storyBoard.instantiateViewController(withIdentifier: "FeedViewController") as! FeedViewController
-
+        let feedController = FeedViewController.makeWith()
         
         let feedRefreshController = feedController.refreshController
         feedRefreshController?.viewModel = feedViewModel
@@ -75,5 +74,14 @@ public final class FeedUIComposer {
                     FeedImageViewModel(model: model, imageLoader: loader, imageTransformer: UIImage.init))
             }
         }
+    }
+}
+
+private extension FeedViewController {
+    static func makeWith() -> FeedViewController {
+        let bundle = Bundle(for: FeedViewController.self)
+        let storyBoard = UIStoryboard(name: "Feed", bundle: bundle)
+        let feedController = storyBoard.instantiateViewController(withIdentifier: "FeedViewController") as! FeedViewController
+        return feedController
     }
 }
