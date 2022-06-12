@@ -297,6 +297,18 @@ class FeeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadedImageURLs, [image0.url, image1.url], "Expected second image url request when second image is near visible")
     }
     
+    func test_feedImageView_doesNotRenderLoadedImageWhenNotVisibleAnyMore() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [makeItem()])
+        
+        let view = sut.simulateFeedImageViewNotVisible(at: 0)
+        loader.completeImageLoading(with: anyImageData())
+        
+        XCTAssertNil(view?.renderedImage, "Expected no rendered image when an image load finishes after the view is not visible any more")
+        
+    }
+    
     // MARK: - Helper methods
     
     func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy) {
@@ -312,6 +324,10 @@ class FeeedViewControllerTests: XCTestCase {
         trackForMemoryLeaks(feedLoader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, feedLoader)
+    }
+    
+    private func anyImageData() -> Data {
+        return UIImage.make(withColor: .red).pngData()!
     }
     
     private func makeItem(description: String? = nil, location: String? = nil, url: URL = URL(string: "https://any-url.com")!) -> FeedImage {
@@ -428,12 +444,14 @@ extension FeedViewController {
         return feedImageView(at: index) as? FeedImageCell
     }
 
-    func simulateFeedImageViewNotVisible(at index: Int) {
+    @discardableResult
+    func simulateFeedImageViewNotVisible(at index: Int) -> FeedImageCell? {
         let view = simulateFeedImageViewVisible(at: index)
         
         let deleagte = tableView.delegate
         let indexPath = IndexPath(row: index, section: feedImageSection)
         deleagte?.tableView?(tableView, didEndDisplaying: view!, forRowAt: indexPath)
+        return view
     }
     
     func numberOfRenderedFeedImageViews() -> Int {

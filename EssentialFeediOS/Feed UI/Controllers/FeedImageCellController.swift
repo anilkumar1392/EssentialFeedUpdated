@@ -33,7 +33,7 @@ public class FeedImageCellController {
         self.cell = cell
         self.cell = binded(self.cell)
         viewModel.loadImageData()
-        return cell
+        return self.cell ?? UITableViewCell()
     }
     
     private func binded(_ cell: FeedImageCell?) -> FeedImageCell? {
@@ -69,8 +69,13 @@ public class FeedImageCellController {
     }
     
     func cancelLoad() {
+        releaseCellForReuse()
         viewModel.cancelImageDataLoad()
         // task?.cancel()
+    }
+    
+    private func releaseCellForReuse() {
+        cell = nil
     }
     
     /*
