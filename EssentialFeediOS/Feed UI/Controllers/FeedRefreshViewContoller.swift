@@ -19,7 +19,7 @@ import UIKit
 
 public class FeedRefreshViewController: NSObject {
     // private(set) lazy var view = binded(UIRefreshControl())
-    @IBOutlet private var view: UIRefreshControl!
+    @IBOutlet private var view: UIRefreshControl?
 
     
     //    private let feedLoader: FeedLoader
@@ -50,11 +50,12 @@ public class FeedRefreshViewController: NSObject {
     //    }
     
     func bindView() {
-        _ = binded(view)
+        if let view = view {
+            _ = binded(view)
+        }
     }
     
     @IBAction func refresh() {
-        bindView()
         viewModel?.loadFeed()
     }
     

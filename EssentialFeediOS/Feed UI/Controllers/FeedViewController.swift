@@ -61,7 +61,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         super.viewDidLoad()
         // refreshControl = refreshController?.view
 
-        tableView.prefetchDataSource = self
+        refreshController?.bindView()
         refreshController?.refresh()
     }
 }
