@@ -21,6 +21,15 @@ import EssentialFeediOS
 
 class FeeedViewControllerTests: XCTestCase {
     
+    func test_feedView_hasTitle() {
+        let (sut, _) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(sut.title, "My Feed")
+    }
+    
+    
     // Just by init we dont want loader to load anything
     func test_init_doesNotLoadFeed() {
         let (_, loader) = makeSUT()
@@ -297,6 +306,8 @@ class FeeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadedImageURLs, [image0.url, image1.url], "Expected second image url request when second image is near visible")
     }
     
+    /*
+    
     func test_feedImageView_doesNotRenderLoadedImageWhenNotVisibleAnyMore() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
@@ -308,6 +319,7 @@ class FeeedViewControllerTests: XCTestCase {
         XCTAssertNil(view?.renderedImage, "Expected no rendered image when an image load finishes after the view is not visible any more")
         
     }
+     */
     
     // MARK: - Helper methods
     
