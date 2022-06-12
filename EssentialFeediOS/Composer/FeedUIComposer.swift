@@ -50,7 +50,11 @@ public final class FeedUIComposer {
     private init() {}
     
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
-        let feedViewModel = FeedViewModel(feedLoader: feedLoader, title: "My Feed")
+        let title = NSLocalizedString("FEED_VIEW_TITLE",
+                                      tableName: "Feed",
+                                      bundle: Bundle(for: FeedUIComposer.self),
+                                      comment: "Title for the feed view")
+        let feedViewModel = FeedViewModel(feedLoader: feedLoader, title: title)
         // let refreshController = FeedRefreshViewController(viewModel: feedViewModel)
         
         // let feedController = FeedViewController(refreshController: refreshController)
