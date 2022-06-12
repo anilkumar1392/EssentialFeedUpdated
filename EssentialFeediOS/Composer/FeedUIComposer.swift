@@ -52,7 +52,13 @@ public final class FeedUIComposer {
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
         let feedViewModel = FeedViewModel(feedLoader: feedLoader)
         let refreshController = FeedRefreshViewController(viewModel: feedViewModel)
-        let feedController = FeedViewController(refreshController: refreshController)
+        
+        // let feedController = FeedViewController(refreshController: refreshController)
+        let bundle = Bundle(for: FeedViewController.self)
+        let storyBoard = UIStoryboard(name: "Feed", bundle: bundle)
+        let feedController = storyBoard.instantiateInitialViewController() as! FeedViewController
+        feedController.refreshController = refreshController
+        
         feedViewModel.onFeedLoad = adaptFeedToCellControllers(forwardingTo: feedController, loader: imageLoader)
         return feedController
     }
