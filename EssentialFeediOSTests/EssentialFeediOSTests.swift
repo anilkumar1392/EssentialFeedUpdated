@@ -21,18 +21,20 @@ import EssentialFeediOS
 
 class FeeedViewControllerTests: XCTestCase {
     
-    // We are testing value for the correct key as strings are volatile.
     func test_feedView_hasTitle() {
         let (sut, _) = makeSUT()
         
         sut.loadViewIfNeeded()
         
+        /*
         let bundle = Bundle(for: FeedViewController.self)
-        let localizedKey = " "
+        let localizedKey = "FEED_VIEW_TITLE"
         let localizedTitle = bundle.localizedString(forKey: localizedKey, value: nil, table: "Feed")
         
         XCTAssertNotEqual(localizedKey, localizedTitle, "Missing localized string for the key: \(localizedKey)")
-        XCTAssertEqual(sut.title, localizedTitle)
+        XCTAssertEqual(sut.title, localizedTitle) */
+        
+        XCTAssertEqual(sut.title, localized("FEED_VIEW_TITLE"))
     }
     
     
