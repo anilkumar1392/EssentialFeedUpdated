@@ -29,14 +29,13 @@ public class FeedImageCellController {
     }
     
     func view(in tableView: UITableView) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FeedImageCell") as! FeedImageCell
-        self.cell = cell
-        self.cell = binded(self.cell)
+        self.cell = tableView.dequeueReusableCell()
+        self.binded(self.cell)
         viewModel.loadImageData()
-        return self.cell ?? UITableViewCell()
+        return self.cell!
     }
     
-    private func binded(_ cell: FeedImageCell?) -> FeedImageCell? {
+    private func binded(_ cell: FeedImageCell?) {
         cell?.locationContainer.isHidden = !viewModel.hasLocation
         cell?.locationLabel.text = viewModel.location
         cell?.descriptionLabel.text = viewModel.description
@@ -44,9 +43,9 @@ public class FeedImageCellController {
         cell?.feedImageRetryButton.isHidden = true
         cell?.feedImageContainer.startShimmering()
         cell?.onRetry = viewModel.loadImageData
-        
+
         viewModel.onImageLoad = { [weak cell] image in
-            cell?.feedImageView.image = image
+            cell?.feedImageView.setImageAnimated(image)
         }
 
         viewModel.onImageLoadingStateChange = { [weak cell] isLoadingCompleted in
@@ -60,7 +59,6 @@ public class FeedImageCellController {
         viewModel.onShouldRetryImageLoadStateChange = { [weak cell] shouldRetry in
             cell?.feedImageRetryButton.isHidden = !shouldRetry
         }
-        return cell
     }
     
     func preload() {
@@ -105,4 +103,5 @@ public class FeedImageCellController {
         return cell
     } */
 }
+
 
