@@ -19,7 +19,7 @@ import EssentialFeediOS
  Like for refresh control tests are in on function.
  */
 
-class FeeedViewControllerTests: XCTestCase {
+class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedView_hasTitle() {
         let (sut, _) = makeSUT()
@@ -520,37 +520,6 @@ extension FeedImageCell {
     }
 }
 
-private extension UIImage {
-    static func make(withColor color: UIColor) -> UIImage {
-        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
-        UIGraphicsBeginImageContext(rect.size)
-        let context = UIGraphicsGetCurrentContext()!
-        context.setFillColor(color.cgColor)
-        context.fill(rect)
-        let img = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return img!
-    }
-}
 
 
-extension UIRefreshControl {
-    func simulatePullToRefresh() {
-        self.allTargets.forEach({ target in
-            self.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach({
-                (target as NSObject).perform(Selector($0))
-            })
-        })
-    }
-}
 
-
-extension UIButton {
-    func simulateTap() {
-        self.allTargets.forEach({ target in
-            self.actions(forTarget: target, forControlEvent: .touchUpInside)?.forEach({
-                (target as NSObject).perform(Selector($0))
-            })
-        })
-    }
-}
