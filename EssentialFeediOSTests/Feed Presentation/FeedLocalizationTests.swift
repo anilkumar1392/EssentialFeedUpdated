@@ -39,10 +39,8 @@ final class FeedLocalizationTests: XCTestCase {
 
     private func allLocalizationBundles(in bundle: Bundle, file: StaticString = #file, line: UInt = #line) -> [LocalizedBundle] {
         return bundle.localizations.compactMap { localization in
-            guard
-                let path = bundle.path(forResource: localization, ofType: "lproj"),
-                let localizedBundle = Bundle(path: path)
-            else {
+            guard let path = bundle.path(forResource: localization, ofType: "lproj"),
+                   let localizedBundle = Bundle(path: path) else {
                 XCTFail("Couldn't find bundle for localization: \(localization)", file: file, line: line)
                 return nil
             }

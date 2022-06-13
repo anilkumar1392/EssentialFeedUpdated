@@ -61,16 +61,34 @@ public class FeedRefreshViewController: NSObject {
     
     private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
         viewModel?.onLoadingStateChange = { [weak view] isLoading in
+            //
+            //            DispatchQueue.main.async { [weak view] in
+            //                if isLoading {
+            //                    view?.beginRefreshing()
+            //                } else {
+            //                    view?.endRefreshing()
+            //                }
+            //            }
             
+            
+            guard Thread.isMainThread else {
+                return  DispatchQueue.main.async { [weak view] in
+                    if isLoading {
+                        view?.beginRefreshing()
+                    } else {
+                        view?.endRefreshing()
+                    }
+                }
+            }
             if isLoading {
                 view?.beginRefreshing()
             } else {
                 view?.endRefreshing()
             }
             
-//            if let feed = viewModel.feed {
-//                self.onRefresh?(feed)
-//            }
+            //            if let feed = viewModel.feed {
+            //                self.onRefresh?(feed)
+            //            }
         }
         // view.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return view
