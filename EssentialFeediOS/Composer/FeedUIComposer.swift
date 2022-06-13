@@ -54,7 +54,9 @@ public final class FeedUIComposer {
                                       tableName: "Feed",
                                       bundle: Bundle(for: FeedUIComposer.self),
                                       comment: "Title for the feed view")
-        let feedViewModel = FeedViewModel(feedLoader: feedLoader, title: title)
+        let feedViewModel = FeedViewModel(
+            feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader),
+            title: title)
         // let refreshController = FeedRefreshViewController(viewModel: feedViewModel)
         
         // let feedController = FeedViewController(refreshController: refreshController)
@@ -76,6 +78,36 @@ public final class FeedUIComposer {
             controller?.tableModel = feed.map { model in
                 FeedImageCellController(viewModel:
                     FeedImageViewModel(model: model, imageLoader: loader, imageTransformer: UIImage.init))
+            }
+        }
+    }
+}
+
+/*
+ 
+   1.  Add behaviour to an instance wthout while keeping the same interface
+   Following Open and close principle.
+   Adding behaviour without changing the insatacne.
+ 
+   So the ViewModel does not know about threading, Controller does not know about threading.
+ 
+ */
+
+final class MainQueueDispatchDecorator: FeedLoader {
+    private let decoratee: FeedLoader
+    
+    init(decoratee: FeedLoader) {
+        self.decoratee = decoratee
+    }
+    
+    func load(completion: @escaping (FeedLoader.Result) -> Void) {
+        decoratee.load { result in
+            if Thread.isMainThread {
+                completion(result)
+            } else {
+                DispatchQueue.main.async {
+                    completion(result)
+                }
             }
         }
     }

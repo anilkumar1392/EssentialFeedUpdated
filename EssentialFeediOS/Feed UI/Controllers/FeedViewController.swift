@@ -34,13 +34,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
     
     var tableModel = [FeedImageCellController]() {
         didSet {
-            if Thread.isMainThread {
-                self.tableView.reloadData()
-            } else {
-                DispatchQueue.main.async { [weak self] in
-                    self?.tableView.reloadData()
-                }
-            }
+            self.tableView.reloadData()
         }
     }
     
