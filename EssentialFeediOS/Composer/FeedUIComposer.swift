@@ -69,7 +69,9 @@ public final class FeedUIComposer {
         let feedRefreshController = feedController.refreshController
         feedRefreshController?.viewModel = feedViewModel
         
-        feedViewModel.onFeedLoad = adaptFeedToCellControllers(forwardingTo: feedController, loader: imageLoader)
+        feedViewModel.onFeedLoad = adaptFeedToCellControllers(
+            forwardingTo: feedController,
+            loader: MainQueueDispatchDecorator(decoratee: imageLoader))
         return feedController
     }
     
@@ -104,6 +106,7 @@ final class MainQueueDispatchDecorator<T> {
         guard Thread.isMainThread else {
             return DispatchQueue.main.async(execute: completion)
         }
+        
         completion()
     }
 }
@@ -111,6 +114,14 @@ final class MainQueueDispatchDecorator<T> {
 extension MainQueueDispatchDecorator: FeedLoader where T == FeedLoader {
     func load(completion: @escaping (FeedLoader.Result) -> Void) {
         decoratee.load { [weak self] result in
+            self?.dispatch { completion(result) }
+        }
+    }
+}
+
+extension MainQueueDispatchDecorator: FeedImageDataLoader where T == FeedImageDataLoader {
+    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataTaskLoader {
+        decoratee.loadImageData(from: url) { [weak self] result in
             self?.dispatch { completion(result) }
         }
     }
