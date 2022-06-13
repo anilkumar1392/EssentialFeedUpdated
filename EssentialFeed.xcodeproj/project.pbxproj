@@ -67,6 +67,7 @@
 		F5D59703283B7C5300F45F83 /* Application-specific.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D59702283B7C5300F45F83 /* Application-specific.png */; };
 		F5D59705283B7D5000F45F83 /* Infrastructure-logic.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D59704283B7D5000F45F83 /* Infrastructure-logic.png */; };
 		F5D59707283B7DE300F45F83 /* Entities vs. Value Objects.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D59706283B7DE300F45F83 /* Entities vs. Value Objects.png */; };
+		F5D6BE8728574223001C5031 /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D6BE8628574223001C5031 /* MainQueueDispatchDecorator.swift */; };
 		F5D6DE9F283D302800BC62F3 /* DependencyInversion.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D6DE9E283D302800BC62F3 /* DependencyInversion.png */; };
 		F5D6DEA1283D303D00BC62F3 /* DependencyInversion1.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D6DEA0283D303D00BC62F3 /* DependencyInversion1.png */; };
 		F5D6DEA3283D325200BC62F3 /* CodableFeedStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D6DEA2283D325200BC62F3 /* CodableFeedStoreTests.swift */; };
@@ -212,6 +213,7 @@
 		F5D59702283B7C5300F45F83 /* Application-specific.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Application-specific.png"; sourceTree = "<group>"; };
 		F5D59704283B7D5000F45F83 /* Infrastructure-logic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Infrastructure-logic.png"; sourceTree = "<group>"; };
 		F5D59706283B7DE300F45F83 /* Entities vs. Value Objects.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Entities vs. Value Objects.png"; sourceTree = "<group>"; };
+		F5D6BE8628574223001C5031 /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
 		F5D6DE9E283D302800BC62F3 /* DependencyInversion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DependencyInversion.png; sourceTree = "<group>"; };
 		F5D6DEA0283D303D00BC62F3 /* DependencyInversion1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DependencyInversion1.png; sourceTree = "<group>"; };
 		F5D6DEA2283D325200BC62F3 /* CodableFeedStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableFeedStoreTests.swift; sourceTree = "<group>"; };
@@ -633,6 +635,7 @@
 			isa = PBXGroup;
 			children = (
 				F5E72E8628537FE800CE3595 /* FeedUIComposer.swift */,
+				F5D6BE8628574223001C5031 /* MainQueueDispatchDecorator.swift */,
 			);
 			path = Composer;
 			sourceTree = "<group>";
@@ -993,6 +996,7 @@
 				F5E72E80285367F200CE3595 /* FeedImageDataLoader.swift in Sources */,
 				F5D2E6AF2855A56000748E64 /* UIImageView+Animation.swift in Sources */,
 				F5E72E8228536F0700CE3595 /* FeedRefreshViewContoller.swift in Sources */,
+				F5D6BE8728574223001C5031 /* MainQueueDispatchDecorator.swift in Sources */,
 				F5D2E6AD2855A1FD00748E64 /* UITableView+Dequeueing.swift in Sources */,
 				F5B1BD3E2852DE9800BF930F /* UIView+Shimmering.swift in Sources */,
 				F5E2C1402850318100AAA28F /* FeedViewController.swift in Sources */,
