@@ -123,25 +123,18 @@ public final class FeedUIComposer {
         let feedController = storyBoard.instantiateViewController(withIdentifier: "FeedViewController") as! FeedViewController
         // feedController.refreshController = refreshController
         
-        let refreshController = feedController.refreshController!
-        refreshController.delegate = presentationAdapter
+        // let refreshController = feedController.refreshController!
+        // refreshController.delegate = presentationAdapter
+        feedController.delegate = presentationAdapter
         
         let feedPresenter = FeedPresenter(
             feedView: FeedViewAdapter(controller: feedController, imageLoader: imageLoader),
-            loadingView: WeakRefVirtualProxy(refreshController))
+            loadingView: WeakRefVirtualProxy(feedController))
         presentationAdapter.presenter = feedPresenter
         
         return feedController
     }
-    
-    private static func adaptFeedToCellControllers(forwardingTo controller: FeedViewController, loader: FeedImageDataLoader) -> ([FeedImage]) -> Void {
-        return { [weak controller] feed in
-            controller?.tableModel = feed.map { model in
-                FeedImageCellController(viewModel:
-                    FeedImageViewModel(model: model, imageLoader: loader, imageTransformer: UIImage.init))
-            }
-        }
-    }
+
 }
 
 // weakify object in composer
@@ -163,7 +156,6 @@ extension WeakRefVirtualProxy: FeedloadingView where T: FeedloadingView  {
 private final class FeedViewAdapter: FeedView {
     private weak var controller: FeedViewController?
     private var imageLoader: FeedImageDataLoader
-    
 
     init(controller: FeedViewController, imageLoader: FeedImageDataLoader) {
         self.controller = controller
@@ -178,7 +170,7 @@ private final class FeedViewAdapter: FeedView {
     }
 }
 
-private final class FeedLoaderPresentationAdapter: FeedRefereshViewControllerDelegate {
+private final class FeedLoaderPresentationAdapter: FeedViewControllerDelegate {
 
     private let feedLoader: FeedLoader
     var presenter: FeedPresenter?

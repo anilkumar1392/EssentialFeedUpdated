@@ -90,6 +90,7 @@ public class FeedRefreshViewController: NSObject {
 }
 */
 
+/*
 protocol FeedRefereshViewControllerDelegate {
     func didRequestFeedRefresh()
 }
@@ -125,17 +126,8 @@ public class FeedRefreshViewController: NSObject, FeedloadingView {
         // loadFeed()
         self.delegate?.didRequestFeedRefresh()
     }
-    
+
     func display(_ viewModel: FeedLoadingViewModel) {
-        guard Thread.isMainThread else {
-            return  DispatchQueue.main.async { [weak view] in
-                if viewModel.isLoading {
-                    view?.beginRefreshing()
-                } else {
-                    view?.endRefreshing()
-                }
-            }
-        }
         if viewModel.isLoading {
             view?.beginRefreshing()
         } else {
@@ -150,3 +142,4 @@ public class FeedRefreshViewController: NSObject, FeedloadingView {
         return view
     } */
 }
+*/

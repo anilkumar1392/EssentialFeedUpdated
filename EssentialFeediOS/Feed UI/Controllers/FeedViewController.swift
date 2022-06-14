@@ -17,11 +17,15 @@ import UIKit
   
  */
 
-final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
+protocol FeedViewControllerDelegate {
+    func didRequestFeedRefresh()
+}
+
+final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedloadingView {
     // private var imageLoader: FeedImageDataLoader?
     
     // var refreshController: FeedRefreshViewController?
-    @IBOutlet var refreshController: FeedRefreshViewController?
+    // @IBOutlet var refreshController: FeedRefreshViewController?
 
 //    private var tableModel = [FeedImage]() {
 //        didSet {
@@ -30,9 +34,45 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
 //    }
     // private var cellControllers = [IndexPath: FeedImageCellController]()
     
+    var delegate: FeedViewControllerDelegate?
+
     var tableModel = [FeedImageCellController]() {
         didSet {
             self.tableView.reloadData()
+        }
+    }
+
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        // refreshControl = refreshController?.view
+        /*
+        title = refreshController?.viewModel?.getTitle()
+        refreshController?.bindView()
+        refreshController?.refresh() */
+        
+        refresh()
+    }
+    
+    @IBAction private func refresh() {
+        // presenter.loadFeed()
+        // loadFeed()
+        self.delegate?.didRequestFeedRefresh()
+    }
+    
+    func display(_ viewModel: FeedLoadingViewModel) {
+        guard Thread.isMainThread else {
+            return  DispatchQueue.main.async { [weak view] in
+                if viewModel.isLoading {
+                    self.refreshControl?.beginRefreshing()
+                } else {
+                    self.refreshControl?.endRefreshing()
+                }
+            }
+        }
+        if viewModel.isLoading {
+            self.refreshControl?.beginRefreshing()
+        } else {
+            self.refreshControl?.endRefreshing()
         }
     }
     
@@ -60,17 +100,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         self.refreshController = refreshController
     } */
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        // refreshControl = refreshController?.view
-        /*
-        title = refreshController?.viewModel?.getTitle()
-        refreshController?.bindView()
-        refreshController?.refresh() */
-        
-        refreshController?.refresh()
-        
-    }
+
 }
 
 extension FeedViewController {
