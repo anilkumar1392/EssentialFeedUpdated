@@ -17,18 +17,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="cpV-dw-6og">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="16"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xwE-c2-XYc" customClass="ErrorView" customModule="EssentialFeediOS" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4V1-Wc-S4A">
+                                            <rect key="frame" x="186.5" y="7" width="41.5" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                    <constraints>
+                                        <constraint firstItem="4V1-Wc-S4A" firstAttribute="top" secondItem="xwE-c2-XYc" secondAttribute="top" constant="7" id="58w-Be-vOB"/>
+                                        <constraint firstItem="4V1-Wc-S4A" firstAttribute="centerX" secondItem="xwE-c2-XYc" secondAttribute="centerX" id="zv2-38-D7U"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="label" destination="4V1-Wc-S4A" id="spd-RD-QYt"/>
+                                    </connections>
+                                </view>
+                            </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="xwE-c2-XYc" secondAttribute="bottom" id="Bd7-O6-kTX"/>
+                                <constraint firstItem="xwE-c2-XYc" firstAttribute="leading" secondItem="cpV-dw-6og" secondAttribute="leading" id="Fxt-9P-Mdh"/>
+                                <constraint firstAttribute="trailing" secondItem="xwE-c2-XYc" secondAttribute="trailing" id="hgW-XF-Kfh"/>
+                                <constraint firstItem="xwE-c2-XYc" firstAttribute="top" secondItem="cpV-dw-6og" secondAttribute="top" id="uYz-y1-wsU"/>
+                            </constraints>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="pUh-vP-Zk8">
-                            <rect key="frame" x="0.0" y="560" width="414" height="16"/>
+                            <rect key="frame" x="0.0" y="580" width="414" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="477" id="tA4-GR-u7R" customClass="FeedImageCell" customModule="EssentialFeediOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="60.5" width="414" height="477"/>
+                                <rect key="frame" x="0.0" y="80.5" width="414" height="477"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tA4-GR-u7R" id="Jlc-GM-Auv">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="477"/>
@@ -144,6 +171,9 @@
                             <action selector="refresh" destination="NAK-Ed-pja" eventType="valueChanged" id="8wM-8Y-VBW"/>
                         </connections>
                     </refreshControl>
+                    <connections>
+                        <outlet property="errorView" destination="xwE-c2-XYc" id="IYc-p2-1Dn"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qov-3m-JIb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -173,6 +203,9 @@
         <image name="pin" catalog="system" width="119" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

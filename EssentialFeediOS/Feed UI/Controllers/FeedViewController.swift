@@ -21,10 +21,6 @@ protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
-public final class ErrorView: UIView {
-    public var message: String?
-}
-
 final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedloadingView, FeedErrorView {
     
     // private var imageLoader: FeedImageDataLoader?
@@ -39,8 +35,8 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
 //    }
     // private var cellControllers = [IndexPath: FeedImageCellController]()
     
-    public var errorView = ErrorView()
-    
+    @IBOutlet private(set) public var errorView: ErrorView?
+
     var delegate: FeedViewControllerDelegate?
 
     var tableModel = [FeedImageCellController]() {
@@ -57,6 +53,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         refreshController?.bindView()
         refreshController?.refresh() */
 
+        // tableView.tableHeaderView = errorView
         refresh()
     }
     
@@ -69,22 +66,15 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
     func display(_ viewModel: FeedLoadingViewModel) {
         guard Thread.isMainThread else {
             return  DispatchQueue.main.async { [weak view] in
-                if viewModel.isLoading {
-                    self.refreshControl?.beginRefreshing()
-                } else {
-                    self.refreshControl?.endRefreshing()
-                }
+                self.refreshControl?.update(isRefreshing: viewModel.isLoading)
             }
         }
-        if viewModel.isLoading {
-            self.refreshControl?.beginRefreshing()
-        } else {
-            self.refreshControl?.endRefreshing()
-        }
+        refreshControl?.update(isRefreshing: viewModel.isLoading)
+
     }
     
     func display(viewModel: FeedErrorViewModel) {
-        errorView.message = viewModel.message
+        errorView?.message = viewModel.message
     }
     
 //    convenience init(refreshController: FeedRefreshViewController?) {
