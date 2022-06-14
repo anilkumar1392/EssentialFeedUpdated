@@ -21,7 +21,6 @@ import EssentialFeediOS
 
 class FeedUIIntegrationTests: XCTestCase {
     
-    /*
     func test_feedView_hasTitle() {
         let (sut, _) = makeSUT()
         
@@ -36,7 +35,7 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.title, localizedTitle) */
         
         XCTAssertEqual(sut.title, localized("FEED_VIEW_TITLE"))
-    } */
+    }
     
     
     // Just by init we dont want loader to load anything
@@ -315,8 +314,8 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadedImageURLs, [image0.url, image1.url], "Expected second image url request when second image is near visible")
     }
     
+
     /*
-    
     func test_feedImageView_doesNotRenderLoadedImageWhenNotVisibleAnyMore() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
@@ -327,8 +326,7 @@ class FeedUIIntegrationTests: XCTestCase {
         
         XCTAssertNil(view?.renderedImage, "Expected no rendered image when an image load finishes after the view is not visible any more")
         
-    }
-     */
+    } */
     
     func test_loadFeedCompletion_dispatchesFromBackgroundToMainThread() {
         let (sut, loader) = makeSUT()
@@ -342,8 +340,7 @@ class FeedUIIntegrationTests: XCTestCase {
 
         wait(for: [exp], timeout: 5.0)
     }
-    
-    /*
+
     func test_loadImageDataCompletion_dispatchesFromBackgroundToMainThread() {
         let (sut, loader) = makeSUT()
         
@@ -358,7 +355,7 @@ class FeedUIIntegrationTests: XCTestCase {
         }
 
         wait(for: [exp], timeout: 1.0)
-    } */
+    }
     
     // MARK: - Helper methods
     
@@ -496,12 +493,12 @@ extension FeedViewController {
     }
 
     @discardableResult
-    func simulateFeedImageViewNotVisible(at index: Int) -> FeedImageCell? {
-        let view = simulateFeedImageViewVisible(at: index)
+    func simulateFeedImageViewNotVisible(at row: Int) -> FeedImageCell? {
+        let view = simulateFeedImageViewVisible(at: row)
         
         let deleagte = tableView.delegate
-        let indexPath = IndexPath(row: index, section: feedImageSection)
-        deleagte?.tableView?(tableView, didEndDisplaying: view!, forRowAt: indexPath)
+        let index = IndexPath(row: row, section: feedImageSection)
+        deleagte?.tableView?(tableView, didEndDisplaying: view!, forRowAt: index)
         return view
     }
     

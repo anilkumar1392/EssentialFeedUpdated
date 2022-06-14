@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "94AEF38F-F3B1-4A39-822F-8A0EDED89B5B"
+            uuid = "B7DB2559-35D8-4275-82B2-4F50523E834E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EssentialFeediOSTests/FeedUI/EssentialFeediOSTests.swift"
+            filePath = "EssentialFeediOS/Feed UI/Controllers/FeedImageCellController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "test_loadingFeedIndicatorIsVisible_whileLoadingFeed()"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "releaseCellForReuse()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

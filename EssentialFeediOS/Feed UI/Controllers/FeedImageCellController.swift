@@ -30,12 +30,12 @@ public class FeedImageCellController {
     
     func view(in tableView: UITableView) -> UITableViewCell {
         self.cell = tableView.dequeueReusableCell()
-        self.binded(self.cell)
+        self.binded()
         viewModel.loadImageData()
         return self.cell!
     }
     
-    private func binded(_ cell: FeedImageCell?) {
+    private func binded() {
         cell?.locationContainer.isHidden = !viewModel.hasLocation
         cell?.locationLabel.text = viewModel.location
         cell?.descriptionLabel.text = viewModel.description

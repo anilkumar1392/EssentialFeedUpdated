@@ -117,15 +117,14 @@ public final class FeedUIComposer {
         // let refreshController = FeedRefreshViewController(delegate: presentationAdapter)
 
         // let feedController = FeedViewController(refreshController: refreshController)
-        
-        let bundle = Bundle(for: FeedViewController.self)
-        let storyBoard = UIStoryboard(name: "Feed", bundle: bundle)
-        let feedController = storyBoard.instantiateViewController(withIdentifier: "FeedViewController") as! FeedViewController
         // feedController.refreshController = refreshController
         
         // let refreshController = feedController.refreshController!
         // refreshController.delegate = presentationAdapter
-        feedController.delegate = presentationAdapter
+
+        let feedController = FeedViewController.makeWith(
+            delegate: presentationAdapter,
+            title: FeedPresenter.title)
         
         let feedPresenter = FeedPresenter(
             feedView: FeedViewAdapter(controller: feedController, imageLoader: imageLoader),
@@ -134,8 +133,19 @@ public final class FeedUIComposer {
         
         return feedController
     }
-
 }
+
+private extension FeedViewController {
+    static func makeWith(delegate: FeedViewControllerDelegate, title: String) -> FeedViewController {
+        let bundle = Bundle(for: FeedViewController.self)
+        let storyBoard = UIStoryboard(name: "Feed", bundle: bundle)
+        let feedController = storyBoard.instantiateViewController(withIdentifier: "FeedViewController") as! FeedViewController
+        feedController.delegate = delegate
+        feedController.title = title
+        return feedController
+    }
+}
+
 
 // weakify object in composer
 

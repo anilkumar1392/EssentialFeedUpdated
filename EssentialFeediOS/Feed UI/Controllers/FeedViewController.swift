@@ -49,7 +49,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         title = refreshController?.viewModel?.getTitle()
         refreshController?.bindView()
         refreshController?.refresh() */
-        
+
         refresh()
     }
     
