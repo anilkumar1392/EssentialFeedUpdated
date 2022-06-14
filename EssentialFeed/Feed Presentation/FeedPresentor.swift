@@ -5,32 +5,12 @@
 //  Created by 13401027 on 14/06/22.
 //
 
-public struct FeedViewModal {
-    public let feed: [FeedImage]
-}
-
 public protocol FeedView {
     func display(viewModel: FeedViewModal)
 }
 
-public struct FeedLoadingViewModel {
-    public let isLoading: Bool
-}
-
 public protocol FeedloadingView {
     func display(_ viewModel: FeedLoadingViewModel)
-}
-
-public struct FeedErrorViewModel {
-    public let message: String?
-    
-    static var noError: FeedErrorViewModel {
-        return FeedErrorViewModel(message: nil)
-    }
-
-    static func error(message: String) -> FeedErrorViewModel {
-        return FeedErrorViewModel(message: message)
-    }
 }
 
 public protocol FeedErrorView {

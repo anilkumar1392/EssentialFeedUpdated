@@ -6,7 +6,7 @@
 //
 
 import Foundation
-// import EssentialFeed
+import EssentialFeed
 import UIKit
 
 /*
@@ -22,7 +22,7 @@ protocol FeedViewControllerDelegate {
 }
 
 final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedloadingView, FeedErrorView {
-    
+
     // private var imageLoader: FeedImageDataLoader?
     
     // var refreshController: FeedRefreshViewController?
@@ -63,7 +63,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         self.delegate?.didRequestFeedRefresh()
     }
     
-    func display(_ viewModel: FeedLoadingViewModel) {
+    public func display(_ viewModel: FeedLoadingViewModel) {
         guard Thread.isMainThread else {
             return  DispatchQueue.main.async { [weak view] in
                 self.refreshControl?.update(isRefreshing: viewModel.isLoading)
@@ -73,7 +73,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
 
     }
     
-    func display(viewModel: FeedErrorViewModel) {
+    public func display(viewModel: FeedErrorViewModel) {
         errorView?.message = viewModel.message
     }
     
