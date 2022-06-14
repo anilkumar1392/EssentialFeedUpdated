@@ -37,6 +37,17 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.title, localized("FEED_VIEW_TITLE"))
     }
     
+    func test_loadFeedCompletion_renderErrorMessgeOnError() {
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(sut.errorMessage, nil)
+        
+        loader.completeFeedLoadingWithError(at: 0)
+        XCTAssertEqual(sut.errorMessage, localized("FEED_VIEW_CONNECTION_ERROR"))
+
+    }
     
     // Just by init we dont want loader to load anything
     func test_init_doesNotLoadFeed() {
@@ -465,6 +476,10 @@ class FeedUIIntegrationTests: XCTestCase {
 }
 
 extension FeedViewController {
+    var errorMessage: String? {
+        return errorView.message
+    }
+    
     func simulateUserInitiatedFeedReload() {
         refreshControl?.simulatePullToRefresh()
     }

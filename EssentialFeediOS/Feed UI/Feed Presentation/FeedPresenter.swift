@@ -26,6 +26,14 @@ protocol FeedView {
     func display(viewModel: FeedViewModal)
 }
 
+struct FeedErrorViewModel {
+    let message: String?
+}
+
+protocol FeedErrorView {
+    func display(viewModel: FeedErrorViewModel)
+}
+
 /*
  We can reovem twoway communication between presenter and  view by using adapter in between.
  
@@ -64,17 +72,30 @@ final class FeedPresenter {
 final class FeedPresenter {
     private var feedView: FeedView
     private var loadingView: FeedloadingView
+    private var errorView: FeedErrorView
     
     static var title: String {
-        return "My Feed"
+        return NSLocalizedString("FEED_VIEW_TITLE",
+            tableName: "Feed",
+            bundle: Bundle(for: FeedPresenter.self),
+            comment: "Title for the feed view")
     }
     
-    init(feedView: FeedView, loadingView: FeedloadingView) {
+    private var feedLoadError: String {
+        return NSLocalizedString("FEED_VIEW_CONNECTION_ERROR",
+            tableName: "Feed",
+            bundle: Bundle(for: FeedPresenter.self),
+            comment: "Error message displayed when we can't load the image feed from the server")
+    }
+    
+    init(feedView: FeedView, loadingView: FeedloadingView, errorView: FeedErrorView) {
         self.feedView = feedView
         self.loadingView = loadingView
+        self.errorView = errorView
     }
 
     func didStartLoadingFeed() {
+        // errorView.display(viewModel: .)
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
@@ -84,6 +105,7 @@ final class FeedPresenter {
     }
     
     func didFinishLoadingFeed(with error: Error) {
+        errorView.display(viewModel: FeedErrorViewModel(message: feedLoadError))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
 }

@@ -127,8 +127,11 @@ public final class FeedUIComposer {
             title: FeedPresenter.title)
         
         let feedPresenter = FeedPresenter(
-            feedView: FeedViewAdapter(controller: feedController, imageLoader: imageLoader),
-            loadingView: WeakRefVirtualProxy(feedController))
+            feedView: FeedViewAdapter(
+                controller: feedController,
+                imageLoader: imageLoader),
+            loadingView: WeakRefVirtualProxy(feedController),
+            errorView: WeakRefVirtualProxy(feedController))
         presentationAdapter.presenter = feedPresenter
         
         return feedController
@@ -160,6 +163,12 @@ private final class WeakRefVirtualProxy<T: AnyObject> {
 extension WeakRefVirtualProxy: FeedloadingView where T: FeedloadingView  {
     func display(_ viewModel: FeedLoadingViewModel) {
         object?.display(viewModel)
+    }
+}
+
+extension WeakRefVirtualProxy: FeedErrorView where T: FeedErrorView  {
+    func display(viewModel: FeedErrorViewModel) {
+        object?.display(viewModel: viewModel)
     }
 }
 
