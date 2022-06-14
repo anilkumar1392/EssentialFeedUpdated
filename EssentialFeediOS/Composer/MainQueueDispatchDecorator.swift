@@ -18,6 +18,14 @@ import EssentialFeed
  
  */
 
+/*
+ Learning Outcomes
+ Decoupling UIKit components (and any other client) from threading details
+ Removing duplication and centralizing threading logic in the composition layer
+ Decorator pattern: Extending behavior of individual objects without changing its implementation (Liskov Substitution + Open/Closed Principles)
+ Decorator pattern: Implementing Cross-Cutting concerns (Single Responsibility Principle)
+ */
+
 final class MainQueueDispatchDecorator<T> {
     private let decoratee: T
     

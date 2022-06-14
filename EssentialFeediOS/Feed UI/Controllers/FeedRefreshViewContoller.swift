@@ -17,6 +17,9 @@ import UIKit
  Two common ways of creating ViewModel statefull and stateless.
  */
 
+/*
+ 
+ // MVVM
 public class FeedRefreshViewController: NSObject {
     // private(set) lazy var view = binded(UIRefreshControl())
     @IBOutlet private var view: UIRefreshControl?
@@ -82,6 +85,55 @@ public class FeedRefreshViewController: NSObject {
             //            }
         }
         // view.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return view
+    }
+}
+*/
+
+
+public class FeedRefreshViewController: NSObject, FeedloadingView {
+
+    // @IBOutlet private var view = loadView()
+    private(set) lazy var view = loadView()
+
+    // private let presenter: FeedPresenter
+    
+    private let loadFeed: () -> Void
+
+    /*
+    init(presenter: FeedPresenter) {
+        self.presenter = presenter
+    } */
+    
+    init(loadFeed: @escaping () -> Void) {
+        self.loadFeed = loadFeed
+    }
+    
+    @IBAction func refresh() {
+        // presenter.loadFeed()
+        loadFeed()
+    }
+    
+    func display(_ viewModel: FeedLoadingViewModel) {
+        guard Thread.isMainThread else {
+            return  DispatchQueue.main.async { [weak view] in
+                if viewModel.isLoading {
+                    view?.beginRefreshing()
+                } else {
+                    view?.endRefreshing()
+                }
+            }
+        }
+        if viewModel.isLoading {
+            view.beginRefreshing()
+        } else {
+            view.endRefreshing()
+        }
+    }
+    
+    private func loadView() -> UIRefreshControl {
+        let view = UIRefreshControl()
+        view.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return view
     }
 }

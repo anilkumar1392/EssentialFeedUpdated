@@ -20,9 +20,9 @@ import UIKit
 final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     // private var imageLoader: FeedImageDataLoader?
     
-    // private var refreshController: FeedRefreshViewController?
+    var refreshController: FeedRefreshViewController?
     // var refreshController: FeedRefreshViewController?
-    @IBOutlet var refreshController: FeedRefreshViewController?
+    // @IBOutlet var refreshController: FeedRefreshViewController?
 
 
 //    private var tableModel = [FeedImage]() {
@@ -36,6 +36,11 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         didSet {
             self.tableView.reloadData()
         }
+    }
+    
+    convenience init(refreshController: FeedRefreshViewController?) {
+        self.init()
+        self.refreshController = refreshController
     }
     
     /*
@@ -60,9 +65,12 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
     public override func viewDidLoad() {
         super.viewDidLoad()
         // refreshControl = refreshController?.view
+        /*
         title = refreshController?.viewModel?.getTitle()
         refreshController?.bindView()
-        refreshController?.refresh()
+        refreshController?.refresh() */
+        
+        // title = pre
     }
 }
 
