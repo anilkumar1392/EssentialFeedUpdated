@@ -62,19 +62,24 @@ final class FeedPresenter {
 } */
 
 final class FeedPresenter {
-    var feedView: FeedView?
-    var loadingView: FeedloadingView?
+    private var feedView: FeedView
+    private var loadingView: FeedloadingView
+    
+    init(feedView: FeedView, loadingView: FeedloadingView) {
+        self.feedView = feedView
+        self.loadingView = loadingView
+    }
 
     func didStartLoadingFeed() {
-        loadingView?.display(FeedLoadingViewModel(isLoading: true))
+        loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
     func didFinishLoadingFeed(with feed: [FeedImage]) {
-        self.feedView?.display(viewModel: FeedViewModal(feed: feed))
-        self.loadingView?.display(FeedLoadingViewModel(isLoading: false))
+        self.feedView.display(viewModel: FeedViewModal(feed: feed))
+        self.loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
     
     func didFinishLoadingFeed(with error: Error) {
-        loadingView?.display(FeedLoadingViewModel(isLoading: false))
+        loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
 }
