@@ -96,8 +96,8 @@ protocol FeedRefereshViewControllerDelegate {
 
 public class FeedRefreshViewController: NSObject, FeedloadingView {
 
-    // @IBOutlet private var view = loadView()
-    private(set) lazy var view = loadView()
+    @IBOutlet private var view: UIRefreshControl?
+    // private(set) lazy var view = loadView()
 
     // private let presenter: FeedPresenter
     
@@ -113,16 +113,17 @@ public class FeedRefreshViewController: NSObject, FeedloadingView {
         self.loadFeed = loadFeed
     } */
     
-    var delegate: FeedRefereshViewControllerDelegate
+    var delegate: FeedRefereshViewControllerDelegate?
     
+    /*
     init(delegate: FeedRefereshViewControllerDelegate) {
         self.delegate = delegate
-    }
+    } */
     
     @IBAction func refresh() {
         // presenter.loadFeed()
         // loadFeed()
-        self.delegate.didRequestFeedRefresh()
+        self.delegate?.didRequestFeedRefresh()
     }
     
     func display(_ viewModel: FeedLoadingViewModel) {
@@ -136,15 +137,16 @@ public class FeedRefreshViewController: NSObject, FeedloadingView {
             }
         }
         if viewModel.isLoading {
-            view.beginRefreshing()
+            view?.beginRefreshing()
         } else {
-            view.endRefreshing()
+            view?.endRefreshing()
         }
     }
     
+    /*
     private func loadView() -> UIRefreshControl {
         let view = UIRefreshControl()
         view.addTarget(self, action: #selector(refresh), for: .valueChanged)
         return view
-    }
+    } */
 }

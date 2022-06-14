@@ -21,6 +21,7 @@ import EssentialFeediOS
 
 class FeedUIIntegrationTests: XCTestCase {
     
+    /*
     func test_feedView_hasTitle() {
         let (sut, _) = makeSUT()
         
@@ -35,7 +36,7 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(sut.title, localizedTitle) */
         
         XCTAssertEqual(sut.title, localized("FEED_VIEW_TITLE"))
-    }
+    } */
     
     
     // Just by init we dont want loader to load anything
@@ -342,6 +343,7 @@ class FeedUIIntegrationTests: XCTestCase {
         wait(for: [exp], timeout: 5.0)
     }
     
+    /*
     func test_loadImageDataCompletion_dispatchesFromBackgroundToMainThread() {
         let (sut, loader) = makeSUT()
         
@@ -356,7 +358,7 @@ class FeedUIIntegrationTests: XCTestCase {
         }
 
         wait(for: [exp], timeout: 1.0)
-    }
+    } */
     
     // MARK: - Helper methods
     

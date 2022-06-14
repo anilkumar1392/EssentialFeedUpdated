@@ -64,10 +64,10 @@ public final class FeedUIComposer {
             title: title)
         // let refreshController = FeedRefreshViewController(viewModel: feedViewModel)
         
-        // let feedController = FeedViewController(refreshController: refreshController)
-        // let bundle = Bundle(for: FeedViewController.self)
-        // let storyBoard = UIStoryboard(name: "Feed", bundle: bundle)
-        // let feedController = storyBoard.instantiateInitialViewController() as! FeedViewController
+         let feedController = FeedViewController(refreshController: refreshController)
+         let bundle = Bundle(for: FeedViewController.self)
+         let storyBoard = UIStoryboard(name: "Feed", bundle: bundle)
+         let feedController = storyBoard.instantiateInitialViewController() as! FeedViewController
         
         let feedController = FeedViewController.makeWith()
         
@@ -114,9 +114,18 @@ public final class FeedUIComposer {
         let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader))
         
         // let refreshController = FeedRefreshViewController(presenter: feedPresenter)
-        let refreshController = FeedRefreshViewController(delegate: presentationAdapter)
+        // let refreshController = FeedRefreshViewController(delegate: presentationAdapter)
 
-        let feedController = FeedViewController(refreshController: refreshController)
+        // let feedController = FeedViewController(refreshController: refreshController)
+        
+        let bundle = Bundle(for: FeedViewController.self)
+        let storyBoard = UIStoryboard(name: "Feed", bundle: bundle)
+        let feedController = storyBoard.instantiateViewController(withIdentifier: "FeedViewController") as! FeedViewController
+        // feedController.refreshController = refreshController
+        
+        let refreshController = feedController.refreshController!
+        refreshController.delegate = presentationAdapter
+        
         let feedPresenter = FeedPresenter(
             feedView: FeedViewAdapter(controller: feedController, imageLoader: imageLoader),
             loadingView: WeakRefVirtualProxy(refreshController))
