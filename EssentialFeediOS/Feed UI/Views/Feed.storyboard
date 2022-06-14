@@ -29,10 +29,22 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59K-03-4vP">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain"/>
+                                            <connections>
+                                                <action selector="hideMessageAnimated" destination="xwE-c2-XYc" eventType="touchUpInside" id="njm-jC-cnw"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemYellowColor"/>
                                     <constraints>
                                         <constraint firstItem="4V1-Wc-S4A" firstAttribute="top" secondItem="xwE-c2-XYc" secondAttribute="top" constant="7" id="58w-Be-vOB"/>
+                                        <constraint firstItem="59K-03-4vP" firstAttribute="top" secondItem="xwE-c2-XYc" secondAttribute="top" id="Fuu-SA-SvX"/>
+                                        <constraint firstAttribute="bottom" secondItem="59K-03-4vP" secondAttribute="bottom" id="Znn-yP-WWU"/>
+                                        <constraint firstItem="59K-03-4vP" firstAttribute="leading" secondItem="xwE-c2-XYc" secondAttribute="leading" id="kK9-qW-b2k"/>
+                                        <constraint firstAttribute="trailing" secondItem="59K-03-4vP" secondAttribute="trailing" id="yDt-vl-GmX"/>
                                         <constraint firstItem="4V1-Wc-S4A" firstAttribute="centerX" secondItem="xwE-c2-XYc" secondAttribute="centerX" id="zv2-38-D7U"/>
                                     </constraints>
                                     <connections>
