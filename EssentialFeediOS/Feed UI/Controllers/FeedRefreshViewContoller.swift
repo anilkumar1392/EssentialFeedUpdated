@@ -90,6 +90,9 @@ public class FeedRefreshViewController: NSObject {
 }
 */
 
+protocol FeedRefereshViewControllerDelegate {
+    func didRequestFeedRefresh()
+}
 
 public class FeedRefreshViewController: NSObject, FeedloadingView {
 
@@ -98,20 +101,28 @@ public class FeedRefreshViewController: NSObject, FeedloadingView {
 
     // private let presenter: FeedPresenter
     
-    private let loadFeed: () -> Void
+    // private let loadFeed: () -> Void
 
     /*
     init(presenter: FeedPresenter) {
         self.presenter = presenter
     } */
     
+    /*
     init(loadFeed: @escaping () -> Void) {
         self.loadFeed = loadFeed
+    } */
+    
+    var delegate: FeedRefereshViewControllerDelegate
+    
+    init(delegate: FeedRefereshViewControllerDelegate) {
+        self.delegate = delegate
     }
     
     @IBAction func refresh() {
         // presenter.loadFeed()
-        loadFeed()
+        // loadFeed()
+        self.delegate.didRequestFeedRefresh()
     }
     
     func display(_ viewModel: FeedLoadingViewModel) {
