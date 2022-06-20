@@ -16,9 +16,14 @@ class RemoteFeedImageDataLoader {
         self.client = client
     }
     
+    public enum Error: Swift.Error {
+        case invalidData
+    }
+    
     func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) {
         client.get(from: url, completion: { result in
             switch result {
+            case .success: completion(.failure(Error.invalidData))
             case let .failure(error): completion(.failure(error))
             default:
                 break
@@ -59,11 +64,22 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     
     func test_loadImageDataFromURL_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
-        let url = URL(string: "http://any-url.com")!
         let expectedError = NSError(domain: "a client error", code: 0)
-        
+
         expect(sut, toCompleteWith: .failure(expectedError)) {
             client.complete(with: expectedError)
+        }
+    }
+    
+    func test_loadImageDataFromURL_deliversInvalidDataOnNon200HTTPSResponse() {
+        let (sut, client) = makeSUT()
+
+        let samples = [199, 201, 300, 400, 500]
+
+        samples.enumerated().forEach { index, code in
+            expect(sut, toCompleteWith: failure(.invalidData), when: {
+                client.complete(withStatusCode: code, data: anyData(), at: index)
+            })
         }
     }
 }
@@ -102,6 +118,14 @@ extension RemoteFeedImageDataLoaderTests {
         
         wait(for: [exp], timeout: 1.0)
     }
+    
+    private func anyData() -> Data {
+        return Data("any data".utf8)
+    }
+
+    private func failure(_ error: RemoteFeedImageDataLoader.Error) -> FeedImageDataLoader.Result {
+        return .failure(error)
+    }
 }
 
 extension RemoteFeedImageDataLoaderTests {
@@ -118,6 +142,16 @@ extension RemoteFeedImageDataLoaderTests {
         
         func complete(with error: NSError, at index: Int = 0) {
             messages[index].completion(.failure(error))
+        }
+        
+        func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
+            let response = HTTPURLResponse(
+                url: requestedURLs[index],
+                statusCode: code,
+                httpVersion: nil,
+                headerFields: nil
+            )!
+            messages[index].completion(.success((data, response)))
         }
     }
 }
