@@ -25,8 +25,6 @@ class RemoteFeedImageDataLoader {
             switch result {
             case .success: completion(.failure(Error.invalidData))
             case let .failure(error): completion(.failure(error))
-            default:
-                break
             }
         })
     }
@@ -82,6 +80,14 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
             })
         }
     }
+    
+    func test_loadImageDataFromURL_deliversInvalidDataErrorOn200HTTPSResponseWithEmptyData() {
+        let (sut, client) = makeSUT()
+
+        expect(sut, toCompleteWith: failure(.invalidData), when: {
+            client.complete(withStatusCode: 200, data: emptyData())
+        })
+    }
 }
 
 // MARK: - RemoteFeedImageDataLoaderTests
@@ -125,6 +131,10 @@ extension RemoteFeedImageDataLoaderTests {
 
     private func failure(_ error: RemoteFeedImageDataLoader.Error) -> FeedImageDataLoader.Result {
         return .failure(error)
+    }
+    
+    private func emptyData() -> Data {
+        return Data()
     }
 }
 
