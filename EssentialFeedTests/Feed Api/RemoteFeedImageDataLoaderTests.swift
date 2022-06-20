@@ -20,10 +20,19 @@ class RemoteFeedImageDataLoader {
         case invalidData
     }
     
-    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) {
-        client.get(from: url, completion: { [weak self] result in
-            guard let self = self else { return }
-            
+    private struct HTTPTaskWrapper: HTTPClientTask {
+        let wrapped: HTTPClientTask
+        
+        func cancel() {
+            wrapped.cancel()
+        }
+    }
+    
+    @discardableResult
+    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> HTTPClientTask {
+        let task = client.get(from: url, completion: { [weak self] result in
+            guard self != nil else { return }
+
             switch result {
             case let .success((data, response)):
                 if response.statusCode == 200, !data.isEmpty {
@@ -34,6 +43,7 @@ class RemoteFeedImageDataLoader {
             case let .failure(error): completion(.failure(error))
             }
         })
+        return HTTPTaskWrapper(wrapped: task)
     }
     
 }
@@ -172,14 +182,20 @@ extension RemoteFeedImageDataLoaderTests {
 
 extension RemoteFeedImageDataLoaderTests {
     private class HttpClientSpy: HTTPClient {
+        
+        private struct Task: HTTPClientTask {
+            func cancel() { }
+        }
+        
         private var messages = [(url: URL, completion: (HTTPClient.Result) -> Void)]()
         
         var requestedURLs: [URL] {
             return messages.map { $0.url }
         }
         
-        func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) {
+        func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
             messages.append((url: url, completion: completion))
+            return Task()
         }
         
         func complete(with error: NSError, at index: Int = 0) {
