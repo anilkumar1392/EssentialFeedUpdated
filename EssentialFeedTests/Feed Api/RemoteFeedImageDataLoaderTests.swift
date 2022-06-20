@@ -62,20 +62,9 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         let url = URL(string: "http://any-url.com")!
         let expectedError = NSError(domain: "a client error", code: 0)
         
-        let exp = expectation(description: "wait for load completion")
-        sut.loadImageData(from: url) { result in
-            switch result {
-            case .success:
-                XCTFail("Expected to complete with error, got \(result) instead.")
-                
-            case let .failure(retrievedError as NSError?):
-                XCTAssertEqual(expectedError, retrievedError)
-            }
-            
-            exp.fulfill()
+        expect(sut, toCompleteWith: .failure(expectedError)) {
+            client.complete(with: expectedError)
         }
-        client.complete(with: expectedError)
-        wait(for: [exp], timeout: 1.0)
     }
 }
 
@@ -88,6 +77,30 @@ extension RemoteFeedImageDataLoaderTests {
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(client, file: file, line: line)
         return (sut, client)
+    }
+    
+    private func expect(_ sut: RemoteFeedImageDataLoader, toCompleteWith expecetdResult: FeedImageDataLoader.Result, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
+        let url = URL(string: "http://any-url.com")!
+        let exp = expectation(description: "wait for load completion")
+        
+        sut.loadImageData(from: url) { receivedResult in
+            switch (receivedResult, expecetdResult)  {
+            case let (.success(receivedData), .success(expecetdData)):
+                XCTAssertEqual(receivedData, expecetdData, file: file, line: line)
+
+            case let (.failure(retrievedError as NSError?), .failure(expecetdError as NSError?)):
+                XCTAssertEqual(retrievedError, expecetdError, file: file, line: line)
+                
+            default:
+                XCTFail("Expected to complete with \(expecetdResult), got \(receivedResult) instead")
+            }
+            
+            exp.fulfill()
+        }
+        
+        action()
+        
+        wait(for: [exp], timeout: 1.0)
     }
 }
 
