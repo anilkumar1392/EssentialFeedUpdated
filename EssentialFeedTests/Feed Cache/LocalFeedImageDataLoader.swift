@@ -19,15 +19,17 @@ import EssentialFeed
 //}
 
 protocol FeedImageDataStore {
-    func retrieve(dataForURL url: URL)
+    typealias Result = Swift.Result<Data?, Error>
+    func retrieve(dataForURL url: URL, completion: @escaping (Result) -> Void)
 }
 
 class LocalFeedImageDataLoader: FeedImageDataLoader {
-    
     private struct Task: FeedImageDataTaskLoader {
-        func cancel() {
-            
-        }
+        func cancel() { }
+    }
+    
+    public enum Error: Swift.Error {
+        case failed
     }
     
     private let store: FeedImageDataStore
@@ -37,7 +39,9 @@ class LocalFeedImageDataLoader: FeedImageDataLoader {
     }
     
     func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataTaskLoader {
-        store.retrieve(dataForURL: url)
+        store.retrieve(dataForURL: url) { result in
+            completion(.failure(Error.failed))
+        }
         return Task()
     }
 }
@@ -48,7 +52,14 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         let (_, store) = makeSUT()
         
         XCTAssertTrue(store.receivedMessages.isEmpty)
+    }
+    
+    func test_loadImageDataFromURL_requestStoreDataFromURL() {
+        let (sut, store) = makeSUT()
         
+        _ = sut.loadImageData(from: anyUrl()) { result in }
+
+        XCTAssertEqual(store.receivedMessages, [.retrieve(dataFor: anyUrl())])
     }
 }
 
@@ -72,8 +83,8 @@ extension LocalFeedImageDataLoaderTests {
         }
         
         private(set) var receivedMessages = [Message]()
-        
-        func retrieve(dataForURL url: URL) {
+
+        func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.Result) -> Void) {
             receivedMessages.append(.retrieve(dataFor: url))
         }
     }
