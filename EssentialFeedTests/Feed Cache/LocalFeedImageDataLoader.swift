@@ -61,6 +61,29 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
 
         XCTAssertEqual(store.receivedMessages, [.retrieve(dataFor: anyUrl())])
     }
+    
+    func test_loadImageData_failsOnStoreError() {
+        let (sut, store) = makeSUT()
+        let retrievalError = anyNSError()
+
+        let exp = expectation(description: "wait for load completion")
+        _ = sut.loadImageData(from: anyUrl(), completion: { result in
+            
+            switch result {
+            case .failure(let error as LocalFeedImageDataLoader.Error):
+                XCTAssertEqual(error, LocalFeedImageDataLoader.Error.failed)
+                
+            default:
+                XCTFail("Expected to complete with failure, got \(result) instead")
+            }
+            
+            exp.fulfill()
+        })
+          
+        store.complete(with: retrievalError)
+        
+        wait(for: [exp], timeout: 1.0)
+    }
 }
 
 // MARK: - Helepr methods
@@ -82,10 +105,16 @@ extension LocalFeedImageDataLoaderTests {
             case retrieve(dataFor: URL)
         }
         
+        private var completions = [(FeedImageDataStore.Result) -> Void]()
         private(set) var receivedMessages = [Message]()
 
         func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.Result) -> Void) {
             receivedMessages.append(.retrieve(dataFor: url))
+            completions.append(completion)
+        }
+        
+        func complete(with error: NSError, at index: Int = 0) {
+            completions[index](.failure(error))
         }
     }
 }
