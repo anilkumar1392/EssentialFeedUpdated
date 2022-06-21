@@ -9,23 +9,30 @@ import Foundation
 import XCTest
 import EssentialFeed
 
-//public protocol FeedImageDataTaskLoader {
-//    func cancel()
-//}
-//
-//public protocol FeedImageDataLoader {
-//    typealias Result = Swift.Result<Data, Error>
-//    func loadImageData(from url: URL, completion: @escaping (Result) -> Void) -> FeedImageDataTaskLoader
-//}
-
 protocol FeedImageDataStore {
     typealias Result = Swift.Result<Data?, Error>
     func retrieve(dataForURL url: URL, completion: @escaping (Result) -> Void)
 }
 
 class LocalFeedImageDataLoader: FeedImageDataLoader {
-    private struct Task: FeedImageDataTaskLoader {
-        func cancel() { }
+    private final class Task: FeedImageDataTaskLoader {
+        private var completion: ((FeedImageDataLoader.Result) -> Void)?
+        
+        init(_ completion: @escaping (FeedImageDataLoader.Result) -> Void) {
+            self.completion = completion
+        }
+        
+        func complete(with result: FeedImageDataLoader.Result) {
+            completion?(result)
+        }
+
+        func cancel() {
+            preventFurtherCompletions()
+        }
+
+        private func preventFurtherCompletions() {
+            completion = nil
+        }
     }
     
     public enum Error: Swift.Error {
@@ -40,17 +47,25 @@ class LocalFeedImageDataLoader: FeedImageDataLoader {
     }
     
     func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataTaskLoader {
+        let task = Task(completion)
         store.retrieve(dataForURL: url) { result in
             /*
             completion(result
                 .mapError { _ in Error.failed }
                 .flatMap { _ in .failure(Error.notFound) }) */
             
+            /*
             completion(result
                 .mapError { _ in Error.failed }
-                .flatMap { data in data.map { .success($0)} ?? .failure(Error.notFound) })
+                .flatMap { data in data.map { .success($0)} ?? .failure(Error.notFound) }) */
+            
+            task.complete(with: result
+                .mapError { _ in Error.failed }
+                .flatMap { data in
+                    data.map { .success($0) } ?? .failure(Error.notFound)
+                })
         }
-        return Task()
+        return task
     }
 }
 
@@ -115,6 +130,19 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         expect(sut, toCompleteWith: .success(foundData)) {
             store.complete(with: foundData)
         }
+    }
+    
+    func test_loadImageDataFromURL_doesNotDeliverResultAfterCancellingTask() {
+        let (sut, store) = makeSUT()
+
+        var received = [FeedImageDataLoader.Result]()
+        let task = sut.loadImageData(from: anyUrl()) { received.append($0) }
+        
+        task.cancel()
+        store.complete(with: anyNSError())
+        
+        XCTAssertTrue(received.isEmpty, "Expected no received results after cancelling task")
+
     }
 }
 
