@@ -125,7 +125,7 @@ class RemoteFeedLoaderTests: XCTestCase {
             
             expect(sut, toCompleteWith: .failure(RemoteFeedLoader.Error.invalidData)) {
                 let json = makeItemJson([])
-                client.complete(withStatusCode: code, data: json, index: index)
+                client.complete(withStatusCode: code, data: json, at: index)
             }
         }
     }
@@ -259,52 +259,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         }
         
         action()
-        // XCTAssertEqual(capturedError, [result], file: file, line: line)
         
         wait(for: [exp], timeout: 1.0)
-    }
-    
-    private class HttpClientSpy: HTTPClient {
-        //var requestedURLs = [URL]()
-        //var error: Error?
-        //var completions = [(Error) -> Void]()
-        
-        private struct Task: HTTPClientTask {
-            func cancel() { }
-        }
-        
-        private var messges = [(url: URL, completion: (HTTPClient.Result) -> Void)]()
-        
-        var requestedURLs: [URL] {
-            return messges.map {$0.url}
-        }
-        
-        func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
-            /*
-            if let error = error {
-                completion(error)
-            }*/
-            //completions.append(completion)
-            
-            // guard let url = url else {return}
-            //requestedURLs.append(url)
-            messges.append((url,completion))
-            return Task()
-        }
-        
-        func complete(with error: Error, index: Int = 0) {
-            //completions[index](error)
-            messges[index].completion(.failure(error))
-        }
-        
-        func complete(withStatusCode code: Int, data: Data, index: Int = 0) {
-            let response = HTTPURLResponse(
-                url: requestedURLs[index],
-                statusCode: code,
-                httpVersion: nil,
-                headerFields: nil
-            )!
-            messges[index].completion(.success((data,response)))
-        }
     }
 }
