@@ -38,11 +38,11 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     
     // Delviers error on client error
     
-    func test_loadImageDataFromURL_deliversErrorOnClientError() {
+    func test_loadImageDataFromURL_deliversConnectivityErrorOnClientError() {
         let (sut, client) = makeSUT()
         let expectedError = NSError(domain: "a client error", code: 0)
 
-        expect(sut, toCompleteWith: .failure(expectedError)) {
+        expect(sut, toCompleteWith: failure(.connectivity)) {
             client.complete(with: expectedError)
         }
     }
