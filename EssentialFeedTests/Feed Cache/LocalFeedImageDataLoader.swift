@@ -99,18 +99,6 @@ class LoadFeedImageDataFromCacheUseCaseTests: XCTestCase {
     }
 }
 
-// tests for save operations
-
-extension LoadFeedImageDataFromCacheUseCaseTests {
-    func test_saveImageDataForURL_requestsImageDataInsertionForIURL() {
-        let (sut, store) = makeSUT()
-
-        sut.save(anyData(), for: anyUrl()) { _ in }
-        
-        XCTAssertEqual(store.receivedMessages, [.insert(data: anyData(), for: anyUrl())])
-    }
-}
-
 // MARK: - Helepr methods
 
 extension LoadFeedImageDataFromCacheUseCaseTests {
