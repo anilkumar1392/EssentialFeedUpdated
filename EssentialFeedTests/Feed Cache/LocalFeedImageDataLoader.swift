@@ -9,7 +9,8 @@ import Foundation
 import XCTest
 import EssentialFeed
 
-class LocalFeedImageDataLoaderTests: XCTestCase {
+// LocalFeedImageDataLoaderTests
+class LoadFeedImageDataFromCacheUseCaseTests: XCTestCase {
     
     func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = makeSUT()
@@ -100,7 +101,7 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
 
 // tests for save operations
 
-extension LocalFeedImageDataLoaderTests {
+extension LoadFeedImageDataFromCacheUseCaseTests {
     func test_saveImageDataForURL_requestsImageDataInsertionForIURL() {
         let (sut, store) = makeSUT()
 
@@ -112,7 +113,7 @@ extension LocalFeedImageDataLoaderTests {
 
 // MARK: - Helepr methods
 
-extension LocalFeedImageDataLoaderTests {
+extension LoadFeedImageDataFromCacheUseCaseTests {
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedImageDataLoader, store: StoreSpy) {
         let store = StoreSpy()
         let sut = LocalFeedImageDataLoader(store: store)
@@ -154,7 +155,7 @@ extension LocalFeedImageDataLoaderTests {
     }
 }
 
-extension LocalFeedImageDataLoaderTests {
+extension LoadFeedImageDataFromCacheUseCaseTests {
     private class StoreSpy: FeedImageDataStore {
         enum Message: Equatable {
             case insert(data: Data, for: URL)
