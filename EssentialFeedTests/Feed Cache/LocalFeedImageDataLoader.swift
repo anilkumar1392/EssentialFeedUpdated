@@ -98,6 +98,18 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
     }
 }
 
+// tests for save operations
+
+extension LocalFeedImageDataLoaderTests {
+    func test_saveImageDataForURL_requestsImageDataInsertionForIURL() {
+        let (sut, store) = makeSUT()
+
+        sut.save(anyData(), for: anyUrl()) { _ in }
+        
+        XCTAssertEqual(store.receivedMessages, [.insert(data: anyData(), for: anyUrl())])
+    }
+}
+
 // MARK: - Helepr methods
 
 extension LocalFeedImageDataLoaderTests {
@@ -145,12 +157,17 @@ extension LocalFeedImageDataLoaderTests {
 extension LocalFeedImageDataLoaderTests {
     private class StoreSpy: FeedImageDataStore {
         enum Message: Equatable {
+            case insert(data: Data, for: URL)
             case retrieve(dataFor: URL)
         }
         
         private var completions = [(FeedImageDataStore.Result) -> Void]()
         private(set) var receivedMessages = [Message]()
 
+        func insert(_ data: Data, for url: URL, completion: @escaping (FeedImageDataStore.InsertionResult) -> Void) {
+            receivedMessages.append(.insert(data: data, for: url))
+        }
+        
         func retrieve(dataForURL url: URL, completion: @escaping (FeedImageDataStore.Result) -> Void) {
             receivedMessages.append(.retrieve(dataFor: url))
             completions.append(completion)
