@@ -30,6 +30,7 @@ class LocalFeedImageDataLoader: FeedImageDataLoader {
     
     public enum Error: Swift.Error {
         case failed
+        case notFound
     }
     
     private let store: FeedImageDataStore
@@ -40,7 +41,9 @@ class LocalFeedImageDataLoader: FeedImageDataLoader {
     
     func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataTaskLoader {
         store.retrieve(dataForURL: url) { result in
-            completion(.failure(Error.failed))
+            completion(result
+                .mapError { _ in Error.failed }
+                .flatMap { _ in .failure(Error.notFound) })
         }
         return Task()
     }
@@ -62,7 +65,7 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve(dataFor: anyUrl())])
     }
     
-    func test_loadImageData_failsOnStoreError() {
+    func test_loadImageDataFromURL_failsOnStoreError() {
         let (sut, store) = makeSUT()
         
         expect(sut, toCompleteWith: failed()) {
@@ -92,6 +95,14 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
          */
     }
+    
+    func test_loadImageDataFromURL_deliversNotFoundErrorOnNotFound() {
+        let (sut, store) = makeSUT()
+
+        expect(sut, toCompleteWith: notFound()) {
+            store.complete(with: .none)
+        }
+    }
 }
 
 // MARK: - Helepr methods
@@ -108,6 +119,10 @@ extension LocalFeedImageDataLoaderTests {
     
     private func failed() -> FeedImageDataLoader.Result {
         return .failure(LocalFeedImageDataLoader.Error.failed)
+    }
+    
+    private func notFound() -> FeedImageDataLoader.Result {
+        return .failure(LocalFeedImageDataLoader.Error.notFound)
     }
     
     private func expect(_ sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: FeedImageDataLoader.Result, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
@@ -150,6 +165,10 @@ extension LocalFeedImageDataLoaderTests {
         
         func complete(with error: NSError, at index: Int = 0) {
             completions[index](.failure(error))
+        }
+        
+        func complete(with data: Data?, at index: Int = 0) {
+            completions[index](.success(data))
         }
     }
 }
