@@ -14,3 +14,11 @@ func anyNSError() -> NSError {
 func anyUrl() -> URL {
     return  URL(string: "https://any-url.com")!
 }
+
+func anyData() -> Data {
+    return Data("any data".utf8)
+}
+
+func emptyData() -> Data {
+    return Data()
+}
