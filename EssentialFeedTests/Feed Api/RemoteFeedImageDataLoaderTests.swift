@@ -115,7 +115,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         })
     }
     
-    func test_loadImageDataFromURL_doesNotDelvierResultAfterInstacneHasBeenDeallocated() {
+    func test_loadImageDataFromURL_doesNotDelvierResultAfterInstanceHasBeenDeallocated() {
         let client = HttpClientSpy()
         var sut: RemoteFeedImageDataLoader? = RemoteFeedImageDataLoader(client: client)
         let url = URL(string: "http://any-url.com")!
@@ -129,6 +129,18 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         client.complete(with: anyNSError())
         
         XCTAssertTrue(capturedResult.isEmpty)
+    }
+    
+    func test_cancelLoadImageDataURLTask_cancelsClientURLRequest() {
+        let (sut, client) = makeSUT()
+        let url = URL(string: "http://any-url.com")!
+
+        let task = sut.loadImageData(from: url) { _ in }
+        XCTAssertTrue(client.cancelledURLs.isEmpty, "Expected no cancelled request urls until ask is cancelled")
+        
+        task.cancel()
+        XCTAssertEqual(client.cancelledURLs, [url], "Expected cancelled URL request after task is cancelled")
+
     }
 }
 
@@ -184,7 +196,8 @@ extension RemoteFeedImageDataLoaderTests {
     private class HttpClientSpy: HTTPClient {
         
         private struct Task: HTTPClientTask {
-            func cancel() { }
+            let callback: () -> Void
+            func cancel() { callback() }
         }
         
         private var messages = [(url: URL, completion: (HTTPClient.Result) -> Void)]()
@@ -193,9 +206,13 @@ extension RemoteFeedImageDataLoaderTests {
             return messages.map { $0.url }
         }
         
+        var cancelledURLs = [URL]()
+        
         func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
             messages.append((url: url, completion: completion))
-            return Task()
+            return Task { [weak self] in
+                self?.cancelledURLs.append(url)
+            }
         }
         
         func complete(with error: NSError, at index: Int = 0) {

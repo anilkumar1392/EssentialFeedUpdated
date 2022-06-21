@@ -47,3 +47,4 @@
 
 ---
 
+// Infrastructure abstraction sgould be exactly what client neeeds.
