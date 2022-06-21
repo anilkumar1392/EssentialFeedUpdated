@@ -9,7 +9,9 @@ import Foundation
 import XCTest
 import EssentialFeed
 
-class RemoteFeedImageDataLoaderTests: XCTestCase {
+// RemoteFeedImageDataLoaderTests
+
+class LoadFeedImageDataFromRemoteUseCaseTests: XCTestCase {
     
     func test_init_doesNotPerformAnyURLRequest() {
         let (_, client) = makeSUT()
@@ -125,7 +127,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
 
 // MARK: - RemoteFeedImageDataLoaderTests
 
-extension RemoteFeedImageDataLoaderTests {
+extension LoadFeedImageDataFromRemoteUseCaseTests {
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> (RemoteFeedImageDataLoader, client: HttpClientSpy){
         let client = HttpClientSpy()
         let sut = RemoteFeedImageDataLoader(client: client)
