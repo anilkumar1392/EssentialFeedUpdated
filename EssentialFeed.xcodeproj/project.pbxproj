@@ -54,6 +54,7 @@
 		F5D3CD07283DCA58001CFA77 /* fileSystem-Inuse.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D3CD06283DCA58001CFA77 /* fileSystem-Inuse.png */; };
 		F5D3CD0A283DD230001CFA77 /* cache-module-without-sep.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D3CD08283DD230001CFA77 /* cache-module-without-sep.png */; };
 		F5D3CD0B283DD230001CFA77 /* cache-module-with-framew-sepe.png in Resources */ = {isa = PBXBuildFile; fileRef = F5D3CD09283DD230001CFA77 /* cache-module-with-framew-sepe.png */; };
+		F5D40E7428618D42006BAB86 /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D40E7328618D42006BAB86 /* HTTPClientSpy.swift */; };
 		F5D4F2EF284839DF00B9DFF5 /* ManagedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D4F2EE284839DF00B9DFF5 /* ManagedCache.swift */; };
 		F5D4F2F128483A5A00B9DFF5 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D4F2F028483A5A00B9DFF5 /* CoreDataHelper.swift */; };
 		F5D4F2F328483B3800B9DFF5 /* IntegrationTest.MD in Resources */ = {isa = PBXBuildFile; fileRef = F5D4F2F228483B3800B9DFF5 /* IntegrationTest.MD */; };
@@ -215,6 +216,7 @@
 		F5D3CD06283DCA58001CFA77 /* fileSystem-Inuse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fileSystem-Inuse.png"; sourceTree = "<group>"; };
 		F5D3CD08283DD230001CFA77 /* cache-module-without-sep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cache-module-without-sep.png"; sourceTree = "<group>"; };
 		F5D3CD09283DD230001CFA77 /* cache-module-with-framew-sepe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cache-module-with-framew-sepe.png"; sourceTree = "<group>"; };
+		F5D40E7328618D42006BAB86 /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
 		F5D4F2EE284839DF00B9DFF5 /* ManagedCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedCache.swift; sourceTree = "<group>"; };
 		F5D4F2F028483A5A00B9DFF5 /* CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
 		F5D4F2F228483B3800B9DFF5 /* IntegrationTest.MD */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = IntegrationTest.MD; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 			children = (
 				F5BFEF54276F162E00408F46 /* XCTestCase+MemoryLeakTracking.swift */,
 				F5D2E2FA283A54B20021BAD2 /* SharedTestHelper.swift */,
+				F5D40E7328618D42006BAB86 /* HTTPClientSpy.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1020,6 +1023,7 @@
 				F5D2E2F7283A483B0021BAD2 /* ValidateFeedCacheUseCaseTests.swift in Sources */,
 				F50FAB4527DE576700A125FA /* DemoTest.swift in Sources */,
 				F50410F42841FC6500B38BF9 /* SCTestCase+FeedStoreSpecs.swift in Sources */,
+				F5D40E7428618D42006BAB86 /* HTTPClientSpy.swift in Sources */,
 				F50FAB4A27DE5A4000A125FA /* LoginModel.swift in Sources */,
 				F5D9FEAC2838E3FF0067F7B8 /* LocalFeedFromCacheUseCaseTests.swift in Sources */,
 				F5D9B8E72858A97800FA46B5 /* FeedPresentationTests.swift in Sources */,
