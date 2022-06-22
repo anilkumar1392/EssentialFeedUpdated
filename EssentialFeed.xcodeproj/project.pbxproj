@@ -1666,7 +1666,7 @@
 				F5B1145E284354D900C7771D /* FeedStore.xcdatamodel */,
 				F5B1145F284354D900C7771D /* CoreDataFeedStore.xcdatamodel */,
 			);
-			currentVersion = F5B1145E284354D900C7771D /* FeedStore.xcdatamodel */;
+			currentVersion = F5B925782862AE380064FD6A /* FeedStore 2.xcdatamodel */;
 			path = FeedStore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
