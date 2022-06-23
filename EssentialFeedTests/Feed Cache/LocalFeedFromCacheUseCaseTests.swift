@@ -76,7 +76,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let retrivalError = anyNSError()
         
         expect(sut, toCompleteWith: .failure(retrivalError)) {
-            store.completeRetrival(with:  retrivalError)
+            store.completeRetrieval(with: retrivalError)
         }
         /*
         let exp = expectation(description: "wait for expectation for fulfill")
@@ -103,7 +103,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT()
 
         expect(sut, toCompleteWith: .success([])) {
-            store.completeRetrivalWithEmptyCache()
+            store.completeRetrievalWithEmptyCache()
         }
         
         /*
@@ -134,7 +134,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
 
         expect(sut, toCompleteWith: .success(feed.models)) {
-            store.completeRetrival(with: feed.local, timestamp: nonExpiredTimestamp)
+            store.completeRetrieval(with: feed.local, timestamp: nonExpiredTimestamp)
         }
     }
     
@@ -145,7 +145,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
  
         expect(sut, toCompleteWith: .success([])) {
-            store.completeRetrival(with: feed.local, timestamp: expirationTimestamp)
+            store.completeRetrieval(with: feed.local, timestamp: expirationTimestamp)
         }
     }
     
@@ -156,7 +156,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
 
         expect(sut, toCompleteWith: .success([])) {
-            store.completeRetrival(with: feed.local, timestamp: expiredTimestamp)
+            store.completeRetrieval(with: feed.local, timestamp: expiredTimestamp)
         }
     }
     
@@ -169,7 +169,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT()
         
         sut.load { _ in }
-        store.completeRetrival(with: anyNSError())
+        store.completeRetrieval(with: anyNSError())
         
         XCTAssertEqual(store.receivedMesages, [.retrieve])
     }
@@ -178,7 +178,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT()
         
         sut.load { _ in }
-        store.completeRetrivalWithEmptyCache()
+        store.completeRetrievalWithEmptyCache()
         
         XCTAssertEqual(store.receivedMesages, [.retrieve])
     }
@@ -190,7 +190,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.load { _ in }
-        store.completeRetrival(with: feed.local, timestamp: nonExpiredTimestamp)
+        store.completeRetrieval(with: feed.local, timestamp: nonExpiredTimestamp)
         
         XCTAssertEqual(store.receivedMesages, [.retrieve])
     }
@@ -202,7 +202,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.load { _ in }
-        store.completeRetrival(with: feed.local, timestamp: expirationTimestamp)
+        store.completeRetrieval(with: feed.local, timestamp: expirationTimestamp)
         
         XCTAssertEqual(store.receivedMesages, [.retrieve])
     }
@@ -214,7 +214,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.load { _ in }
-        store.completeRetrival(with: feed.local, timestamp: expiredTimestamp)
+        store.completeRetrieval(with: feed.local, timestamp: expiredTimestamp)
         
         XCTAssertEqual(store.receivedMesages, [.retrieve])
     }
@@ -228,7 +228,7 @@ class LocalFeedFromCacheUseCaseTest: XCTestCase {
         sut?.load { receivedResult.append($0) }
         
         sut = nil
-        store.completeRetrivalWithEmptyCache()
+        store.completeRetrievalWithEmptyCache()
         
         XCTAssertTrue(receivedResult.isEmpty)
     }
