@@ -139,7 +139,7 @@ extension FeedViewController {
             _ = imageLoader?.loadImageData(from: cellModel.url, completion: { _ in })
             */
             
-            _ = cellController(forRowAt: indexPath).preload()
+            cellController(forRowAt: indexPath).preload()
         }
     }
     
