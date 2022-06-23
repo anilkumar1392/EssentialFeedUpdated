@@ -76,6 +76,17 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         expect(feedLoaderToPerformSave, toLoad: feed)
     }
     
+    func test_validateFeedCache_deletesFeedSavedInADistantPast() {
+        let feedLoaderToPerformSave = makeFeedLoader(currentDate: .distantPast)
+        let feedLoaderToPerformValidation = makeFeedLoader(currentDate: Date())
+        let feed = uniqueImageFeed().models
+
+        save(feed, feedLoaderToPerformSave)
+        validateCache(with: feedLoaderToPerformValidation)
+
+        expect(feedLoaderToPerformSave, toLoad: [])
+    }
+    
     //MARK: - LocalFeedImageDataLoader Tests
     // MARK: - Integration tests for CoreDataFeedStore with LocalFeedImageDataLoader
     
@@ -111,10 +122,10 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeFeedLoader(file: StaticString = #file, line: UInt = #line) -> LocalFeedLoader {
+    private func makeFeedLoader(currentDate: Date = Date(),file: StaticString = #file, line: UInt = #line) -> LocalFeedLoader {
         let url = testSpecificStoreURL()
         let store = try! CoreDataFeedStore(storeURL: url)
-        let sut = LocalFeedLoader(store: store, currentDate: Date.init)
+        let sut = LocalFeedLoader(store: store, currentDate: { currentDate })
         trackForMemoryLeaks(store)
         trackForMemoryLeaks(sut)
         return sut
