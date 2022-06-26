@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-extension UIRefreshControl {
+public extension UIRefreshControl {
     func simulatePullToRefresh() {
         self.allTargets.forEach({ target in
             self.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach({
