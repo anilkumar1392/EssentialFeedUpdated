@@ -63,7 +63,7 @@ class FeedImageViewModel<Image> {
 }
 */
 
-final class FeedImageViewModel<Image> {
+public final class FeedImageViewModel<Image> {
     typealias Observer<T> = (T) -> Void
 
     private var task: FeedImageDataTaskLoader?
@@ -71,7 +71,7 @@ final class FeedImageViewModel<Image> {
     private let imageLoader: FeedImageDataLoader
     private let imageTransformer: (Data) -> Image?
 
-    init(model: FeedImage, imageLoader: FeedImageDataLoader, imageTransformer: @escaping (Data) -> Image?) {
+    public init(model: FeedImage, imageLoader: FeedImageDataLoader, imageTransformer: @escaping (Data) -> Image?) {
         self.model = model
         self.imageLoader = imageLoader
         self.imageTransformer = imageTransformer
