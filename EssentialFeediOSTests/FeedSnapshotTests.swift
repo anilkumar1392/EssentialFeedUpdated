@@ -17,7 +17,7 @@ class FeedSnapshotsTests: XCTestCase {
         
         sut.display(emptyFeed())
         
-        let snapshot = sut.snapshot()
+        record(snapshot: sut.snapshot(), named: "EMPTY_FEED")
     }
 }
 
@@ -35,7 +35,33 @@ extension FeedSnapshotsTests {
     func emptyFeed() -> [FeedImageCellController] {
         return []
     }
+    
+    private func record(snapshot: UIImage, named name: String, file: StaticString = #file, line: UInt = #line) {
+        guard let snapshotData = snapshot.pngData() else {
+            XCTFail("Failed to generate PNG data representation from snapshot", file: file, line: line)
+            return
+        }
+        
+        // ../EssentialFeediOSTests/snapshots/EMPTY_FEED.png
+        let snapshotURL = URL(fileURLWithPath: String(describing: file))
+            .deletingLastPathComponent()
+            .appendingPathComponent("snapshots")
+            .appendingPathComponent("\(name).png")
+        
+        do {
+            try FileManager.default.createDirectory(
+                at: snapshotURL.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+            
+            try snapshotData.write(to: snapshotURL)
+        } catch {
+            XCTFail("Failed to create snapshots with error: \(error)", file: file, line: line)
+        }
+        
+    }
 }
+
 extension UIViewController {
     func snapshot() -> UIImage {
         let renderer = UIGraphicsImageRenderer(bounds: view.bounds)
