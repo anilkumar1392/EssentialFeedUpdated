@@ -111,7 +111,8 @@ public final class FeedUIComposer {
 
         // let feedPresenter = FeedPresenter(feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader), title: title)
         
-        let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader))
+        let presentationAdapter = FeedLoaderPresentationAdapter(
+            feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader))
         
         // let refreshController = FeedRefreshViewController(presenter: feedPresenter)
         // let refreshController = FeedRefreshViewController(delegate: presentationAdapter)
@@ -162,7 +163,10 @@ private final class FeedViewAdapter: FeedView {
     func display(viewModel: FeedViewModal) {
         controller?.display(viewModel.feed.map { model in
             FeedImageCellController(viewModel:
-                FeedImageViewModel(model: model, imageLoader: imageLoader, imageTransformer: UIImage.init))
+                FeedImageViewModel(model: model,
+                                   imageLoader: imageLoader,
+                                   imageTransformer: UIImage.init)
+            )
         })
     }
 }

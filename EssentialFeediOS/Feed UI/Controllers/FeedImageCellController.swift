@@ -19,7 +19,8 @@ public class FeedImageCellController {
     init(model: FeedImage, imageLoader: FeedImageDataLoader) {
         self.model = model
         self.imageLoader = imageLoader
-    } */
+    }
+     */
     
     private let viewModel: FeedImageViewModel<UIImage>
     private var cell: FeedImageCell?
