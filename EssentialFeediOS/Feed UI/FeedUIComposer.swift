@@ -100,6 +100,7 @@ private extension FeedViewController {
 }
 */
 
+/*
 public final class FeedUIComposer {
     private init() {}
     
@@ -138,8 +139,9 @@ public final class FeedUIComposer {
         
         return feedController
     }
-}
+} */
 
+/*
 private extension FeedViewController {
     static func makeWith(delegate: FeedViewControllerDelegate, title: String) -> FeedViewController {
         let bundle = Bundle(for: FeedViewController.self)
@@ -194,3 +196,45 @@ private final class FeedLoaderPresentationAdapter: FeedViewControllerDelegate {
         }
     }
 }
+
+
+public final class FeedUIComposer {
+    private init() {}
+    
+    public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
+        let title = NSLocalizedString("FEED_VIEW_TITLE",
+                                      tableName: "Feed",
+                                      bundle: Bundle(for: FeedUIComposer.self),
+                                      comment: "Title for the feed view")
+
+        // let feedPresenter = FeedPresenter(feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader), title: title)
+        
+        let presentationAdapter = FeedLoaderPresentationAdapter(
+            feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader))
+        
+        // let refreshController = FeedRefreshViewController(presenter: feedPresenter)
+        // let refreshController = FeedRefreshViewController(delegate: presentationAdapter)
+
+        // let feedController = FeedViewController(refreshController: refreshController)
+        // feedController.refreshController = refreshController
+        
+        // let refreshController = feedController.refreshController!
+        // refreshController.delegate = presentationAdapter
+
+        let feedController = FeedViewController.makeWith(
+            delegate: presentationAdapter,
+            title: FeedPresenter.title)
+        
+        let feedPresenter = FeedPresenter(
+            feedView: FeedViewAdapter(
+                controller: feedController,
+                imageLoader: imageLoader),
+            errorView: WeakRefVirtualProxy(feedController),
+            loadingView: WeakRefVirtualProxy(feedController)
+            )
+        presentationAdapter.presenter = feedPresenter
+        
+        return feedController
+    }
+}
+*/
