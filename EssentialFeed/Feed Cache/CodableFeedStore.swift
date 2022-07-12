@@ -117,7 +117,6 @@ public class CodableFeedStore: FeedStore {
             } catch {
                 completion(.failure(error))
             }
-            
         }
     }
 }

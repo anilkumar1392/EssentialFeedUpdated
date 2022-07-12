@@ -43,8 +43,8 @@ public final class FeedUIComsposer {
             })
         }
     }
-}
-*/
+}*/
+
 
 /*
  MVVM
