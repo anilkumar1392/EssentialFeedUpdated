@@ -8,6 +8,7 @@
 import Foundation
 import XCTest
 import EssentialFeediOS
+import EssentialFeed
 
 // Idea is to render the user interface and take the snapshot.
 
@@ -21,11 +22,11 @@ class FeedSnapshotsTests: XCTestCase {
     }
     
     func test_feed_withContent() {
-//        let sut = makeSUT()
-//
-//        sut.display(feedWithContent())
-//
-//        record(snapshot: sut.snapshot(), named: "FEED_WITH_CONTENT")
+        let sut = makeSUT()
+
+        sut.display(feedWithContent())
+
+        record(snapshot: sut.snapshot(), named: "FEED_WITH_CONTENT")
     }
 }
 
@@ -44,20 +45,17 @@ extension FeedSnapshotsTests {
         return []
     }
 
-//    private func feedWithContent() -> [ImageStub] {
-//        return [
-//            ImageStub(
-//                description: "The East Side Gallery is an open-air gallery in Berlin. It consists of a series of murals painted directly on a 1,316 m long remnant of the Berlin Wall, located near the centre of Berlin, on Mühlenstraße in Friedrichshain-Kreuzberg. The gallery has official status as a Denkmal, or heritage-protected landmark.",
-//                location: "East Side Gallery\nMemorial in Berlin, Germany",
-//                image: UIImage.make(withColor: .red)
-//            ),
-//            ImageStub(
-//                description: "Garth Pier is a Grade II listed structure in Bangor, Gwynedd, North Wales.",
-//                location: "Garth Pier",
-//                image: UIImage.make(withColor: .green)
-//            )
-//        ]
-//    }
+    private func feedWithContent() -> [FeedImageCellController] {
+        return [FeedImageCellController(viewModel:
+                        FeedImageViewModel(model: FeedImage(id: UUID(), description: "The East Side Gallery is an open-air gallery in Berlin. It consists of a series of murals painted directly on a 1,316 m long remnant of the Berlin Wall, located near the centre of Berlin, on Mühlenstraße in Friedrichshain-Kreuzberg. The gallery has official status as a Denkmal, or heritage-protected landmark.", location: "East Side Gallery\nMemorial in Berlin, Germany", url: URL(string: "http://url.com")!),
+                                           imageLoader: FeedImageLoader(),
+                                           imageTransformer: UIImage.init)),
+                FeedImageCellController(viewModel:
+                                FeedImageViewModel(model: FeedImage(id: UUID(), description: "Garth Pier is a Grade II listed structure in Bangor, Gwynedd, North Wales.", location: "Garth Pier", url: URL(string: "http://another.com")!),
+                                                   imageLoader: FeedImageLoader(),
+                                                   imageTransformer: UIImage.init))]
+    }
+
     private func record(snapshot: UIImage, named name: String, file: StaticString = #file, line: UInt = #line) {
         guard let snapshotData = snapshot.pngData() else {
             XCTFail("Failed to generate PNG data representation from snapshot", file: file, line: line)
@@ -93,20 +91,15 @@ extension UIViewController {
     }
 }
 
-/*
-private class ImageStub {
-    let viewModel: FeedImageViewModel<UIImage>
-    weak var controller: FeedImageCellController?
-
-    init(description: String?, location: String?, image: UIImage?) {
-        viewModel = FeedImageViewModel(model: <#T##FeedImage#>, imageLoader: <#T##FeedImageDataLoader#>, imageTransformer: <#T##(Data) -> _?#>)
+private class FeedImageLoader: FeedImageDataLoader {
+    struct TaskLoader: FeedImageDataTaskLoader {
+        func cancel() { }
     }
-
-    func didRequestImage() {
-        controller?.display(viewModel)
+    
+    func loadImageData(from url: URL, completion: @escaping (FeedImageDataLoader.Result) -> Void) -> FeedImageDataTaskLoader {
+        completion(.success(UIImage.make(withColor: .red).pngData() ?? Data()))
+        return TaskLoader()
     }
-
-    func didCancelImageRequest() {}
 }
- */
-
+        
+                                   
