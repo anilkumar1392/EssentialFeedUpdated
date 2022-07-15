@@ -66,6 +66,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
     }
     
     public func display(_ cellController: [FeedImageCellController]) {
+        // Every time we get a new model to display we reset it.
         loadingController = [:]
         tableModel = cellController
     }
