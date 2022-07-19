@@ -27,13 +27,17 @@ class ImageCommentsMapper {
         }
     }
     
-    static func map(data: Data, from response: HTTPURLResponse) throws -> [ImageComment] {
-        guard isOK(response), let root = try? JSONDecoder().decode(Root.self, from: data) else {
+    static func map(_ data: Data, from response: HTTPURLResponse) throws -> [ImageComment] {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        guard isOK(response), let root = try? decoder.decode(Root.self, from: data) else {
             throw RemoteImageCommentsLoader.Error.invalidData
         }
+
         return root.comments
     }
-    
+
     private static func isOK(_ response: HTTPURLResponse) -> Bool {
         (200...299).contains(response.statusCode)
     }
