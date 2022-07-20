@@ -91,58 +91,14 @@ class RemoteLoaderTests: XCTestCase { // RemoteLoader<String>Tests
     
     // Any data passed to a mapper that throws an error generates invalid data.
     
-    // Invalid Data
-    func test_load_deliversErrorOnNon200HttpsResponse() {
-        let (sut, client) = makeSUT()
-
-        let sampleData = [199, 201, 300, 400, 500]
-        sampleData.enumerated().forEach { index, code in
-
-            expect(sut, toCompleteWith: .failure(RemoteLoader<String>.Error.invalidData)) {
-                let json = makeItemJson([])
-                client.complete(withStatusCode: code, data: json, at: index)
-            }
+    func test_load_deliversMappedResponses() {
+        let resource = "a resource"
+        let (sut, client) = makeSUT { data, _ in
+            String(data: data, encoding: .utf8)!
         }
-    }
-    
-    // 200 with invalid json.
-    func test_load_deliversErrorOn200HttpsResponseWithInvalidJson() {
-        let (sut, client) = makeSUT()
-
-        expect(sut, toCompleteWith: .failure(RemoteLoader<String>.Error.invalidData)) {
-            let invalidJSON = Data("Invalid json".utf8)
-            client.complete(withStatusCode: 200, data: invalidJSON)
-        }
-    }
-
-    // Delivers No items with 200
-    func test_load_deliversNoItemsOn200HttpsResponseWithEmptyJSONList() {
-        let (sut, client) = makeSUT()
-   
-        expect(sut, toCompleteWith: .success([])) {
-            //let data = Data("{\"items\": []}".utf8)
-            let data = makeItemJson([])
-            client.complete(withStatusCode: 200, data: data)
-        }
-    }
-    
-    func test_load_deliversItemsOn200HttpResponseWithJSONItems() {
-        let (sut, client) = makeSUT()
-
-        let (item1, item1JSON) = makeItem(
-            id: UUID(),
-            image: URL(string: "http://a-url.com")!
-        )
-        let (item2, item2JSON) = makeItem(
-            id: UUID(),
-            description: "a description",
-            location: "a location",
-            image: URL(string: "http://a-url.com")!
-        )
         
-        expect(sut, toCompleteWith: .success([item1, item2])) {
-            let json = makeItemJson([item1JSON, item2JSON])
-            client.complete(withStatusCode: 200, data: json)
+        expect(sut, toCompleteWith: .success(resource)) {
+            client.complete(withStatusCode: 200, data: Data(resource.utf8))
         }
         
     }
