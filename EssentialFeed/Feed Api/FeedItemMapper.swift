@@ -43,6 +43,10 @@ public class FeedItemMapper {
         return 200
     }
     
+    public enum Error: Swift.Error {
+        case invalidData
+    }
+    
     /*
     static func mapper(_ data: Data, _ response: HTTPURLResponse) throws -> [FeedItem] {
         guard response.statusCode == OK_200 else {
@@ -63,7 +67,7 @@ public class FeedItemMapper {
     
     public static func map(data: Data, from response: HTTPURLResponse) throws -> [FeedImage] {
         guard response.isOK, let root = try? JSONDecoder().decode(Root.self, from: data) else {
-            throw RemoteFeedLoader.Error.invalidData
+            throw Error.invalidData
         }
         return root.images
     }
