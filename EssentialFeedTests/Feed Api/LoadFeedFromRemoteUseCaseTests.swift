@@ -31,6 +31,7 @@ class HTTPClient {
  */
 
 
+// MARK: - Rename this to FeedItemsMapperTests
 
 class LoadFeedFromRemoteUseCaseTests: XCTestCase { // RemoteFeedLoaderTests
 
@@ -261,5 +262,64 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase { // RemoteFeedLoaderTests
         action()
         
         wait(for: [exp], timeout: 1.0)
+    }
+}
+
+// Testing mapper in isolation as previously we were testing them in integration which is not needed now.
+
+/*
+ we just assert the output for specific input.
+ it is just input and output no infrastructure, no closure.
+ */
+extension LoadFeedFromRemoteUseCaseTests {
+    func test_map_throwsErrorOnNon200HTTPResponse() throws {
+        let sampleData = [199, 201, 300, 400, 500]
+        let json = makeItemJson([])
+        
+        try sampleData.forEach { code in
+            XCTAssertThrowsError(
+                 try FeedItemMapper.map(data: json, from: HTTPURLResponse(statusCode: code))
+            )
+        }
+    }
+    
+    func test_map_throwsErrorOnNon200HTTPResponseWithInvalidJSON() {
+        let invalidJson = Data("invalid-json".utf8)
+        
+        XCTAssertThrowsError(
+            try FeedItemMapper.map(data: invalidJson, from: HTTPURLResponse(statusCode: 200))
+        )
+    }
+    
+    func test_map_deliversNoItemsOnNon200HTTPResponseWithEmptyJSONList() throws {
+        let emptyJSONList = makeItemJson([])
+
+        let result = try FeedItemMapper.map(data: emptyJSONList, from: HTTPURLResponse(statusCode: 200))
+        
+        XCTAssertEqual(result, [])
+    }
+    
+    func test_map_deliversItemsOn200HttpResponseWithJSONItems() throws {
+        let (item1, item1JSON) = makeItem(
+            id: UUID(),
+            image: URL(string: "http://a-url.com")!
+        )
+        let (item2, item2JSON) = makeItem(
+            id: UUID(),
+            description: "a description",
+            location: "a location",
+            image: URL(string: "http://a-url.com")!
+        )
+        
+        let json = makeItemJson([item1JSON, item2JSON])
+        let result = try FeedItemMapper.map(data: json, from: HTTPURLResponse(statusCode: 200))
+        
+        XCTAssertEqual(result, [item1, item2])
+    }
+}
+
+private extension HTTPURLResponse {
+    convenience init(statusCode: Int) {
+        self.init(url: anyUrl(), statusCode: statusCode, httpVersion: nil, headerFields: nil)!
     }
 }

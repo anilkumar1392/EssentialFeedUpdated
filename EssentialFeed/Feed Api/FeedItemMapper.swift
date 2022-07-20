@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FeedItemMapper {
+public class FeedItemMapper {
     private struct Root: Decodable {
         private let items: [RemoteFeedItem]
         /*
@@ -61,7 +61,7 @@ class FeedItemMapper {
         return .success(root.feed)
     } */
     
-    static func map(data: Data, from response: HTTPURLResponse) throws -> [FeedImage] {
+    public static func map(data: Data, from response: HTTPURLResponse) throws -> [FeedImage] {
         guard response.isOK, let root = try? JSONDecoder().decode(Root.self, from: data) else {
             throw RemoteFeedLoader.Error.invalidData
         }
