@@ -18,6 +18,17 @@ func uniqueImage() -> FeedImage {
     return FeedImage(id: UUID(), description: nil, location: nil, url: anyUrl())
 }
 
+extension HTTPURLResponse {
+    convenience init(statusCode: Int) {
+        self.init(url: anyUrl(), statusCode: statusCode, httpVersion: nil, headerFields: nil)!
+    }
+}
+
+func makeItemJson(_ items: [[String: Any]]) -> Data {
+    let json = ["items": items]
+    return try! JSONSerialization.data(withJSONObject: json)
+}
+
 
 // Break in to differant extensions because they belong to differnet context.
 

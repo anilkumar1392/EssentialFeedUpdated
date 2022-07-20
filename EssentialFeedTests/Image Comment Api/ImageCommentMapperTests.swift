@@ -9,49 +9,47 @@ import Foundation
 import XCTest
 import EssentialFeed
 
-class LoadImageCommentsFromRemoteUseCaseTests: XCTestCase {
+//MARK: - Rename this to
+
+class ImageCommentMapperTests: XCTestCase {
     
     // Invalid Data
-    func test_load_deliversErrorOnNon2xxHttpsResponse() {
-        let (sut, client) = makeSUT()
+    func test_map_throwsErrorOnNon2xxHttpsResponse() throws {
+        let json = makeItemJson([])
 
-        let sampleData = [199, 150, 300, 400, 500]
-        sampleData.enumerated().forEach { index, code in
-            expect(sut, toCompleteWith: .failure(RemoteImageCommentsLoader.Error.invalidData)) {
-                let json = makeItemJson([])
-                client.complete(withStatusCode: code, data: json, at: index)
-            }
+        let samples = [199, 150, 300, 400, 500]
+        
+        try samples.forEach { code in
+            XCTAssertThrowsError(
+                try ImageCommentsMapper.map(json, from: HTTPURLResponse(statusCode: code))
+            )
         }
     }
     
     // 200 with invalid json.
-    func test_load_deliversErrorOn2xxHttpsResponseWithInvalidJson() {
-        let (sut, client) = makeSUT()
-
+    func test_map_throwsErrorOn2xxHttpsResponseWithInvalidJson() throws {
+        let invalidJSON = Data("invalid json".utf8)
         let sample = [200, 201, 250, 280, 299]
         
-        sample.enumerated().forEach { index, code in
-            expect(sut, toCompleteWith: .failure(RemoteImageCommentsLoader.Error.invalidData)) {
-                let invalidJSON = Data("Invalid json".utf8)
-                client.complete(withStatusCode: code, data: invalidJSON, at: index)
-            }
+        try sample.forEach { code in
+            XCTAssertThrowsError(
+                try ImageCommentsMapper.map(invalidJSON, from: HTTPURLResponse(statusCode: code))
+            )
         }
     }
 
     // Delivers No items with 200
-    func test_load_deliversNoItemsOn2xxHttpsResponseWithEmptyJSONList() {
-        let (sut, client) = makeSUT()
-        let sample = [200, 201, 250, 280, 299]
+    func test_map_deliversNoItemsOn2xxHttpsResponseWithEmptyJSONList() throws {
+        let emptyListJSON = makeItemJson([])
+        let samples = [200, 201, 250, 280, 299]
 
-        sample.enumerated().forEach { index, code in
-            expect(sut, toCompleteWith: .success([])) {
-                let data = makeItemJson([])
-                client.complete(withStatusCode: code, data: data, at: index)
-            }
+        try samples.forEach { code in
+            let result = try ImageCommentsMapper.map(emptyListJSON, from: HTTPURLResponse(statusCode: code))
+            XCTAssertEqual(result, [])
         }
     }
     
-    func test_load_deliversItemsOn2xxHttpResponseWithJSONItems() {
+    func test_map_deliversItemsOn2xxHttpResponseWithJSONItems() throws {
         let (sut, client) = makeSUT()
 
         let (item1, item1JSON) = makeItem(
@@ -67,12 +65,14 @@ class LoadImageCommentsFromRemoteUseCaseTests: XCTestCase {
             username: "another username")
         
         let items = [item1, item2]
+        let json = makeItemJson([item1JSON, item2JSON])
+        let samples = [200, 201, 250, 280, 299]
 
-        let sample = [200, 201, 250, 280, 299]
-        
-        sample.enumerated().forEach { index, code in
+        try samples.enumerated().forEach { index, code in
+            let result = try ImageCommentsMapper.map(json, from: HTTPURLResponse(statusCode: code))
+            XCTAssertEqual(result, [item1, item2])
+
             expect(sut, toCompleteWith: .success(items)) {
-                let json = makeItemJson([item1JSON, item2JSON])
                 client.complete(withStatusCode: code, data: json, at: index)
             }
         }

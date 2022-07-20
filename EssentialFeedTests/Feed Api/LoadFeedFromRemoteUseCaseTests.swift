@@ -224,11 +224,6 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase { // RemoteFeedLoaderTests
         return (item, json)
     }
     
-    private func makeItemJson(_ items: [[String: Any]]) -> Data {
-        let json = ["items": items]
-        return try! JSONSerialization.data(withJSONObject: json)
-    }
-    
     /*
     private func expect(_ sut: RemoteFeedLoader, toCompleteWithError error: RemoteFeedLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         var capturedError = [RemoteFeedLoader.Result]()
@@ -318,8 +313,3 @@ extension LoadFeedFromRemoteUseCaseTests {
     }
 }
 
-private extension HTTPURLResponse {
-    convenience init(statusCode: Int) {
-        self.init(url: anyUrl(), statusCode: statusCode, httpVersion: nil, headerFields: nil)!
-    }
-}
