@@ -73,8 +73,9 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
         // let loader = RemoteFeedLoader(url: feedTestServerURL, client: client)
         let loader = RemoteLoader(url: feedTestServerURL, client: client, mapper: FeedItemMapper.map)
 
-        trackForMemoryLeaks(client, file: file, line: line)
-        trackForMemoryLeaks(loader, file: file, line: line)
+         // let client = ephemeralClient
+         trackForMemoryLeaks(client, file: file, line: line)
+         trackForMemoryLeaks(loader, file: file, line: line)
         
         let exp = expectation(description: "wait for load completion")
         
@@ -84,8 +85,22 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
             exp.fulfill()
         }
 
+        /*
+        client.get(from: feedTestServerURL) { result in
+            receivedResult = result.flatMap { (data, response) in
+                do {
+                    try .success(FeedItemMapper.map(data: data, from: response))
+                } catch {
+                    return .failure(error)
+                }
+            }
+            exp.fulfill()
+        } */
+        
         wait(for: [exp], timeout: 10.0)
         return receivedResult
+        
+        
     }
     
     private func getFeedImageDataResult(file: StaticString = #file, line: UInt = #line) -> FeedImageDataLoader.Result? {

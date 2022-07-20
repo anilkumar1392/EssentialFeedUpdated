@@ -16,7 +16,7 @@ class FeedPresenationTest: XCTestCase {
     }
     
     func test_init_doesNotSendMessagesToView() {
-        let (sut, view) = makeSUT()
+        let (_, view) = makeSUT()
  
         XCTAssertTrue(view.messages.isEmpty, "Expected no view messages")
     }
