@@ -42,16 +42,24 @@ public class FeedPresenter {
         self.errorView = errorView
     }
     
+    // data in -> created view models -> Data out to the UI
+    
+    // Void -> created view model -> sends to the UI
     public func didStartLoadingFeed() {
         errorView.display(viewModel: .noError)
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
+    // [FeedImage] -> created view model -> sends to the UI
+    // [ImageComment] -> created view model -> sends to the UI
+    // Resource -> created ResourceViewModel -> sends to the UI
+
     public func didFinishLoadingFeed(with feed: [FeedImage]) {
         feedView.display(viewModel: FeedViewModal(feed: feed))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
     
+    // Error -> created view model -> sends to the UI
     public func didFinishLoadingFeed(with error: Error) {
         errorView.display(viewModel: .error(message: feedLoadError))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
