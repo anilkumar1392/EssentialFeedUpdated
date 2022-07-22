@@ -19,7 +19,7 @@ public protocol ResourceView {
 public final class LoadResourcePresenter<Resource, View: ResourceView> {
     public typealias Mapper = (Resource) -> View.ResourceViewModel
     private var resourceView: View
-    private var errorView: FeedErrorView
+    private var errorView: ResourceErrorView
     private var loadingView: ResourceLoadingView
     private var mapper: Mapper
 
@@ -30,7 +30,7 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
             comment: "Error message displayed when we can't load the resource from the server")
     }
     
-    public init(resourceView: View, errorView: FeedErrorView, loadingView: ResourceLoadingView, mapper: @escaping Mapper) {
+    public init(resourceView: View, errorView: ResourceErrorView, loadingView: ResourceLoadingView, mapper: @escaping Mapper) {
         self.resourceView = resourceView
         self.loadingView = loadingView
         self.errorView = errorView
