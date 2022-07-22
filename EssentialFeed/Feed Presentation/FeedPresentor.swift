@@ -47,7 +47,7 @@ public class FeedPresenter {
     // Resource -> created ResourceViewModel -> sends to the UI
 
     public func didFinishLoadingFeed(with feed: [FeedImage]) {
-        feedView.display(viewModel: FeedViewModal(feed: feed))
+        feedView.display(viewModel: Self.map(feed))
         loadingView.display(ResourceLoadingViewModel(isLoading: false))
     }
     
@@ -55,5 +55,9 @@ public class FeedPresenter {
     public func didFinishLoadingFeed(with error: Error) {
         errorView.display(viewModel: .error(message: feedLoadError))
         loadingView.display(ResourceLoadingViewModel(isLoading: false))
+    }
+    
+    public static func map(_ feed: [FeedImage]) -> FeedViewModal {
+        FeedViewModal(feed: feed)
     }
 }
