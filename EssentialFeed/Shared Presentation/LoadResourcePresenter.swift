@@ -7,10 +7,16 @@
 
 import Foundation
 
+public protocol ResourceView {
+    func display(viewModel: String)
+}
+
 public final class LoadResourcePresenter {
-    private var feedView: FeedView
+    public typealias Mapper = (String) -> String
+    private var resourceView: ResourceView
     private var errorView: FeedErrorView
     private var loadingView: FeedloadingView
+    private var mapper: Mapper
 
     private var feedLoadError: String {
         return NSLocalizedString("FEED_VIEW_CONNECTION_ERROR",
@@ -19,10 +25,11 @@ public final class LoadResourcePresenter {
             comment: "Error message displayed when we can't load the image feed from the server")
     }
     
-    public init(feedView: FeedView, errorView: FeedErrorView, loadingView: FeedloadingView) {
-        self.feedView = feedView
+    public init(resourceView: ResourceView, errorView: FeedErrorView, loadingView: FeedloadingView, mapper: @escaping Mapper) {
+        self.resourceView = resourceView
         self.loadingView = loadingView
         self.errorView = errorView
+        self.mapper = mapper
     }
 
     public func didStartLoading() {
@@ -30,8 +37,8 @@ public final class LoadResourcePresenter {
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
-    public func didFinishLoadingFeed(with feed: [FeedImage]) {
-        feedView.display(viewModel: FeedViewModal(feed: feed))
+    public func didFinishLoading(with resource: String) {
+        resourceView.display(viewModel: mapper(resource))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
     
