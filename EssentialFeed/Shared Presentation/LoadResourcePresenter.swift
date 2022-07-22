@@ -20,7 +20,7 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
     public typealias Mapper = (Resource) -> View.ResourceViewModel
     private var resourceView: View
     private var errorView: FeedErrorView
-    private var loadingView: FeedloadingView
+    private var loadingView: ResourceLoadingView
     private var mapper: Mapper
 
     public static var loadError: String {
@@ -30,7 +30,7 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
             comment: "Error message displayed when we can't load the resource from the server")
     }
     
-    public init(resourceView: View, errorView: FeedErrorView, loadingView: FeedloadingView, mapper: @escaping Mapper) {
+    public init(resourceView: View, errorView: FeedErrorView, loadingView: ResourceLoadingView, mapper: @escaping Mapper) {
         self.resourceView = resourceView
         self.loadingView = loadingView
         self.errorView = errorView
@@ -39,16 +39,16 @@ public final class LoadResourcePresenter<Resource, View: ResourceView> {
 
     public func didStartLoading() {
         errorView.display(viewModel: .noError)
-        loadingView.display(FeedLoadingViewModel(isLoading: true))
+        loadingView.display(ResourceLoadingViewModel(isLoading: true))
     }
     
     public func didFinishLoading(with resource: Resource) {
         resourceView.display(viewModel: mapper(resource))
-        loadingView.display(FeedLoadingViewModel(isLoading: false))
+        loadingView.display(ResourceLoadingViewModel(isLoading: false))
     }
     
     public func didFinishLoading(with error: Error) {
         errorView.display(viewModel: .error(message: Self.loadError))
-        loadingView.display(FeedLoadingViewModel(isLoading: false))
+        loadingView.display(ResourceLoadingViewModel(isLoading: false))
     }
 }

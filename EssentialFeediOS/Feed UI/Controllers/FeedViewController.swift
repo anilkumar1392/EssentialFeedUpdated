@@ -21,7 +21,7 @@ public protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
-final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, FeedloadingView, FeedErrorView {
+final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView, FeedErrorView {
 
     private var loadingController = [IndexPath: FeedImageCellController]()
     
@@ -71,7 +71,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
         tableModel = cellController
     }
     
-    public func display(_ viewModel: FeedLoadingViewModel) {
+    public func display(_ viewModel: ResourceLoadingViewModel) {
         guard Thread.isMainThread else {
             return  DispatchQueue.main.async { [weak view] in
                 self.refreshControl?.update(isRefreshing: viewModel.isLoading)

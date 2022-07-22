@@ -76,7 +76,7 @@ class FeedPresenationTest: XCTestCase {
 }
 
 extension FeedPresenationTest {
-    private class ViewSpy: FeedErrorView, FeedloadingView, FeedView {
+    private class ViewSpy: FeedErrorView, ResourceLoadingView, FeedView {
         
         enum Message: Equatable {
             case display(errorMessage: String?)
@@ -90,7 +90,7 @@ extension FeedPresenationTest {
             messages.append(.display(errorMessage: viewModel.message))
         }
         
-        func display(_ viewModel: FeedLoadingViewModel) {
+        func display(_ viewModel: ResourceLoadingViewModel) {
             messages.append(.display(isLoading: viewModel.isLoading))
         }
         

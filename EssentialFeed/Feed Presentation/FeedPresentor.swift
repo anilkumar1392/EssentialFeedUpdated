@@ -9,10 +9,6 @@ public protocol FeedView {
     func display(viewModel: FeedViewModal)
 }
 
-public protocol FeedloadingView {
-    func display(_ viewModel: FeedLoadingViewModel)
-}
-
 public protocol FeedErrorView {
     func display(viewModel: FeedErrorViewModel)
 }
@@ -20,7 +16,7 @@ public protocol FeedErrorView {
 public class FeedPresenter {
     private var feedView: FeedView
     private var errorView: FeedErrorView
-    private var loadingView: FeedloadingView
+    private var loadingView: ResourceLoadingView
 
     static public var title: String {
         return NSLocalizedString("FEED_VIEW_TITLE",
@@ -36,7 +32,7 @@ public class FeedPresenter {
             comment: "Error message displayed when we can't load the image feed from the server")
     }
     
-    public init(feedView: FeedView, errorView: FeedErrorView, loadingView: FeedloadingView) {
+    public init(feedView: FeedView, errorView: FeedErrorView, loadingView: ResourceLoadingView) {
         self.feedView = feedView
         self.loadingView = loadingView
         self.errorView = errorView
@@ -47,7 +43,7 @@ public class FeedPresenter {
     // Void -> created view model -> sends to the UI
     public func didStartLoadingFeed() {
         errorView.display(viewModel: .noError)
-        loadingView.display(FeedLoadingViewModel(isLoading: true))
+        loadingView.display(ResourceLoadingViewModel(isLoading: true))
     }
     
     // [FeedImage] -> created view model -> sends to the UI
@@ -56,12 +52,12 @@ public class FeedPresenter {
 
     public func didFinishLoadingFeed(with feed: [FeedImage]) {
         feedView.display(viewModel: FeedViewModal(feed: feed))
-        loadingView.display(FeedLoadingViewModel(isLoading: false))
+        loadingView.display(ResourceLoadingViewModel(isLoading: false))
     }
     
     // Error -> created view model -> sends to the UI
     public func didFinishLoadingFeed(with error: Error) {
         errorView.display(viewModel: .error(message: feedLoadError))
-        loadingView.display(FeedLoadingViewModel(isLoading: false))
+        loadingView.display(ResourceLoadingViewModel(isLoading: false))
     }
 }
