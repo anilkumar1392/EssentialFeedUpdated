@@ -10,7 +10,7 @@ import UIKit
 import EssentialFeed
 
 
-public class FeedImageCellController: CellController {
+public class FeedImageCellController: NSObject {
     /*
     private var task: FeedImageDataTaskLoader?
     private var model: FeedImage
@@ -28,23 +28,10 @@ public class FeedImageCellController: CellController {
     public init(viewModel: FeedImageViewModel<UIImage>) {
         self.viewModel = viewModel
     }
-    
-    public func view(in tableView: UITableView) -> UITableViewCell {
-        self.cell = tableView.dequeueReusableCell()
-        self.binded()
-        viewModel.loadImageData()
-        return self.cell!
-    }
-    
-    private func binded() {
-        cell?.locationContainer.isHidden = !viewModel.hasLocation
-        cell?.locationLabel.text = viewModel.location
-        cell?.descriptionLabel.text = viewModel.description
-        cell?.feedImageView.image = nil
-        cell?.feedImageRetryButton.isHidden = true
-        cell?.feedImageContainer.startShimmering()
-        cell?.onRetry = viewModel.loadImageData
+}
 
+extension FeedImageCellController: CellController {
+    private func binded() {
         viewModel.onImageLoad = { [weak cell] image in
             DispatchQueue.main.async {
                 cell?.feedImageView.setImageAnimated(image)
@@ -64,10 +51,10 @@ public class FeedImageCellController: CellController {
         }
     }
     
-    public func preload() {
-        viewModel.loadImageData()
-        // task = imageLoader.loadImageData(from: model.url, completion: { _ in })
-    }
+//    public func preload() {
+//        viewModel.loadImageData()
+//        // task = imageLoader.loadImageData(from: model.url, completion: { _ in })
+//    }
     
     public func cancelLoad() {
         releaseCellForReuse()
@@ -105,6 +92,36 @@ public class FeedImageCellController: CellController {
         loadImage()
         return cell
     } */
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        cell = tableView.dequeueReusableCell()
+        cell?.locationContainer.isHidden = !viewModel.hasLocation
+        cell?.locationLabel.text = viewModel.location
+        cell?.descriptionLabel.text = viewModel.description
+        cell?.feedImageView.image = nil
+        cell?.feedImageRetryButton.isHidden = true
+        cell?.feedImageContainer.startShimmering()
+        cell?.onRetry = viewModel.loadImageData
+        viewModel.loadImageData()
+        binded()
+        return cell!
+    }
+    
+    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        viewModel.loadImageData()
+    }
+    
+    public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cancelLoad()
+    }
+    
+    public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
+        cancelLoad()
+    }
 }
 
 

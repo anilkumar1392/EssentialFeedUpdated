@@ -1034,8 +1034,8 @@
 				F585AA912869A93C00D72243 /* WeakRefVirtualProxy.swift */,
 				F5D9B8DC2858492A00FA46B5 /* Feed Presentation */,
 				F5DEC0FB28543D1D0036BDF4 /* Models */,
-				F5E72E7A2853676700CE3595 /* Views */,
 				F5E72E792853676100CE3595 /* Controllers */,
+				F5E72E7A2853676700CE3595 /* Views */,
 			);
 			path = "Feed UI";
 			sourceTree = "<group>";
