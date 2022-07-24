@@ -56,12 +56,6 @@ public final class ErrorView: UIButton {
         contentEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
     }
     
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-
-        hideMessage()
-    }
-
     private var isVisible: Bool {
         return alpha > 0
     }
@@ -82,7 +76,7 @@ public final class ErrorView: UIButton {
         }
     }
 
-    @IBAction private func hideMessageAnimated() {
+    @objc private func hideMessageAnimated() {
         UIView.animate(
             withDuration: 0.25,
             animations: { self.alpha = 0 },
