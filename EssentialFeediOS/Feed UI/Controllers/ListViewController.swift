@@ -17,9 +17,11 @@ import UIKit
   
  */
 
-public protocol FeedViewControllerDelegate {
-    func didRequestFeedRefresh()
-}
+//public protocol FeedViewControllerDelegate {
+//    func didRequestFeedRefresh()
+//}
+
+// Gettgin rid of this protocol and using closure.
 
 public protocol CellController {
     func view(in tableView: UITableView) -> UITableViewCell
@@ -45,7 +47,7 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
     
     @IBOutlet private(set) public var errorView: ErrorView?
 
-    public var delegate: FeedViewControllerDelegate?
+    public var onRefresh: (() -> Void)?
 
     private var tableModel = [CellController]() {
         didSet {
@@ -68,7 +70,9 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
     @IBAction private func refresh() {
         // presenter.loadFeed()
         // loadFeed()
-        self.delegate?.didRequestFeedRefresh()
+        // self.delegate?.didRequestFeedRefresh()
+        
+        onRefresh?()
     }
     
     public func display(_ cellController: [FeedImageCellController]) {
