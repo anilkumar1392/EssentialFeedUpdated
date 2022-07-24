@@ -9,18 +9,55 @@ import Foundation
 import UIKit
 
 public final class ErrorView: UIView {
-    @IBOutlet private var label: UILabel!
+    private lazy var label: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 17)
+        return label
+    }()
 
     public var message: String? {
         get { return isVisible ? label.text : nil }
         set { setMessageAnimated(newValue) }
     }
+    
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        configure()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    fileprivate func hideMessage() {
+        label.text = nil
+        alpha = 0
+    }
+    
+    private func configure() {
+        backgroundColor = .errorBackgroundColor
+        configureLabel()
+        hideMessage()
+    }
 
+    private func configureLabel() {
+        addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: 8),
+            label.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 8)
+        ])
+    }
+    
     public override func awakeFromNib() {
         super.awakeFromNib()
 
-        label.text = nil
-        alpha = 0
+        hideMessage()
     }
 
     private var isVisible: Bool {
@@ -48,7 +85,14 @@ public final class ErrorView: UIView {
             withDuration: 0.25,
             animations: { self.alpha = 0 },
             completion: { completed in
-                if completed { self.label.text = nil }
+                if completed { self.hideMessage() }
             })
+    }
+}
+
+
+extension UIColor {
+    static var errorBackgroundColor: UIColor {
+        .red
     }
 }

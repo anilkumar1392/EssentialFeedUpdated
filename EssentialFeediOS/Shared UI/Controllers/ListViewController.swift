@@ -52,7 +52,7 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
 //    }
     // private var cellControllers = [IndexPath: FeedImageCellController]()
     
-    @IBOutlet private(set) public var errorView: ErrorView?
+    private(set) public var errorView = ErrorView()
 
     public var onRefresh: (() -> Void)?
 
