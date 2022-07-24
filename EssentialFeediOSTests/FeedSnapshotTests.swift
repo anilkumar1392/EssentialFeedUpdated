@@ -74,10 +74,10 @@ class FeedSnapshotsTests: XCTestCase {
 }
 
 extension FeedSnapshotsTests {
-    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> FeedViewController {
-        let bundle = Bundle(for: FeedViewController.self)
+    private func makeSUT(file: StaticString = #file, line: UInt = #line) -> ListViewController {
+        let bundle = Bundle(for: ListViewController.self)
         let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
-        let controller = storyboard.instantiateViewController(identifier: "FeedViewController") as! FeedViewController
+        let controller = storyboard.instantiateViewController(identifier: "FeedViewController") as! ListViewController
         controller.loadViewIfNeeded()
         controller.tableView.showsVerticalScrollIndicator = false
         controller.tableView.showsHorizontalScrollIndicator = false

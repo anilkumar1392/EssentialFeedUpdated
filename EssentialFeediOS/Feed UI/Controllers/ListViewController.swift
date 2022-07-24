@@ -27,7 +27,7 @@ public protocol CellController {
     func cancelLoad()
 }
 
-final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView, ResourceErrorView {
+final public class ListViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView, ResourceErrorView {
 
     private var loadingController = [IndexPath: CellController]()
     
@@ -118,7 +118,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
 
 }
 
-extension FeedViewController {
+extension ListViewController {
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableModel.count
     }
