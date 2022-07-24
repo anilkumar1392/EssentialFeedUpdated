@@ -77,7 +77,7 @@ extension FeedSnapshotsTests {
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> ListViewController {
         let bundle = Bundle(for: ListViewController.self)
         let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
-        let controller = storyboard.instantiateViewController(identifier: "FeedViewController") as! ListViewController
+        let controller = storyboard.instantiateViewController(identifier: "ListViewController") as! ListViewController
         controller.loadViewIfNeeded()
         controller.tableView.showsVerticalScrollIndicator = false
         controller.tableView.showsHorizontalScrollIndicator = false
@@ -86,11 +86,15 @@ extension FeedSnapshotsTests {
 }
 
 extension FeedSnapshotsTests {
-    private func emptyFeed() -> [FeedImageCellController] {
+    private func emptyFeed() -> [CellController] {
         return []
     }
+    
+    private func feedWithContent() -> [CellController] {
+        feedControllers().map { CellController($0)}
+    }
 
-    private func feedWithContent() -> [FeedImageCellController] {
+    private func feedControllers() -> [FeedImageCellController] {
         return [FeedImageCellController(viewModel:
                         FeedImageViewModel(model: FeedImage(id: UUID(), description: "The East Side Gallery is an open-air gallery in Berlin. It consists of a series of murals painted directly on a 1,316 m long remnant of the Berlin Wall, located near the centre of Berlin, on Mühlenstraße in Friedrichshain-Kreuzberg. The gallery has official status as a Denkmal, or heritage-protected landmark.", location: "East Side Gallery\nMemorial in Berlin, Germany", url: URL(string: "http://url.com")!),
                                            imageLoader: FeedImageLoader(),

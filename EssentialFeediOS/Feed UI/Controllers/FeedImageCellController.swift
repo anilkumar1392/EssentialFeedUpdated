@@ -30,7 +30,7 @@ public class FeedImageCellController: NSObject {
     }
 }
 
-extension FeedImageCellController: CellController {
+extension FeedImageCellController: UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
     private func binded() {
         viewModel.onImageLoad = { [weak cell] image in
             DispatchQueue.main.async {
