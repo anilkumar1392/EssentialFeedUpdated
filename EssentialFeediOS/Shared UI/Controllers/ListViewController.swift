@@ -56,11 +56,18 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
 
     public var onRefresh: (() -> Void)?
 
+    /*
     private var tableModel = [CellController]() {
         didSet {
             self.tableView.reloadData()
         }
-    }
+    } */
+    
+    private lazy var dataSource: UITableViewDiffableDataSource<Int, CellController> = {
+        .init(tableView: tableView) { tableView, indexPath, controller in
+            return controller.dataSource.tableView(tableView, cellForRowAt: indexPath)
+        }
+    }()
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +79,7 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
 
         // tableView.tableHeaderView = errorView
         
+        tableView.dataSource = dataSource
         configureErrorView()
         refresh()
     }
@@ -109,10 +117,22 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
         tableView.sizeTableHeaderToFit()
     }
     
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            self.tableView.reloadData()
+        }
+    }
+    
     public func display(_ cellController: [CellController]) {
         // Every time we get a new model to display we reset it.
+        /*
         loadingController = [:]
-        tableModel = cellController
+        tableModel = cellController */
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Int, CellController>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(cellController, toSection: 0)
+        dataSource.apply(snapshot)
     }
     
     public func display(_ viewModel: ResourceLoadingViewModel) {
@@ -157,6 +177,8 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
 }
 
 extension ListViewController {
+    
+    /*
     override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableModel.count
     }
@@ -172,14 +194,15 @@ extension ListViewController {
         
         let ds = cellController(forRowAt: indexPath).dataSource
         return ds.tableView(tableView, cellForRowAt: indexPath)
-    }
+    } */
     
     override public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         /*
         let controller = removeLoadingController(forRowAt: indexPath)
         controller?.tableView?(tableView, didEndDisplaying: cell, forRowAt: indexPath) */
         
-        let dl = removeLoadingController(forRowAt: indexPath)?.delegate
+        // let dl = removeLoadingController(forRowAt: indexPath)?.delegate
+        let dl = cellController(at: indexPath)?.delegate
         dl?.tableView?(tableView, didEndDisplaying: cell, forRowAt: indexPath)
         
         // canCancelCellControllerLoad(forRowAt: indexPath)
@@ -208,7 +231,8 @@ extension ListViewController {
             
             // cellController(forRowAt: indexPath).preload()
             
-            let dsp = cellController(forRowAt: indexPath).dataSourcePrefetching
+            // let dsp = cellController(forRowAt: indexPath).dataSourcePrefetching
+            let dsp = cellController(at: indexPath)?.dataSourcePrefetching
             dsp?.tableView(tableView, prefetchRowsAt: [indexPath])
         }
     }
@@ -217,11 +241,13 @@ extension ListViewController {
         // indexPaths.forEach(canCancelCellControllerLoad)
         
         indexPaths.forEach { indexPath in
-            let dsp = removeLoadingController(forRowAt: indexPath)?.dataSourcePrefetching
+            // let dsp = removeLoadingController(forRowAt: indexPath)?.dataSourcePrefetching
+            let dsp = cellController(at: indexPath)?.dataSourcePrefetching
             dsp?.tableView?(tableView, cancelPrefetchingForRowsAt: [indexPath])
         }
     }
     
+    /*
     private func cellController(forRowAt indexPath: IndexPath) -> CellController {
         // FeedImageCellController need imageLaoder viewController needs loader, we care creatig it instead we can inject FeedRefreshViewContoller instead of creating it.
 
@@ -234,8 +260,14 @@ extension ListViewController {
         let controller = tableModel[indexPath.row]
         loadingController[indexPath] = controller
         return controller
+    } */
+    
+    private func cellController(at indexPath: IndexPath) -> CellController?  {
+        dataSource.itemIdentifier(for: indexPath)
     }
     
+    /*
+     It does not exist anymore handle by diffable datasource now.
     //canCancelCellControllerLoad
     private func removeLoadingController(forRowAt indexPath: IndexPath) -> CellController? {
         let controller = loadingController[indexPath]
@@ -254,5 +286,5 @@ extension ListViewController {
         /*
         tasks[indexPath]?.cancel()
         tasks[indexPath] = nil */
-    }
+    } */
 }
