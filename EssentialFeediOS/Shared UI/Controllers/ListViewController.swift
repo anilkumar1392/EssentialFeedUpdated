@@ -75,7 +75,12 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
         onRefresh?()
     }
     
-    public func display(_ cellController: [FeedImageCellController]) {
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.sizeTableHeaderToFit()
+    }
+    
+    public func display(_ cellController: [CellController]) {
         // Every time we get a new model to display we reset it.
         loadingController = [:]
         tableModel = cellController
