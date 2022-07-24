@@ -17,6 +17,11 @@
 		F50FAB4927DE59B900A125FA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50FAB4827DE59B900A125FA /* LoginViewModel.swift */; };
 		F50FAB4A27DE5A4000A125FA /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50FAB4627DE59AF00A125FA /* LoginModel.swift */; };
 		F50FAB4B27DE5A4300A125FA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50FAB4827DE59B900A125FA /* LoginViewModel.swift */; };
+		F55072BB288D04CE00E2ACB4 /* ImageCommentsSnapshotsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55072BA288D04CE00E2ACB4 /* ImageCommentsSnapshotsTests.swift */; };
+		F55072BF288D086900E2ACB4 /* ImageCommentCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55072BE288D086900E2ACB4 /* ImageCommentCellController.swift */; };
+		F55072C2288D3DAC00E2ACB4 /* ImageComments.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55072C1288D3DAC00E2ACB4 /* ImageComments.storyboard */; };
+		F55072D5288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F55072D3288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png */; };
+		F55072D6288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png in Resources */ = {isa = PBXBuildFile; fileRef = F55072D4288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png */; };
 		F556FF292723EC6900D62F39 /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F556FF282723EC6900D62F39 /* RemoteFeedLoader.swift */; };
 		F57B0AE52712DB440062F01B /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F57B0ADB2712DB440062F01B /* EssentialFeed.framework */; };
 		F57B0AEC2712DB440062F01B /* EssentialFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = F57B0ADE2712DB440062F01B /* EssentialFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -216,6 +221,11 @@
 		F50FAB4427DE576700A125FA /* DemoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTest.swift; sourceTree = "<group>"; };
 		F50FAB4627DE59AF00A125FA /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		F50FAB4827DE59B900A125FA /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		F55072BA288D04CE00E2ACB4 /* ImageCommentsSnapshotsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsSnapshotsTests.swift; sourceTree = "<group>"; };
+		F55072BE288D086900E2ACB4 /* ImageCommentCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentCellController.swift; sourceTree = "<group>"; };
+		F55072C1288D3DAC00E2ACB4 /* ImageComments.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImageComments.storyboard; sourceTree = "<group>"; };
+		F55072D3288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMAGE_COMMENTS_dark.png; sourceTree = "<group>"; };
+		F55072D4288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMAGE_COMMENTS_light.png; sourceTree = "<group>"; };
 		F556FF282723EC6900D62F39 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		F57B0ADB2712DB440062F01B /* EssentialFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F57B0ADE2712DB440062F01B /* EssentialFeed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EssentialFeed.h; sourceTree = "<group>"; };
@@ -424,6 +434,49 @@
 				F50410F32841FC6500B38BF9 /* SCTestCase+FeedStoreSpecs.swift */,
 			);
 			path = FeedStoreSpecs;
+			sourceTree = "<group>";
+		};
+		F55072B9288D049B00E2ACB4 /* Image Comments UI */ = {
+			isa = PBXGroup;
+			children = (
+				F55072D2288D3F9000E2ACB4 /* snapshots */,
+				F55072BA288D04CE00E2ACB4 /* ImageCommentsSnapshotsTests.swift */,
+			);
+			path = "Image Comments UI";
+			sourceTree = "<group>";
+		};
+		F55072BC288D082700E2ACB4 /* Image Comment UI */ = {
+			isa = PBXGroup;
+			children = (
+				F55072BD288D083D00E2ACB4 /* Controllers */,
+				F55072C0288D3D9900E2ACB4 /* Views */,
+			);
+			path = "Image Comment UI";
+			sourceTree = "<group>";
+		};
+		F55072BD288D083D00E2ACB4 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F55072BE288D086900E2ACB4 /* ImageCommentCellController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F55072C0288D3D9900E2ACB4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F55072C1288D3DAC00E2ACB4 /* ImageComments.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F55072D2288D3F9000E2ACB4 /* snapshots */ = {
+			isa = PBXGroup;
+			children = (
+				F55072D3288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png */,
+				F55072D4288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png */,
+			);
+			path = snapshots;
 			sourceTree = "<group>";
 		};
 		F556FF272723EC4400D62F39 /* Feed Api */ = {
@@ -944,6 +997,7 @@
 				F5D6808D288CF5C100D1248D /* Shared UI */,
 				F5E72E8528537FDE00CE3595 /* Composer */,
 				F5E72E782853675000CE3595 /* Feed UI */,
+				F55072BC288D082700E2ACB4 /* Image Comment UI */,
 				F5E2C12628502C7700AAA28F /* EssentialFeediOS.h */,
 			);
 			path = EssentialFeediOS;
@@ -955,6 +1009,7 @@
 				F5D68095288CFA4F00D1248D /* Helpers */,
 				F5DCFEBB28560D8900DF1D5E /* Feed Presentation */,
 				F5D68092288CF8C300D1248D /* Shared UI */,
+				F55072B9288D049B00E2ACB4 /* Image Comments UI */,
 				F5DCFEAF28560A7200DF1D5E /* FeedUI */,
 			);
 			path = EssentialFeediOSTests;
@@ -1257,6 +1312,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F55072C2288D3DAC00E2ACB4 /* ImageComments.storyboard in Resources */,
 				F5D2E6A9285585E200748E64 /* Feed.storyboard in Resources */,
 				F5D2E6AB285587C000748E64 /* Feed.xcassets in Resources */,
 				F5DCFEB628560C3C00DF1D5E /* Feed.strings in Resources */,
@@ -1268,12 +1324,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5D680A8288CFB5300D1248D /* LIST_WITH_ERROR_MESSAGE_dark.png in Resources */,
+				F55072D5288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png in Resources */,
 				F5D680A2288CFB5300D1248D /* FEED_WITH_ERROR_MESSAGE.png in Resources */,
 				F5D680A4288CFB5300D1248D /* FEED_WITH_CONTENT_light.png in Resources */,
 				F5D680A3288CFB5300D1248D /* LIST_WITH_ERROR_MESSAGE_light.png in Resources */,
 				F5D680A5288CFB5300D1248D /* EMPTY_FEED.png in Resources */,
 				F5D680A7288CFB5300D1248D /* FEED_WITH_CONTENT.png in Resources */,
 				F5D680B7288CFB8600D1248D /* EMPTY_LIST_dark.png in Resources */,
+				F55072D6288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png in Resources */,
 				F5D680B8288CFB8600D1248D /* EMPTY_LIST_light.png in Resources */,
 				F5D680A9288CFB5300D1248D /* FEED_WITH_CONTENT_dark.png in Resources */,
 			);
@@ -1417,6 +1475,7 @@
 				F5DEC0FA285433280036BDF4 /* FeedImageCell.swift in Sources */,
 				F585AA902869A91300D72243 /* FeedUIComposer.swift in Sources */,
 				F5D2E6AF2855A56000748E64 /* UIImageView+Animation.swift in Sources */,
+				F55072BF288D086900E2ACB4 /* ImageCommentCellController.swift in Sources */,
 				F5E72E8228536F0700CE3595 /* FeedRefreshViewContoller.swift in Sources */,
 				F5D2E6AD2855A1FD00748E64 /* UITableView+Dequeueing.swift in Sources */,
 				F5B1BD3E2852DE9800BF930F /* UIView+Shimmering.swift in Sources */,
@@ -1439,6 +1498,7 @@
 				F585AA8C2869754100D72243 /* UIRefreshControl+TestHelper.swift in Sources */,
 				F585AA862869530600D72243 /* FeedSnapshotTests.swift in Sources */,
 				F5D68097288CFA9A00D1248D /* SnapshotTestHelper.swift in Sources */,
+				F55072BB288D04CE00E2ACB4 /* ImageCommentsSnapshotsTests.swift in Sources */,
 				F5E2C13928502D0100AAA28F /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 				F585AA882869751800D72243 /* FeedViewController+TestHelpers.swift in Sources */,
 				F5D68094288CF98E00D1248D /* ListSnapshotTests.swift in Sources */,

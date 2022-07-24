@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NAK-Ed-pja">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--My Feed-->
+        <scene sceneID="cIC-Of-f3F">
+            <objects>
+                <tableViewController storyboardIdentifier="ListViewController" id="NAK-Ed-pja" customClass="ListViewController" customModule="EssentialFeediOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="s5u-N5-Ka6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="cpV-dw-6og">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xwE-c2-XYc" customClass="ErrorView" customModule="EssentialFeediOS" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4V1-Wc-S4A">
+                                            <rect key="frame" x="186.5" y="7" width="41.5" height="20.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59K-03-4vP">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="36"/>
+                                            <state key="normal" title="Button"/>
+                                            <buttonConfiguration key="configuration" style="plain"/>
+                                            <connections>
+                                                <action selector="hideMessageAnimated" destination="xwE-c2-XYc" eventType="touchUpInside" id="njm-jC-cnw"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                    <constraints>
+                                        <constraint firstItem="4V1-Wc-S4A" firstAttribute="top" secondItem="xwE-c2-XYc" secondAttribute="top" constant="7" id="58w-Be-vOB"/>
+                                        <constraint firstItem="59K-03-4vP" firstAttribute="top" secondItem="xwE-c2-XYc" secondAttribute="top" id="Fuu-SA-SvX"/>
+                                        <constraint firstAttribute="bottom" secondItem="59K-03-4vP" secondAttribute="bottom" id="Znn-yP-WWU"/>
+                                        <constraint firstItem="59K-03-4vP" firstAttribute="leading" secondItem="xwE-c2-XYc" secondAttribute="leading" id="kK9-qW-b2k"/>
+                                        <constraint firstAttribute="trailing" secondItem="59K-03-4vP" secondAttribute="trailing" id="yDt-vl-GmX"/>
+                                        <constraint firstItem="4V1-Wc-S4A" firstAttribute="centerX" secondItem="xwE-c2-XYc" secondAttribute="centerX" id="zv2-38-D7U"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="label" destination="4V1-Wc-S4A" id="spd-RD-QYt"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="xwE-c2-XYc" secondAttribute="bottom" id="Bd7-O6-kTX"/>
+                                <constraint firstItem="xwE-c2-XYc" firstAttribute="leading" secondItem="cpV-dw-6og" secondAttribute="leading" id="Fxt-9P-Mdh"/>
+                                <constraint firstAttribute="trailing" secondItem="xwE-c2-XYc" secondAttribute="trailing" id="hgW-XF-Kfh"/>
+                                <constraint firstItem="xwE-c2-XYc" firstAttribute="top" secondItem="cpV-dw-6og" secondAttribute="top" id="uYz-y1-wsU"/>
+                            </constraints>
+                        </view>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="pUh-vP-Zk8">
+                            <rect key="frame" x="0.0" y="580" width="414" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="477" id="tA4-GR-u7R" customClass="FeedImageCell" customModule="EssentialFeediOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="80.5" width="414" height="477"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tA4-GR-u7R" id="Jlc-GM-Auv">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="477"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" identifier="feed-image-cell"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="NAK-Ed-pja" id="FCf-Gf-vM8"/>
+                            <outlet property="delegate" destination="NAK-Ed-pja" id="6Ze-gM-2Ng"/>
+                            <outlet property="prefetchDataSource" destination="NAK-Ed-pja" id="BjO-O9-OCl"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="My Feed" id="qlQ-4W-g2n"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="W9H-tX-y6k">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh" destination="NAK-Ed-pja" eventType="valueChanged" id="8wM-8Y-VBW"/>
+                        </connections>
+                    </refreshControl>
+                    <connections>
+                        <outlet property="errorView" destination="xwE-c2-XYc" id="IYc-p2-1Dn"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qov-3m-JIb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1689.8550724637682" y="96.428571428571431"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
