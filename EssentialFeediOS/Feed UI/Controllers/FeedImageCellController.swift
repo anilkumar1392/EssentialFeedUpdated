@@ -105,7 +105,7 @@ extension FeedImageCellController: UITableViewDataSource, UITableViewDelegate, U
         cell?.feedImageView.image = nil
         cell?.feedImageRetryButton.isHidden = true
         cell?.feedImageContainer.startShimmering()
-        cell?.onRetry = viewModel.loadImageData
+        cell?.onRetry = { [weak self] in self?.viewModel.loadImageData() }
         viewModel.loadImageData()
         binded()
         return cell!

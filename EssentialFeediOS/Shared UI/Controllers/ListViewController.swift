@@ -71,7 +71,29 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
         refreshController?.refresh() */
 
         // tableView.tableHeaderView = errorView
+        
+        configureErrorView()
         refresh()
+    }
+    
+    func configureErrorView() {
+        let container = UIView()
+        container.backgroundColor = .clear
+        container.addSubview(errorView)
+        
+        NSLayoutConstraint.activate([
+            errorView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            container.trailingAnchor.constraint(equalTo: errorView.trailingAnchor),
+            errorView.topAnchor.constraint(equalTo: container.topAnchor),
+            container.bottomAnchor.constraint(equalTo: errorView.bottomAnchor)
+        ])
+        
+        tableView.tableHeaderView = container
+        errorView.onHide = { [weak self] in
+            self?.tableView.beginUpdates()
+            self?.tableView.sizeTableHeaderToFit()
+            self?.tableView.endUpdates()
+        }
     }
     
     @IBAction private func refresh() {
@@ -104,7 +126,7 @@ final public class ListViewController: UITableViewController, UITableViewDataSou
     }
     
     public func display(viewModel: ResourceErrorViewModel) {
-        errorView?.message = viewModel.message
+        errorView.message = viewModel.message
     }
     
 //    convenience init(refreshController: FeedRefreshViewController?) {
