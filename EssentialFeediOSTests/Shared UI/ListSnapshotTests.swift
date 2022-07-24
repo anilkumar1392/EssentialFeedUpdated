@@ -28,17 +28,17 @@ class ListSnapshotTests: XCTestCase {
         
         assert(snapshot: sut.snapshot(for: .iPhone8(style: .light)), named: "LIST_WITH_ERROR_MESSAGE_light")
         assert(snapshot: sut.snapshot(for: .iPhone8(style: .dark)), named: "LIST_WITH_ERROR_MESSAGE_dark")
-        assert(snapshot: sut.snapshot(for: .iPhone8(style: .dark)), named: "LIST_WITH_ERROR_MESSAGE_dark")
+        assert(snapshot: sut.snapshot(for: .iPhone8(style: .dark, contentSize: .extraExtraExtraLarge)), named: "LIST_WITH_ERROR_MESSAGE_light_extraExtraExtraLarge")
     }
 }
 
 extension ListSnapshotTests {
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> ListViewController {
         // Now we dont need storyboard to test errorview.
-//        let bundle = Bundle(for: ListViewController.self)
-//        let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
-//        let controller = storyboard.instantiateViewController(identifier: "ListViewController") as! ListViewController
-        let controller = ListViewController()
+        let bundle = Bundle(for: ListViewController.self)
+        let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
+        let controller = storyboard.instantiateViewController(identifier: "ListViewController") as! ListViewController
+        //let controller = ListViewController()
         controller.loadViewIfNeeded()
         controller.tableView.separatorStyle = .none
         controller.tableView.showsVerticalScrollIndicator = false

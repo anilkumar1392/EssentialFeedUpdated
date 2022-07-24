@@ -19,6 +19,8 @@ class ImageCommentsSnapshotsTests: XCTestCase {
         // added robust test
         assert(snapshot: sut.snapshot(for: .iPhone8(style: .light)), named: "IMAGE_COMMENTS_light")
         assert(snapshot: sut.snapshot(for: .iPhone8(style: .dark)), named: "IMAGE_COMMENTS_dark")
+        assert(snapshot: sut.snapshot(for: .iPhone8(style: .dark, contentSize: .extraExtraExtraLarge)), named: "IMAGE_COMMENTS_dark_extraExtraExtraLarge")
+
     }
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> ListViewController {
