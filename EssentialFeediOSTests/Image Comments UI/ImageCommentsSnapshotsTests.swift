@@ -17,8 +17,8 @@ class ImageCommentsSnapshotsTests: XCTestCase {
         sut.display(comments())
 
         // added robust test
-        record(snapshot: sut.snapshot(for: .iPhone8(style: .light)), named: "IMAGE_COMMENTS_light")
-        record(snapshot: sut.snapshot(for: .iPhone8(style: .dark)), named: "IMAGE_COMMENTS_dark")
+        assert(snapshot: sut.snapshot(for: .iPhone8(style: .light)), named: "IMAGE_COMMENTS_light")
+        assert(snapshot: sut.snapshot(for: .iPhone8(style: .dark)), named: "IMAGE_COMMENTS_dark")
     }
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> ListViewController {
@@ -37,7 +37,7 @@ class ImageCommentsSnapshotsTests: XCTestCase {
                 model: ImageCommentViewModel(
                     message: "Garth Pier is a Grade II listed structure in Bangor, Gwynedd, North Wales  in Bangor, Gwynedd, North Wales.",
                     date: "1000 years ago",
-                    username: "a long long long username"
+                    username: "a long long long long long username"
                 )
             ),
             ImageCommentCellController(

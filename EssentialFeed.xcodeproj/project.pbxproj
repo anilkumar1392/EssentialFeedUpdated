@@ -20,8 +20,9 @@
 		F55072BB288D04CE00E2ACB4 /* ImageCommentsSnapshotsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55072BA288D04CE00E2ACB4 /* ImageCommentsSnapshotsTests.swift */; };
 		F55072BF288D086900E2ACB4 /* ImageCommentCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55072BE288D086900E2ACB4 /* ImageCommentCellController.swift */; };
 		F55072C2288D3DAC00E2ACB4 /* ImageComments.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F55072C1288D3DAC00E2ACB4 /* ImageComments.storyboard */; };
-		F55072D5288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F55072D3288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png */; };
-		F55072D6288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png in Resources */ = {isa = PBXBuildFile; fileRef = F55072D4288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png */; };
+		F55072D8288D415100E2ACB4 /* ImageCommentcCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55072D7288D415100E2ACB4 /* ImageCommentcCell.swift */; };
+		F55072DB288D47EA00E2ACB4 /* IMAGE_COMMENTS_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = F55072D9288D47EA00E2ACB4 /* IMAGE_COMMENTS_dark.png */; };
+		F55072DC288D47EA00E2ACB4 /* IMAGE_COMMENTS_light.png in Resources */ = {isa = PBXBuildFile; fileRef = F55072DA288D47EA00E2ACB4 /* IMAGE_COMMENTS_light.png */; };
 		F556FF292723EC6900D62F39 /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F556FF282723EC6900D62F39 /* RemoteFeedLoader.swift */; };
 		F57B0AE52712DB440062F01B /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F57B0ADB2712DB440062F01B /* EssentialFeed.framework */; };
 		F57B0AEC2712DB440062F01B /* EssentialFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = F57B0ADE2712DB440062F01B /* EssentialFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -224,8 +225,9 @@
 		F55072BA288D04CE00E2ACB4 /* ImageCommentsSnapshotsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentsSnapshotsTests.swift; sourceTree = "<group>"; };
 		F55072BE288D086900E2ACB4 /* ImageCommentCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentCellController.swift; sourceTree = "<group>"; };
 		F55072C1288D3DAC00E2ACB4 /* ImageComments.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImageComments.storyboard; sourceTree = "<group>"; };
-		F55072D3288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMAGE_COMMENTS_dark.png; sourceTree = "<group>"; };
-		F55072D4288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMAGE_COMMENTS_light.png; sourceTree = "<group>"; };
+		F55072D7288D415100E2ACB4 /* ImageCommentcCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCommentcCell.swift; sourceTree = "<group>"; };
+		F55072D9288D47EA00E2ACB4 /* IMAGE_COMMENTS_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMAGE_COMMENTS_dark.png; sourceTree = "<group>"; };
+		F55072DA288D47EA00E2ACB4 /* IMAGE_COMMENTS_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMAGE_COMMENTS_light.png; sourceTree = "<group>"; };
 		F556FF282723EC6900D62F39 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
 		F57B0ADB2712DB440062F01B /* EssentialFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F57B0ADE2712DB440062F01B /* EssentialFeed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EssentialFeed.h; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 			isa = PBXGroup;
 			children = (
 				F55072C1288D3DAC00E2ACB4 /* ImageComments.storyboard */,
+				F55072D7288D415100E2ACB4 /* ImageCommentcCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -473,8 +476,8 @@
 		F55072D2288D3F9000E2ACB4 /* snapshots */ = {
 			isa = PBXGroup;
 			children = (
-				F55072D3288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png */,
-				F55072D4288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png */,
+				F55072D9288D47EA00E2ACB4 /* IMAGE_COMMENTS_dark.png */,
+				F55072DA288D47EA00E2ACB4 /* IMAGE_COMMENTS_light.png */,
 			);
 			path = snapshots;
 			sourceTree = "<group>";
@@ -1324,14 +1327,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5D680A8288CFB5300D1248D /* LIST_WITH_ERROR_MESSAGE_dark.png in Resources */,
-				F55072D5288D3F9000E2ACB4 /* IMAGE_COMMENTS_dark.png in Resources */,
+				F55072DB288D47EA00E2ACB4 /* IMAGE_COMMENTS_dark.png in Resources */,
 				F5D680A2288CFB5300D1248D /* FEED_WITH_ERROR_MESSAGE.png in Resources */,
 				F5D680A4288CFB5300D1248D /* FEED_WITH_CONTENT_light.png in Resources */,
 				F5D680A3288CFB5300D1248D /* LIST_WITH_ERROR_MESSAGE_light.png in Resources */,
 				F5D680A5288CFB5300D1248D /* EMPTY_FEED.png in Resources */,
 				F5D680A7288CFB5300D1248D /* FEED_WITH_CONTENT.png in Resources */,
 				F5D680B7288CFB8600D1248D /* EMPTY_LIST_dark.png in Resources */,
-				F55072D6288D3F9000E2ACB4 /* IMAGE_COMMENTS_light.png in Resources */,
+				F55072DC288D47EA00E2ACB4 /* IMAGE_COMMENTS_light.png in Resources */,
 				F5D680B8288CFB8600D1248D /* EMPTY_LIST_light.png in Resources */,
 				F5D680A9288CFB5300D1248D /* FEED_WITH_CONTENT_dark.png in Resources */,
 			);
@@ -1483,6 +1486,7 @@
 				F5DEC0FF2854620B0036BDF4 /* FeedImageViewModel.swift in Sources */,
 				F585AA942869A96A00D72243 /* MainQueueDispatchDecorator.swift in Sources */,
 				F5D9B8E4285897B200FA46B5 /* UIView+RefreshControl.swift in Sources */,
+				F55072D8288D415100E2ACB4 /* ImageCommentcCell.swift in Sources */,
 				F5E72E842853772600CE3595 /* FeedImageCellController.swift in Sources */,
 				F5D9B8E0285895E400FA46B5 /* ErrorView.swift in Sources */,
 				F585AA922869A93C00D72243 /* WeakRefVirtualProxy.swift in Sources */,
