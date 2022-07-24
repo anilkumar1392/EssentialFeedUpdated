@@ -21,9 +21,15 @@ public protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
+public protocol CellController {
+    func view(in tableView: UITableView) -> UITableViewCell
+    func preload()
+    func cancelLoad()
+}
+
 final public class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView, ResourceErrorView {
 
-    private var loadingController = [IndexPath: FeedImageCellController]()
+    private var loadingController = [IndexPath: CellController]()
     
     // private var imageLoader: FeedImageDataLoader?
     
@@ -41,7 +47,7 @@ final public class FeedViewController: UITableViewController, UITableViewDataSou
 
     public var delegate: FeedViewControllerDelegate?
 
-    private var tableModel = [FeedImageCellController]() {
+    private var tableModel = [CellController]() {
         didSet {
             self.tableView.reloadData()
         }
@@ -155,7 +161,7 @@ extension FeedViewController {
         indexPaths.forEach(canCancelCellControllerLoad)
     }
     
-    private func cellController(forRowAt indexPath: IndexPath) -> FeedImageCellController {
+    private func cellController(forRowAt indexPath: IndexPath) -> CellController {
         // FeedImageCellController need imageLaoder viewController needs loader, we care creatig it instead we can inject FeedRefreshViewContoller instead of creating it.
 
         /*

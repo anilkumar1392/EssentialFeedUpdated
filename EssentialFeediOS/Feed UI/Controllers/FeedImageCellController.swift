@@ -10,7 +10,7 @@ import UIKit
 import EssentialFeed
 
 
-public class FeedImageCellController {
+public class FeedImageCellController: CellController {
     /*
     private var task: FeedImageDataTaskLoader?
     private var model: FeedImage
@@ -29,7 +29,7 @@ public class FeedImageCellController {
         self.viewModel = viewModel
     }
     
-    func view(in tableView: UITableView) -> UITableViewCell {
+    public func view(in tableView: UITableView) -> UITableViewCell {
         self.cell = tableView.dequeueReusableCell()
         self.binded()
         viewModel.loadImageData()
@@ -64,12 +64,12 @@ public class FeedImageCellController {
         }
     }
     
-    func preload() {
+    public func preload() {
         viewModel.loadImageData()
         // task = imageLoader.loadImageData(from: model.url, completion: { _ in })
     }
     
-    func cancelLoad() {
+    public func cancelLoad() {
         releaseCellForReuse()
         viewModel.cancelImageDataLoad()
         // task?.cancel()
